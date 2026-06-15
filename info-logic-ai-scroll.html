@@ -64,43 +64,102 @@
         mask-image: linear-gradient(180deg, #000 0%, transparent 80%);
       }
 
-      .hero-watermark {
+      .hero-watermark,
+      .face-trail-fallback-canvas,
+      .face-trail-canvas {
         position: fixed;
         top: 50%;
         right: -15vw;
-        z-index: 0;
         width: min(72vw, 980px);
+        height: min(72vw, 980px);
         max-width: none;
         pointer-events: none;
-        opacity: 0.22;
         transform: translateY(-48%);
+      }
+
+      .hero-watermark {
+        z-index: 0;
+        opacity: 0.34;
         filter:
-          drop-shadow(0 0 1px rgba(255, 255, 255, 0.95))
-          drop-shadow(0 0 8px rgba(195, 137, 255, 0.34))
-          drop-shadow(0 0 18px rgba(181, 107, 255, 0.2));
+          drop-shadow(0 0 1px rgba(255, 255, 255, 1))
+          drop-shadow(0 0 7px rgba(255, 255, 255, 0.42))
+          drop-shadow(0 0 14px rgba(195, 137, 255, 0.42))
+          drop-shadow(0 0 30px rgba(181, 107, 255, 0.24));
         animation: watermarkPulse 7.5s ease-in-out infinite;
+      }
+
+      .face-trail-fallback-canvas {
+        z-index: 1;
+        opacity: 0.86;
+        mix-blend-mode: screen;
+        filter:
+          drop-shadow(0 0 8px rgba(244, 217, 255, 0.36))
+          drop-shadow(0 0 26px rgba(181, 91, 255, 0.3))
+          drop-shadow(0 0 62px rgba(108, 68, 255, 0.18));
+        animation: trailPulse 7.5s ease-in-out infinite;
+      }
+
+      .face-trail-canvas {
+        z-index: 2;
+        opacity: 0.78;
+        mix-blend-mode: screen;
+        filter:
+          drop-shadow(0 0 8px rgba(244, 217, 255, 0.42))
+          drop-shadow(0 0 24px rgba(181, 91, 255, 0.35))
+          drop-shadow(0 0 56px rgba(108, 68, 255, 0.2));
+        animation: trailPulse 7.5s ease-in-out infinite;
       }
 
       @keyframes watermarkPulse {
         0%,
         100% {
-          opacity: 0.18;
+          opacity: 0.26;
           transform: translateY(-48%) scale(0.99);
           filter:
-            drop-shadow(0 0 1px rgba(255, 255, 255, 0.9))
-            drop-shadow(0 0 7px rgba(195, 137, 255, 0.24))
-            drop-shadow(0 0 14px rgba(181, 107, 255, 0.16));
+            drop-shadow(0 0 1px rgba(255, 255, 255, 0.95))
+            drop-shadow(0 0 6px rgba(255, 255, 255, 0.28))
+            drop-shadow(0 0 12px rgba(195, 137, 255, 0.3))
+            drop-shadow(0 0 22px rgba(181, 107, 255, 0.18));
         }
 
         50% {
-          opacity: 0.26;
+          opacity: 0.4;
           transform: translateY(-48%) scale(1.015);
           filter:
             drop-shadow(0 0 1px rgba(255, 255, 255, 1))
-            drop-shadow(0 0 10px rgba(195, 137, 255, 0.4))
-            drop-shadow(0 0 24px rgba(181, 107, 255, 0.24));
+            drop-shadow(0 0 8px rgba(255, 255, 255, 0.5))
+            drop-shadow(0 0 17px rgba(195, 137, 255, 0.48))
+            drop-shadow(0 0 38px rgba(181, 107, 255, 0.3));
         }
       }
+
+      @keyframes trailPulse {
+        0%,
+        100% {
+          opacity: 0.78;
+          filter:
+            drop-shadow(0 0 7px rgba(244, 217, 255, 0.34))
+            drop-shadow(0 0 20px rgba(181, 91, 255, 0.28))
+            drop-shadow(0 0 46px rgba(108, 68, 255, 0.15));
+        }
+
+        50% {
+          opacity: 1;
+          filter:
+            drop-shadow(0 0 11px rgba(244, 217, 255, 0.55))
+            drop-shadow(0 0 30px rgba(181, 91, 255, 0.42))
+            drop-shadow(0 0 68px rgba(108, 68, 255, 0.24));
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .hero-watermark,
+        .face-trail-fallback-canvas,
+        .face-trail-canvas {
+          animation: none;
+        }
+      }
+
 
       ::selection {
         color: #fff;
@@ -141,7 +200,9 @@
         width: 30px;
         height: 30px;
         object-fit: contain;
-        filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.28));
+        filter:
+          drop-shadow(0 0 1px rgba(255, 255, 255, 0.75))
+          drop-shadow(0 6px 16px rgba(0, 0, 0, 0.28));
       }
 
       .brand-name {
@@ -164,7 +225,7 @@
 
       .swiper {
         position: relative;
-        z-index: 2;
+        z-index: 3;
         width: 100%;
         height: 100%;
       }
@@ -991,6 +1052,8 @@
 
         .orbit,
         .hero-watermark,
+        .face-trail-fallback-canvas,
+        .face-trail-canvas,
         .flow-arrow,
         .slot::after,
         .arrow-mid {
@@ -1001,6 +1064,8 @@
   </head>
   <body>
     <img class="hero-watermark" src="./assets/geekonup-logo.svg" alt="" aria-hidden="true" />
+    <canvas class="face-trail-fallback-canvas" aria-hidden="true"></canvas>
+    <canvas class="face-trail-canvas" aria-hidden="true"></canvas>
     <header class="topbar">
       <div class="brand" aria-label="极客上线 GeekOnUp">
         <img class="brand-logo" src="./assets/geekonup-logo.svg" alt="" />
@@ -1490,7 +1555,458 @@
 
     <script src="./vendor/gsap.min.js"></script>
     <script src="./vendor/swiper-bundle.min.js"></script>
+    <script src="./vendor/pixi.min.js"></script>
     <script>
+      function initFaceTrail() {
+        const canvas = document.querySelector(".face-trail-canvas");
+        const fallbackCanvas = document.querySelector(".face-trail-fallback-canvas");
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+        const facePoints = [
+          [277, 665],
+          [279, 698],
+          [288, 722],
+          [294, 732],
+          [313, 752],
+          [333, 766],
+          [377, 790],
+          [421, 807],
+          [469, 819],
+          [516, 824],
+          [569, 823],
+          [622, 814],
+          [668, 800],
+          [710, 781],
+          [761, 748],
+          [782, 728],
+          [795, 705],
+          [802, 679],
+          [800, 649],
+          [794, 631],
+          [782, 610],
+          [765, 593],
+          [752, 585],
+          [728, 575],
+          [710, 572],
+          [680, 573],
+          [627, 590],
+          [553, 600],
+          [511, 599],
+          [474, 594],
+          [437, 586],
+          [408, 575],
+          [391, 572],
+          [357, 574],
+          [335, 582],
+          [318, 592],
+          [296, 614],
+          [281, 645],
+        ].map(([x, y]) => ({ x: x + 40, y: y + 40 }));
+
+        const smoothstep = (edge0, edge1, value) => {
+          const x = Math.min(1, Math.max(0, (value - edge0) / (edge1 - edge0)));
+          return x * x * (3 - 2 * x);
+        };
+
+        const mix = (a, b, t) => a + (b - a) * t;
+
+        function catmullRom(p0, p1, p2, p3, t) {
+          const t2 = t * t;
+          const t3 = t2 * t;
+          return {
+            x: 0.5 * (2 * p1.x + (-p0.x + p2.x) * t + (2 * p0.x - 5 * p1.x + 4 * p2.x - p3.x) * t2 + (-p0.x + 3 * p1.x - 3 * p2.x + p3.x) * t3),
+            y: 0.5 * (2 * p1.y + (-p0.y + p2.y) * t + (2 * p0.y - 5 * p1.y + 4 * p2.y - p3.y) * t2 + (-p0.y + 3 * p1.y - 3 * p2.y + p3.y) * t3),
+          };
+        }
+
+        function buildClosedPath(points, stepsPerSegment = 18) {
+          const samples = [];
+          const distances = [0];
+          let total = 0;
+
+          points.forEach((point, index) => {
+            const p0 = points[(index - 1 + points.length) % points.length];
+            const p1 = point;
+            const p2 = points[(index + 1) % points.length];
+            const p3 = points[(index + 2) % points.length];
+
+            for (let step = 0; step < stepsPerSegment; step += 1) {
+              const sample = catmullRom(p0, p1, p2, p3, step / stepsPerSegment);
+              const prev = samples[samples.length - 1];
+              samples.push(sample);
+              if (prev) {
+                total += Math.hypot(sample.x - prev.x, sample.y - prev.y);
+                distances.push(total);
+              }
+            }
+          });
+
+          total += Math.hypot(samples[0].x - samples[samples.length - 1].x, samples[0].y - samples[samples.length - 1].y);
+
+          function sampleAt(ratio) {
+            const target = ((ratio % 1) + 1) % 1 * total;
+            const lastDistanceIndex = distances.length - 1;
+
+            if (target >= distances[lastDistanceIndex]) {
+              const distanceBefore = distances[lastDistanceIndex];
+              const t = Math.min(1, Math.max(0, (target - distanceBefore) / (total - distanceBefore || 1)));
+              const a = samples[samples.length - 1];
+              const b = samples[0];
+
+              return {
+                x: mix(a.x, b.x, t),
+                y: mix(a.y, b.y, t),
+              };
+            }
+
+            if (target <= 0) {
+              return samples[0];
+            }
+
+            let low = 0;
+            let high = lastDistanceIndex;
+
+            while (low < high) {
+              const mid = (low + high) >> 1;
+              if (distances[mid] < target) low = mid + 1;
+              else high = mid;
+            }
+
+            const current = low;
+            const prev = current === 0 ? samples.length - 1 : current - 1;
+            const distanceBefore = current === 0 ? 0 : distances[prev];
+            const distanceAfter = current === 0 ? total : distances[current];
+            const span = distanceAfter - distanceBefore || 1;
+            const t = Math.min(1, Math.max(0, (target - distanceBefore) / span));
+            const a = samples[prev];
+            const b = samples[current];
+
+            return {
+              x: mix(a.x, b.x, t),
+              y: mix(a.y, b.y, t),
+            };
+          }
+
+          return { sampleAt };
+        }
+
+        function createSilkTexture(width, height, palette) {
+          const textureCanvas = document.createElement("canvas");
+          textureCanvas.width = width;
+          textureCanvas.height = height;
+
+          const ctx = textureCanvas.getContext("2d");
+          const image = ctx.createImageData(width, height);
+          const data = image.data;
+          const deep = palette.deep || [91, 45, 255];
+          const mid = palette.mid || [188, 86, 255];
+          const hot = palette.hot || [255, 235, 255];
+
+          for (let y = 0; y < height; y += 1) {
+            const v = (y / (height - 1) - 0.5) * 2;
+            for (let x = 0; x < width; x += 1) {
+              const u = x / (width - 1);
+              const widthProfile = 0.14 + 0.78 * Math.sin(Math.PI * smoothstep(0.02, 0.96, u));
+              const center = Math.exp(-Math.pow(Math.abs(v) / (0.16 + widthProfile * 0.58), 2.15));
+              const feather = Math.exp(-Math.pow((Math.abs(v) - 0.46) / (0.12 + widthProfile * 0.09), 2));
+              const stream = 0.82 + 0.1 * Math.sin(u * 58 + v * 7) + 0.08 * Math.sin(u * 143 - v * 16);
+              const longFade = smoothstep(0.0, 0.24, u) * (1 - 0.18 * smoothstep(0.92, 1, u));
+              const headLift = smoothstep(0.68, 0.98, u);
+              const alpha = Math.min(1, longFade * (center * 0.86 + feather * 0.32) * stream * (0.34 + headLift * 0.66));
+              const hotMix = smoothstep(0.72, 1, u);
+              const midMix = smoothstep(0.18, 0.74, u);
+              const baseR = mix(deep[0], mid[0], midMix);
+              const baseG = mix(deep[1], mid[1], midMix);
+              const baseB = mix(deep[2], mid[2], midMix);
+              const i = (y * width + x) * 4;
+
+              data[i] = mix(baseR, hot[0], hotMix);
+              data[i + 1] = mix(baseG, hot[1], hotMix);
+              data[i + 2] = mix(baseB, hot[2], hotMix);
+              data[i + 3] = Math.round(255 * alpha * (palette.alpha || 1));
+            }
+          }
+
+          ctx.putImageData(image, 0, 0);
+
+          for (let i = 0; i < 22; i += 1) {
+            const y = height * (0.28 + 0.44 * ((Math.sin(i * 9.73) + 1) / 2));
+            const gradient = ctx.createLinearGradient(0, y, width, y + Math.sin(i) * 10);
+            gradient.addColorStop(0, "rgba(126, 74, 255, 0)");
+            gradient.addColorStop(0.35, "rgba(203, 126, 255, 0.08)");
+            gradient.addColorStop(0.78, "rgba(255, 239, 255, 0.18)");
+            gradient.addColorStop(1, "rgba(255, 255, 255, 0.03)");
+            ctx.strokeStyle = gradient;
+            ctx.lineWidth = 0.75 + (i % 4) * 0.28;
+            ctx.beginPath();
+            ctx.moveTo(width * 0.04, y);
+            ctx.bezierCurveTo(width * 0.34, y + Math.sin(i * 2.1) * 12, width * 0.66, y + Math.cos(i * 1.7) * 16, width * 0.98, y + Math.sin(i * 1.3) * 8);
+            ctx.stroke();
+          }
+
+          return PIXI.Texture.from(textureCanvas);
+        }
+
+        function initCanvasFallbackTrail(targetCanvas, path) {
+          const ctx = targetCanvas.getContext("2d");
+          if (!ctx) return;
+
+          const pointCount = 130;
+          const trailLength = 0.66;
+          let canvasSize = 1;
+          let pixelRatio = 1;
+
+          const ribbons = [
+            { alpha: 0.62, width: 48, offset: 0, wave: 18, phase: 0.4, speed: 880 },
+            { alpha: 0.5, width: 30, offset: 22, wave: 12, phase: 1.8, speed: 760 },
+            { alpha: 0.42, width: 28, offset: -20, wave: 11, phase: 3.2, speed: 820 },
+            { alpha: 0.92, width: 8, offset: 0, wave: 4, phase: 4.5, speed: 680 },
+          ];
+
+          function resizeFallback() {
+            const bounds = targetCanvas.getBoundingClientRect();
+            canvasSize = Math.max(1, Math.round(Math.min(bounds.width, bounds.height)));
+            pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+            targetCanvas.width = Math.round(canvasSize * pixelRatio);
+            targetCanvas.height = Math.round(canvasSize * pixelRatio);
+            targetCanvas.style.width = `${canvasSize}px`;
+            targetCanvas.style.height = `${canvasSize}px`;
+          }
+
+          function trailPoint(ratio, u, ribbon, time) {
+            const current = path.sampleAt(ratio);
+            const prev = path.sampleAt(ratio - 0.0018);
+            const next = path.sampleAt(ratio + 0.0018);
+            const dx = next.x - prev.x;
+            const dy = next.y - prev.y;
+            const length = Math.hypot(dx, dy) || 1;
+            const nx = -dy / length;
+            const ny = dx / length;
+            const envelope = Math.sin(Math.PI * u);
+            const wing = (ribbon.offset + Math.sin(time / ribbon.speed + u * 18 + ribbon.phase) * ribbon.wave) * envelope;
+
+            return {
+              x: current.x + nx * wing,
+              y: current.y + ny * wing,
+              nx,
+              ny,
+              envelope,
+            };
+          }
+
+          function drawRibbon(ribbon, time, progress) {
+            const left = [];
+            const right = [];
+            const center = [];
+
+            for (let index = 0; index < pointCount; index += 1) {
+              const u = index / (pointCount - 1);
+              const ratio = progress - trailLength + u * trailLength;
+              const point = trailPoint(ratio, u, ribbon, time);
+              const head = smoothstep(0.36, 1, u);
+              const tail = smoothstep(0, 0.18, u);
+              const width = ribbon.width * (0.12 + 0.88 * point.envelope) * tail * (0.32 + 0.68 * head);
+
+              center.push(point);
+              left.push({ x: point.x + point.nx * width, y: point.y + point.ny * width, alpha: tail * head * point.envelope });
+              right.push({ x: point.x - point.nx * width * 0.74, y: point.y - point.ny * width * 0.74, alpha: tail * head * point.envelope });
+            }
+
+            const fill = ctx.createLinearGradient(240, 520, 820, 820);
+            fill.addColorStop(0, `rgba(91, 54, 255, ${0.02 * ribbon.alpha})`);
+            fill.addColorStop(0.46, `rgba(184, 84, 255, ${0.18 * ribbon.alpha})`);
+            fill.addColorStop(0.78, `rgba(224, 148, 255, ${0.34 * ribbon.alpha})`);
+            fill.addColorStop(1, `rgba(255, 244, 255, ${0.46 * ribbon.alpha})`);
+
+            ctx.save();
+            ctx.shadowColor = "rgba(187, 91, 255, 0.62)";
+            ctx.shadowBlur = 34;
+            ctx.fillStyle = fill;
+            ctx.beginPath();
+            left.forEach((point, index) => {
+              if (index === 0) ctx.moveTo(point.x, point.y);
+              else ctx.lineTo(point.x, point.y);
+            });
+            right
+              .slice()
+              .reverse()
+              .forEach((point) => ctx.lineTo(point.x, point.y));
+            ctx.closePath();
+            ctx.fill();
+            ctx.restore();
+
+            for (let strand = -5; strand <= 5; strand += 1) {
+              const strandOffset = strand * ribbon.width * 0.14;
+              const strandWeight = 1 - Math.abs(strand) / 6;
+
+              ctx.save();
+              ctx.lineCap = "round";
+              ctx.lineJoin = "round";
+              ctx.shadowColor = strand === 0 ? "rgba(255, 238, 255, 0.72)" : "rgba(178, 86, 255, 0.48)";
+              ctx.shadowBlur = strand === 0 ? 22 : 16;
+
+              for (let index = 1; index < center.length; index += 1) {
+                const u = index / (center.length - 1);
+                const p0 = center[index - 1];
+                const p1 = center[index];
+                const alpha = ribbon.alpha * strandWeight * smoothstep(0, 0.2, u) * (0.25 + 0.75 * smoothstep(0.35, 1, u));
+                const r = Math.round(mix(108, 255, smoothstep(0.72, 1, u)));
+                const g = Math.round(mix(62, 235, smoothstep(0.72, 1, u)));
+                const b = 255;
+
+                ctx.strokeStyle = `rgba(${r}, ${g}, ${b}, ${alpha})`;
+                ctx.lineWidth = Math.max(0.8, ribbon.width * 0.038 * strandWeight * (0.3 + p1.envelope));
+                ctx.beginPath();
+                ctx.moveTo(p0.x + p0.nx * strandOffset, p0.y + p0.ny * strandOffset);
+                ctx.lineTo(p1.x + p1.nx * strandOffset, p1.y + p1.ny * strandOffset);
+                ctx.stroke();
+              }
+              ctx.restore();
+            }
+          }
+
+          function frame(time) {
+            const scale = (canvasSize * pixelRatio) / 1160;
+            ctx.setTransform(scale, 0, 0, scale, 0, 0);
+            ctx.clearRect(0, 0, 1160, 1160);
+            ctx.globalCompositeOperation = "lighter";
+
+            const progress = (time / 9200) % 1;
+            ribbons.forEach((ribbon, index) => drawRibbon(ribbon, time + index * 260, progress + index * 0.006));
+
+            ctx.globalCompositeOperation = "source-over";
+            requestAnimationFrame(frame);
+          }
+
+          resizeFallback();
+          window.addEventListener("resize", resizeFallback, { passive: true });
+          requestAnimationFrame(frame);
+        }
+
+        const path = buildClosedPath(facePoints);
+
+        if (fallbackCanvas) {
+          initCanvasFallbackTrail(fallbackCanvas, path);
+        }
+
+        if (!canvas || !window.PIXI) {
+          return;
+        }
+
+        (async () => {
+          const app = new PIXI.Application();
+          await app.init({
+            canvas,
+            width: 1,
+            height: 1,
+            backgroundAlpha: 0,
+            antialias: true,
+            autoDensity: true,
+            resolution: Math.min(window.devicePixelRatio || 1, 2),
+          });
+
+          const layer = new PIXI.Container();
+          const trailLength = 0.66;
+          const pointCount = 112;
+          const loops = [
+            {
+              alpha: 0.48,
+              normalOffset: 0,
+              wave: 13,
+              phase: 0,
+              progressOffset: -0.012,
+              texture: createSilkTexture(1500, 154, { alpha: 0.7, deep: [76, 52, 255], mid: [160, 74, 255], hot: [246, 225, 255] }),
+              blur: 1.7,
+            },
+            {
+              alpha: 0.74,
+              normalOffset: 15,
+              wave: 10,
+              phase: 1.2,
+              progressOffset: 0,
+              texture: createSilkTexture(1400, 92, { alpha: 0.86, deep: [100, 54, 255], mid: [197, 94, 255], hot: [255, 236, 255] }),
+              blur: 0.6,
+            },
+            {
+              alpha: 0.58,
+              normalOffset: -13,
+              wave: 9,
+              phase: 2.6,
+              progressOffset: 0.018,
+              texture: createSilkTexture(1400, 78, { alpha: 0.76, deep: [75, 63, 255], mid: [178, 78, 255], hot: [245, 220, 255] }),
+              blur: 0.9,
+            },
+            {
+              alpha: 1,
+              normalOffset: 0,
+              wave: 3.5,
+              phase: 3.1,
+              progressOffset: 0.004,
+              texture: createSilkTexture(1200, 32, { alpha: 0.92, deep: [120, 66, 255], mid: [218, 112, 255], hot: [255, 250, 255] }),
+              blur: 0,
+            },
+          ].map((config) => {
+            const points = Array.from({ length: pointCount }, () => new PIXI.Point(0, 0));
+            const rope = new PIXI.MeshRope({
+              texture: config.texture,
+              points,
+              textureScale: 0,
+            });
+
+            rope.alpha = config.alpha;
+            rope.blendMode = "add";
+            if (config.blur) {
+              rope.filters = [new PIXI.BlurFilter({ strength: config.blur, quality: 3 })];
+            }
+            layer.addChild(rope);
+
+            return { ...config, points };
+          });
+
+          app.stage.addChild(layer);
+
+          function resizeTrail() {
+            const bounds = canvas.getBoundingClientRect();
+            const size = Math.max(1, Math.round(Math.min(bounds.width, bounds.height)));
+            app.renderer.resize(size, size);
+            layer.scale.set(size / 1160);
+          }
+
+          function updateTrail(time) {
+            const progress = (time / 9200) % 1;
+
+            loops.forEach((loop) => {
+              loop.points.forEach((point, index) => {
+                const u = index / (pointCount - 1);
+                const ratio = progress + loop.progressOffset - trailLength + u * trailLength;
+                const current = path.sampleAt(ratio);
+                const prev = path.sampleAt(ratio - 0.0018);
+                const next = path.sampleAt(ratio + 0.0018);
+                const dx = next.x - prev.x;
+                const dy = next.y - prev.y;
+                const length = Math.hypot(dx, dy) || 1;
+                const nx = -dy / length;
+                const ny = dx / length;
+                const envelope = Math.sin(Math.PI * u);
+                const silkWave = Math.sin(time / 760 + u * 16 + loop.phase) * loop.wave * envelope;
+                const wing = loop.normalOffset * envelope + silkWave;
+
+                point.x = current.x + nx * wing;
+                point.y = current.y + ny * wing;
+              });
+            });
+          }
+
+          resizeTrail();
+          app.ticker.add(() => updateTrail(performance.now()));
+          window.addEventListener("resize", resizeTrail, { passive: true });
+        })().catch(() => {
+          canvas.style.display = "none";
+        });
+      }
+
+      initFaceTrail();
+
       const demoMap = {
         loose: {
           prompt: "帮我写一个双周分享会通知。",

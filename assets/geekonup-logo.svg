@@ -1,4 +1,37 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" role="img" aria-label="GeekOnUp logo">
-  <path fill="#ffffff" d="M810 1079 L282 1079 L285 1045 L293 1016 L327 947 L369 884 L386 868 L400 859 L416 853 L417 850 L383 842 L305 816 L264 796 L232 773 L213 755 L197 732 L187 699 L187 670 L196 638 L224 598 L241 555 L245 533 L245 449 L255 409 L268 381 L289 348 L322 309 L364 274 L400 252 L455 230 L493 221 L526 217 L568 217 L595 220 L661 237 L692 251 L723 269 L770 307 L808 352 L834 397 L843 421 L850 459 L849 532 L854 559 L870 597 L897 636 L906 663 L906 706 L902 721 L894 737 L881 755 L862 773 L840 789 L806 807 L766 824 L694 846 L694 849 L707 854 L724 869 L750 916 L787 1003 L805 1060 L807 1075 Z" />
-  <path fill="#030205" d="M277 665 L279 698 L288 722 L294 732 L313 752 L333 766 L377 790 L421 807 L469 819 L516 824 L569 823 L622 814 L668 800 L710 781 L761 748 L782 728 L795 705 L802 679 L800 649 L794 631 L782 610 L765 593 L752 585 L728 575 L710 572 L680 573 L627 590 L553 600 L511 599 L474 594 L437 586 L408 575 L391 572 L357 574 L335 582 L318 592 L296 614 L281 645 Z" />
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-40 -40 1160 1160" role="img" aria-label="GeekOnUp logo">
+  <defs>
+    <path id="outerPath" d="M810 1079 L282 1079 L285 1045 L293 1016 L327 947 L369 884 L386 868 L400 859 L416 853 L417 850 L383 842 L305 816 L264 796 L232 773 L213 755 L197 732 L187 699 L187 670 L196 638 L224 598 L241 555 L245 533 L245 449 L255 409 L268 381 L289 348 L322 309 L364 274 L400 252 L455 230 L493 221 L526 217 L568 217 L595 220 L661 237 L692 251 L723 269 L770 307 L808 352 L834 397 L843 421 L850 459 L849 532 L854 559 L870 597 L897 636 L906 663 L906 706 L902 721 L894 737 L881 755 L862 773 L840 789 L806 807 L766 824 L694 846 L694 849 L707 854 L724 869 L750 916 L787 1003 L805 1060 L807 1075 Z" />
+    <path id="facePath" pathLength="1000" d="M277 665 L279 698 L288 722 L294 732 L313 752 L333 766 L377 790 L421 807 L469 819 L516 824 L569 823 L622 814 L668 800 L710 781 L761 748 L782 728 L795 705 L802 679 L800 649 L794 631 L782 610 L765 593 L752 585 L728 575 L710 572 L680 573 L627 590 L553 600 L511 599 L474 594 L437 586 L408 575 L391 572 L357 574 L335 582 L318 592 L296 614 L281 645 Z" />
+
+    <linearGradient id="lineFade" x1="0" y1="-40" x2="0" y2="1120" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="1" />
+      <stop offset="42%" stop-color="#ffffff" stop-opacity="0.72" />
+      <stop offset="76%" stop-color="#ffffff" stop-opacity="0.28" />
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.02" />
+    </linearGradient>
+
+    <filter id="lineGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="3.6" result="blurA" />
+      <feGaussianBlur stdDeviation="9" result="blurB" />
+      <feColorMatrix in="blurA" result="purpleA" type="matrix" values="0.75 0 0 0 0.35  0 0.35 0 0 0.05  0 0 1 0 1  0 0 0 0.6 0" />
+      <feColorMatrix in="blurB" result="purpleB" type="matrix" values="0.55 0 0 0 0.28  0 0.18 0 0 0.02  0 0 1 0 0.85  0 0 0 0.32 0" />
+      <feMerge>
+        <feMergeNode in="purpleB" />
+        <feMergeNode in="purpleA" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+
+    <mask id="outerDoubleLineMask" maskUnits="userSpaceOnUse" x="-40" y="-40" width="1160" height="1160">
+      <rect x="-40" y="-40" width="1160" height="1160" fill="#000000" />
+      <use href="#outerPath" fill="none" stroke="#ffffff" stroke-width="18" stroke-linecap="round" stroke-linejoin="round" />
+      <use href="#outerPath" fill="none" stroke="#000000" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" />
+    </mask>
+  </defs>
+
+  <g filter="url(#lineGlow)">
+    <g mask="url(#outerDoubleLineMask)">
+      <use href="#outerPath" fill="none" stroke="url(#lineFade)" stroke-width="18" stroke-linecap="round" stroke-linejoin="round" />
+    </g>
+  </g>
 </svg>
