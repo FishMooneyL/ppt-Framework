@@ -1,0 +1,1398 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>信息逻辑与 AI：把交流、协作和决策看成信息流</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.css" />
+    <style>
+      :root {
+        --bg: #0b1017;
+        --bg-2: #101824;
+        --panel: rgba(19, 28, 41, 0.82);
+        --panel-strong: rgba(20, 31, 47, 0.96);
+        --line: rgba(255, 255, 255, 0.12);
+        --ink: #f4efe6;
+        --muted: #98a5b5;
+        --muted-2: #6f7d8d;
+        --accent: #f2a65a;
+        --cyan: #5bd6cc;
+        --green: #8bd17c;
+        --red: #ef6f6c;
+        --violet: #a48cf0;
+        --shadow: 0 24px 80px rgba(0, 0, 0, 0.38);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        min-height: 100%;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", system-ui, sans-serif;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        background:
+          radial-gradient(circle at 12% 16%, rgba(91, 214, 204, 0.16), transparent 28%),
+          radial-gradient(circle at 76% 26%, rgba(242, 166, 90, 0.18), transparent 30%),
+          radial-gradient(circle at 62% 86%, rgba(164, 140, 240, 0.12), transparent 34%),
+          linear-gradient(180deg, #0b1017 0%, #111825 100%);
+        z-index: -3;
+      }
+
+      body::after {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        opacity: 0.32;
+        background-image:
+          linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+        background-size: 44px 44px;
+        mask-image: radial-gradient(circle at center, #000 0%, transparent 78%);
+        z-index: -2;
+      }
+
+      .reveal {
+        color: var(--ink);
+        font-size: 34px;
+      }
+
+      .reveal .slides {
+        text-align: left;
+      }
+
+      .reveal .slides section {
+        min-height: 680px;
+        padding: 18px 8px;
+      }
+
+      .reveal .progress {
+        color: var(--accent);
+        height: 5px;
+      }
+
+      .reveal .controls {
+        color: var(--accent);
+      }
+
+      .reveal h1,
+      .reveal h2,
+      .reveal h3,
+      .reveal p {
+        margin: 0;
+      }
+
+      .reveal h1 {
+        font-size: 2.78em;
+        line-height: 1.02;
+        letter-spacing: -0.06em;
+        font-weight: 820;
+      }
+
+      .reveal h2 {
+        font-size: 1.78em;
+        line-height: 1.08;
+        letter-spacing: -0.035em;
+        font-weight: 780;
+      }
+
+      .reveal h3 {
+        font-size: 1.05em;
+        line-height: 1.25;
+        font-weight: 720;
+      }
+
+      .reveal p,
+      .reveal li {
+        font-size: 0.64em;
+        line-height: 1.7;
+        color: var(--muted);
+      }
+
+      .reveal ul,
+      .reveal ol {
+        margin: 18px 0 0 1.05em;
+      }
+
+      .reveal strong {
+        color: var(--ink);
+        font-weight: 760;
+      }
+
+      .slide-shell {
+        position: relative;
+        width: 100%;
+        min-height: 650px;
+        padding: 44px 54px;
+        overflow: hidden;
+        border: 1px solid var(--line);
+        border-radius: 28px;
+        background:
+          linear-gradient(135deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.012)),
+          rgba(11, 16, 23, 0.72);
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(18px);
+      }
+
+      .slide-shell::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        border-radius: inherit;
+        background:
+          linear-gradient(90deg, rgba(242, 166, 90, 0.22), transparent 28%),
+          linear-gradient(180deg, rgba(91, 214, 204, 0.12), transparent 46%);
+        opacity: 0.55;
+        mask-image: linear-gradient(#000, transparent 74%);
+      }
+
+      .slide-shell > * {
+        position: relative;
+        z-index: 1;
+      }
+
+      .kicker {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 22px;
+        color: var(--accent);
+        font-size: 0.42em;
+        font-weight: 760;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+      }
+
+      .kicker::before {
+        content: "";
+        width: 36px;
+        height: 2px;
+        background: var(--accent);
+      }
+
+      .subhead {
+        max-width: 860px;
+        margin-top: 22px !important;
+        color: var(--muted);
+        font-size: 0.72em !important;
+      }
+
+      .em {
+        color: var(--accent);
+      }
+
+      .cyan {
+        color: var(--cyan);
+      }
+
+      .green {
+        color: var(--green);
+      }
+
+      .red {
+        color: var(--red);
+      }
+
+      .muted {
+        color: var(--muted);
+      }
+
+      .dim {
+        color: var(--muted-2);
+      }
+
+      .topline {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+        margin-bottom: 26px;
+      }
+
+      .slide-no {
+        color: var(--muted-2);
+        font-size: 0.43em;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+      }
+
+      .cols {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 22px;
+        margin-top: 32px;
+      }
+
+      .cols-3 {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 18px;
+        margin-top: 32px;
+      }
+
+      .card {
+        min-height: 150px;
+        padding: 22px;
+        border: 1px solid var(--line);
+        border-radius: 22px;
+        background: var(--panel);
+        box-shadow: 0 12px 34px rgba(0, 0, 0, 0.24);
+      }
+
+      .card.compact {
+        min-height: 0;
+        padding: 18px 20px;
+      }
+
+      .card h3 {
+        margin-bottom: 8px;
+      }
+
+      .card p {
+        font-size: 0.5em;
+        line-height: 1.58;
+      }
+
+      .pill-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 24px;
+      }
+
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        min-height: 34px;
+        padding: 6px 12px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        color: var(--ink);
+        background: rgba(255, 255, 255, 0.055);
+        font-size: 0.42em;
+        font-weight: 680;
+        white-space: nowrap;
+      }
+
+      .pill.accent {
+        border-color: rgba(242, 166, 90, 0.38);
+        background: rgba(242, 166, 90, 0.12);
+        color: #ffd9ae;
+      }
+
+      .quote {
+        margin-top: 38px;
+        padding: 28px 32px;
+        border-left: 5px solid var(--accent);
+        border-radius: 20px;
+        background: rgba(242, 166, 90, 0.105);
+      }
+
+      .quote p {
+        color: var(--ink);
+        font-size: 0.82em;
+        line-height: 1.45;
+        font-weight: 730;
+      }
+
+      .big-number {
+        display: block;
+        margin-bottom: 10px;
+        color: var(--accent);
+        font-size: 1.18em;
+        font-weight: 820;
+        line-height: 1;
+      }
+
+      .two-lane {
+        display: grid;
+        grid-template-columns: 1.05fr 0.95fr;
+        gap: 28px;
+        align-items: center;
+        margin-top: 24px;
+      }
+
+      .diagram-panel {
+        padding: 24px;
+        border: 1px solid var(--line);
+        border-radius: 26px;
+        background: var(--panel-strong);
+      }
+
+      .flow-svg {
+        width: 100%;
+        height: auto;
+        overflow: visible;
+      }
+
+      .flow-node rect {
+        fill: rgba(255, 255, 255, 0.065);
+        stroke: rgba(255, 255, 255, 0.16);
+        stroke-width: 1.2;
+      }
+
+      .flow-node text {
+        fill: var(--ink);
+        font-size: 17px;
+        font-weight: 700;
+      }
+
+      .flow-node .small {
+        fill: var(--muted);
+        font-size: 12px;
+        font-weight: 500;
+      }
+
+      .flow-line {
+        fill: none;
+        stroke: var(--accent);
+        stroke-width: 3;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+
+      .matrix {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+        margin-top: 28px;
+      }
+
+      .matrix-cell {
+        padding: 18px;
+        min-height: 118px;
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.048);
+      }
+
+      .matrix-cell h3 {
+        display: flex;
+        gap: 9px;
+        align-items: center;
+        font-size: 0.75em;
+      }
+
+      .matrix-cell p {
+        margin-top: 7px;
+        font-size: 0.46em;
+      }
+
+      .token-stream {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 26px;
+      }
+
+      .token {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        height: 44px;
+        padding: 0 14px;
+        border: 1px solid rgba(91, 214, 204, 0.25);
+        border-radius: 12px;
+        background: rgba(91, 214, 204, 0.08);
+        color: #dffcf9;
+        font-size: 0.56em;
+        font-weight: 760;
+      }
+
+      .prob-list {
+        margin-top: 28px;
+      }
+
+      .prob-row {
+        display: grid;
+        grid-template-columns: 120px 1fr 64px;
+        gap: 14px;
+        align-items: center;
+        margin: 12px 0;
+        font-size: 0.5em;
+      }
+
+      .bar-bg {
+        height: 14px;
+        overflow: hidden;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.09);
+      }
+
+      .bar {
+        width: 0;
+        height: 100%;
+        border-radius: inherit;
+        background: linear-gradient(90deg, var(--cyan), var(--accent));
+      }
+
+      .formula {
+        display: grid;
+        grid-template-columns: repeat(7, minmax(0, 1fr));
+        gap: 10px;
+        margin-top: 34px;
+      }
+
+      .formula-step {
+        position: relative;
+        min-height: 126px;
+        padding: 16px 12px;
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.052);
+      }
+
+      .formula-step::after {
+        content: "→";
+        position: absolute;
+        top: 50%;
+        right: -13px;
+        transform: translateY(-50%);
+        color: var(--accent);
+        font-size: 0.8em;
+        font-weight: 900;
+      }
+
+      .formula-step:last-child::after {
+        display: none;
+      }
+
+      .formula-step b {
+        display: block;
+        color: var(--ink);
+        font-size: 0.62em;
+        line-height: 1.25;
+      }
+
+      .formula-step span {
+        display: block;
+        margin-top: 8px;
+        color: var(--muted);
+        font-size: 0.37em;
+        line-height: 1.45;
+      }
+
+      .prompt-demo {
+        display: grid;
+        grid-template-columns: 0.92fr 1.08fr;
+        gap: 18px;
+        margin-top: 24px;
+      }
+
+      .demo-box {
+        min-height: 270px;
+        padding: 22px;
+        border: 1px solid var(--line);
+        border-radius: 22px;
+        background: var(--panel-strong);
+      }
+
+      .demo-box pre {
+        margin: 14px 0 0;
+        white-space: pre-wrap;
+        word-break: break-word;
+        color: #e7edf5;
+        font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+        font-size: 0.42em;
+        line-height: 1.58;
+      }
+
+      .demo-switch {
+        display: flex;
+        gap: 10px;
+        margin-top: 16px;
+      }
+
+      .demo-switch button {
+        cursor: pointer;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        padding: 9px 13px;
+        background: rgba(255, 255, 255, 0.06);
+        color: var(--muted);
+        font: inherit;
+        font-size: 0.4em;
+        font-weight: 760;
+      }
+
+      .demo-switch button.active {
+        border-color: rgba(242, 166, 90, 0.55);
+        background: rgba(242, 166, 90, 0.16);
+        color: #ffe1bd;
+      }
+
+      .score-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+        margin-top: 18px;
+      }
+
+      .score {
+        padding: 12px 10px;
+        border-radius: 15px;
+        background: rgba(255, 255, 255, 0.055);
+        text-align: center;
+      }
+
+      .score b {
+        display: block;
+        color: var(--accent);
+        font-size: 0.66em;
+      }
+
+      .score span {
+        display: block;
+        margin-top: 4px;
+        color: var(--muted);
+        font-size: 0.35em;
+      }
+
+      .roadmap {
+        position: relative;
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 14px;
+        margin-top: 34px;
+      }
+
+      .roadmap::before {
+        content: "";
+        position: absolute;
+        top: 26px;
+        left: 4%;
+        right: 4%;
+        height: 2px;
+        background: linear-gradient(90deg, var(--accent), var(--cyan));
+        opacity: 0.55;
+      }
+
+      .road-item {
+        position: relative;
+        padding-top: 54px;
+      }
+
+      .dot {
+        position: absolute;
+        top: 16px;
+        left: 0;
+        width: 22px;
+        height: 22px;
+        border: 4px solid var(--bg-2);
+        border-radius: 50%;
+        background: var(--accent);
+        box-shadow: 0 0 0 1px rgba(242, 166, 90, 0.45), 0 0 24px rgba(242, 166, 90, 0.35);
+      }
+
+      .road-item h3 {
+        font-size: 0.7em;
+      }
+
+      .road-item p {
+        margin-top: 8px;
+        font-size: 0.42em;
+        line-height: 1.55;
+      }
+
+      .checklist {
+        display: grid;
+        gap: 12px;
+        margin-top: 28px;
+      }
+
+      .check {
+        display: grid;
+        grid-template-columns: 34px 1fr;
+        gap: 12px;
+        align-items: start;
+        padding: 14px 16px;
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.048);
+      }
+
+      .check i {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: rgba(139, 209, 124, 0.16);
+        color: var(--green);
+        font-style: normal;
+        font-weight: 900;
+      }
+
+      .check p {
+        font-size: 0.5em;
+        line-height: 1.55;
+      }
+
+      .closing-title {
+        margin-top: 30px;
+        font-size: 2.18em !important;
+      }
+
+      .corner-mark {
+        position: absolute;
+        right: 34px;
+        bottom: 28px;
+        color: rgba(255, 255, 255, 0.16);
+        font-size: 0.42em;
+        font-weight: 760;
+        letter-spacing: 0.14em;
+      }
+
+      .micro {
+        color: var(--muted-2);
+        font-size: 0.42em !important;
+        line-height: 1.5 !important;
+      }
+
+      .reveal .fragment.blur-in {
+        opacity: 0;
+        filter: blur(10px);
+        transform: translateY(12px);
+      }
+
+      .reveal .fragment.blur-in.visible {
+        opacity: 1;
+        filter: blur(0);
+        transform: translateY(0);
+      }
+
+      .no-reveal .reveal .slides {
+        width: min(1280px, 96vw);
+        margin: 0 auto;
+      }
+
+      .no-reveal .reveal .slides section {
+        display: block !important;
+        margin: 36px 0;
+      }
+
+      @media (max-width: 900px) {
+        .reveal {
+          font-size: 25px;
+        }
+
+        .slide-shell {
+          padding: 28px;
+          min-height: auto;
+        }
+
+        .cols,
+        .cols-3,
+        .two-lane,
+        .prompt-demo {
+          grid-template-columns: 1fr;
+        }
+
+        .formula {
+          grid-template-columns: 1fr 1fr;
+        }
+
+        .formula-step::after,
+        .roadmap::before {
+          display: none;
+        }
+
+        .roadmap {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section>
+          <div class="slide-shell">
+            <div class="kicker anim">Biweekly Tech Sharing / AI Practice</div>
+            <h1 class="anim">信息逻辑与 AI</h1>
+            <p class="subhead anim">把生活中的交流、协作与决策，都看成一条可以被设计、压缩、传递、校验的信息流。</p>
+            <div class="pill-row anim">
+              <span class="pill accent">核心观点：AI 能力 ≈ 信息组织能力的放大器</span>
+              <span class="pill">适合现场演示</span>
+              <span class="pill">30-40 分钟</span>
+              <span class="pill">主讲人：待填写</span>
+            </div>
+            <div class="quote anim">
+              <p>我们不是在“向 AI 提问”，而是在把问题重构成 AI 可以计算、推理、检验的信息结构。</p>
+            </div>
+            <div class="corner-mark">INFO LOGIC × AI</div>
+          </div>
+          <aside class="notes">
+            开场可以先说：今天不讲模型参数和复杂理论，只讲一个能马上用的视角：所有工作都可以先看成信息问题。
+          </aside>
+        </section>
+
+        <section>
+          <div class="slide-shell">
+            <div class="topline">
+              <div class="kicker anim">Opening</div>
+              <div class="slide-no anim">01 / 14</div>
+            </div>
+            <h2 class="anim">先把问题换一种问法</h2>
+            <div class="cols">
+              <div class="card anim">
+                <span class="big-number">旧问题</span>
+                <h3>“我们怎么更会用 AI？”</h3>
+                <p>容易变成工具清单、提示词模板、概念介绍。听完觉得有用，但回到工作里不一定知道怎么迁移。</p>
+              </div>
+              <div class="card anim">
+                <span class="big-number cyan">新问题</span>
+                <h3>“我们怎么更会组织信息？”</h3>
+                <p>一旦信息被组织好，沟通、写作、决策、复盘、AI 协作都会变得更稳定。</p>
+              </div>
+            </div>
+            <div class="quote anim">
+              <p>AI 不是替代思考；AI 会把你的信息结构，放大成一个结果。</p>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <div class="slide-shell">
+            <div class="topline">
+              <div class="kicker anim">Thesis</div>
+              <div class="slide-no anim">02 / 14</div>
+            </div>
+            <h2 class="anim">生活与工作，本质上都在处理信息</h2>
+            <div class="cols-3">
+              <div class="card anim">
+                <h3>交流</h3>
+                <p>把脑中的意图编码成语言、表情、文档，再让对方解码。</p>
+              </div>
+              <div class="card anim">
+                <h3>协作</h3>
+                <p>把分散的信息同步到同一张地图：目标、状态、风险、责任。</p>
+              </div>
+              <div class="card anim">
+                <h3>决策</h3>
+                <p>在不完整信息下，压缩关键变量，选择行动路径。</p>
+              </div>
+              <div class="card anim">
+                <h3>写作</h3>
+                <p>把模糊想法变成可阅读、可传播、可复用的结构。</p>
+              </div>
+              <div class="card anim">
+                <h3>管理</h3>
+                <p>通过制度、会议、归档和反馈，降低团队的信息损耗。</p>
+              </div>
+              <div class="card anim">
+                <h3>AI 协作</h3>
+                <p>把任务、上下文、标准和反馈输入模型，获得下一步候选方案。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <div class="slide-shell">
+            <div class="topline">
+              <div class="kicker anim">Information Chain</div>
+              <div class="slide-no anim">03 / 14</div>
+            </div>
+            <h2 class="anim">一条信息从“现实”到“行动”的路径</h2>
+            <div class="two-lane">
+              <div class="diagram-panel anim">
+                <svg class="flow-svg" viewBox="0 0 720 360" role="img" aria-label="信息链路图">
+                  <defs>
+                    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                      <path d="M 0 0 L 10 5 L 0 10 z" fill="#f2a65a"></path>
+                    </marker>
+                  </defs>
+                  <path class="flow-line" marker-end="url(#arrow)" d="M 90 88 C 160 45, 230 45, 300 88"></path>
+                  <path class="flow-line" marker-end="url(#arrow)" d="M 420 88 C 490 45, 560 45, 630 88"></path>
+                  <path class="flow-line" marker-end="url(#arrow)" d="M 630 142 C 640 205, 590 246, 520 246"></path>
+                  <path class="flow-line" marker-end="url(#arrow)" d="M 410 246 C 330 300, 235 300, 155 246"></path>
+                  <g class="flow-node">
+                    <rect x="30" y="55" width="120" height="88" rx="18"></rect>
+                    <text x="90" y="92" text-anchor="middle">现实</text>
+                    <text class="small" x="90" y="118" text-anchor="middle">事件 / 需求</text>
+                  </g>
+                  <g class="flow-node">
+                    <rect x="280" y="55" width="140" height="88" rx="18"></rect>
+                    <text x="350" y="92" text-anchor="middle">描述</text>
+                    <text class="small" x="350" y="118" text-anchor="middle">语言 / 文档</text>
+                  </g>
+                  <g class="flow-node">
+                    <rect x="570" y="55" width="120" height="88" rx="18"></rect>
+                    <text x="630" y="92" text-anchor="middle">模型</text>
+                    <text class="small" x="630" y="118" text-anchor="middle">人脑 / AI</text>
+                  </g>
+                  <g class="flow-node">
+                    <rect x="450" y="212" width="140" height="88" rx="18"></rect>
+                    <text x="520" y="249" text-anchor="middle">答案</text>
+                    <text class="small" x="520" y="275" text-anchor="middle">候选方案</text>
+                  </g>
+                  <g class="flow-node">
+                    <rect x="80" y="212" width="150" height="88" rx="18"></rect>
+                    <text x="155" y="249" text-anchor="middle">行动</text>
+                    <text class="small" x="155" y="275" text-anchor="middle">执行 / 反馈</text>
+                  </g>
+                </svg>
+              </div>
+              <div class="anim">
+                <div class="card compact">
+                  <h3>关键不是“有没有信息”</h3>
+                  <p>而是信息在每一环是否发生了损耗、误解、缺口和偏差。</p>
+                </div>
+                <div class="card compact" style="margin-top: 16px;">
+                  <h3>AI 介入的位置</h3>
+                  <p>AI 通常不直接接触现实，它接触的是你给它的描述。所以描述质量就是协作质量。</p>
+                </div>
+                <div class="pill-row">
+                  <span class="pill accent">描述越清楚</span>
+                  <span class="pill">推理越稳定</span>
+                  <span class="pill">反馈越快</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <div class="slide-shell">
+            <div class="topline">
+              <div class="kicker anim">LLM Mechanics</div>
+              <div class="slide-no anim">04 / 14</div>
+            </div>
+            <h2 class="anim">大语言模型：基于上下文的概率推理</h2>
+            <p class="subhead anim">不用把它神秘化。可以先把它理解为：在当前上下文里，持续预测“接下来最可能出现什么”。</p>
+            <div class="token-stream anim">
+              <span class="token">请</span>
+              <span class="token">帮我</span>
+              <span class="token">写</span>
+              <span class="token">一份</span>
+              <span class="token">双周分享会</span>
+              <span class="token">通知</span>
+              <span class="token cyan">→</span>
+              <span class="token">下一词？</span>
+            </div>
+            <div class="prob-list anim" aria-label="概率分布示意">
+              <div class="prob-row">
+                <span>“各位同事”</span>
+                <div class="bar-bg"><div class="bar" data-width="86%"></div></div>
+                <span>0.86</span>
+              </div>
+              <div class="prob-row">
+                <span>“尊敬的”</span>
+                <div class="bar-bg"><div class="bar" data-width="54%"></div></div>
+                <span>0.54</span>
+              </div>
+              <div class="prob-row">
+                <span>“会议纪要”</span>
+                <div class="bar-bg"><div class="bar" data-width="18%"></div></div>
+                <span>0.18</span>
+              </div>
+              <div class="prob-row">
+                <span>“香蕉”</span>
+                <div class="bar-bg"><div class="bar" data-width="4%"></div></div>
+                <span>0.04</span>
+              </div>
+            </div>
+            <p class="micro anim">注：数字只是演示用，不代表真实模型输出概率。</p>
+          </div>
+        </section>
+
+        <section>
+          <div class="slide-shell">
+            <div class="topline">
+              <div class="kicker anim">Why Prompt Matters</div>
+              <div class="slide-no anim">05 / 14</div>
+            </div>
+            <h2 class="anim">提示词不是咒语，是信息设计</h2>
+            <div class="matrix">
+              <div class="matrix-cell anim">
+                <h3><span class="red">01</span> 目标模糊</h3>
+                <p>“帮我优化一下”没有说明优化方向：更短、更正式、更有转化，还是更适合老板看？</p>
+              </div>
+              <div class="matrix-cell anim">
+                <h3><span class="red">02</span> 上下文缺失</h3>
+                <p>模型不知道受众、场景、限制、历史背景，就只能按最常见情况补全。</p>
+              </div>
+              <div class="matrix-cell anim">
+                <h3><span class="red">03</span> 标准不清</h3>
+                <p>没有评价标准，AI 很难知道什么叫“好”，人也很难判断输出是否可用。</p>
+              </div>
+              <div class="matrix-cell anim">
+                <h3><span class="red">04</span> 反馈稀疏</h3>
+                <p>只说“不对”，没有指出哪里不对，下一轮也只能随机试探。</p>
+              </div>
+            </div>
+            <div class="quote anim">
+              <p>多数 AI 失败，不是 AI 完全不行，而是输入信息没有形成闭环。</p>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <div class="slide-shell">
+            <div class="topline">
+              <div class="kicker anim">Practical Framework</div>
+              <div class="slide-no anim">06 / 14</div>
+            </div>
+            <h2 class="anim">把问题变成结构：7 个信息槽</h2>
+            <p class="subhead anim">这不是固定模板，而是一套检查清单。越复杂的任务，越需要把这些槽补齐。</p>
+            <div class="formula anim">
+              <div class="formula-step">
+                <b>目标</b>
+                <span>我要达成什么结果？</span>
+              </div>
+              <div class="formula-step">
+                <b>角色</b>
+                <span>AI 应该站在哪个视角？</span>
+              </div>
+              <div class="formula-step">
+                <b>上下文</b>
+                <span>背景、受众、现状是什么？</span>
+              </div>
+              <div class="formula-step">
+                <b>约束</b>
+                <span>时间、语气、格式、禁区。</span>
+              </div>
+              <div class="formula-step">
+                <b>样例</b>
+                <span>参考风格或反例。</span>
+              </div>
+              <div class="formula-step">
+                <b>标准</b>
+                <span>怎么判断输出好不好？</span>
+              </div>
+              <div class="formula-step">
+                <b>反馈</b>
+                <span>根据结果继续修正。</span>
+              </div>
+            </div>
+            <div class="pill-row anim">
+              <span class="pill accent">目标</span>
+              <span class="pill">角色</span>
+              <span class="pill">上下文</span>
+              <span class="pill">约束</span>
+              <span class="pill">样例</span>
+              <span class="pill">标准</span>
+              <span class="pill">反馈</span>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <div class="slide-shell">
+            <div class="topline">
+              <div class="kicker anim">Live Demo</div>
+              <div class="slide-no anim">07 / 14</div>
+            </div>
+            <h2 class="anim">现场演示：同一个任务，信息密度不同</h2>
+            <div class="prompt-demo anim">
+              <div class="demo-box">
+                <h3>输入给 AI 的信息</h3>
+                <div class="demo-switch" aria-label="切换提示词版本">
+                  <button type="button" class="active" data-prompt-mode="weak">弱提示</button>
+                  <button type="button" data-prompt-mode="strong">结构化提示</button>
+                </div>
+                <pre id="promptText">帮我写一个双周分享会通知。</pre>
+              </div>
+              <div class="demo-box">
+                <h3>输出质量变化</h3>
+                <pre id="outputText">可能得到一份“看起来没问题”的通用通知，但主题亮点、报名引导、语气和公司机制都不稳定。</pre>
+                <div class="score-grid">
+                  <div class="score"><b id="s1">42</b><span>目标清晰</span></div>
+                  <div class="score"><b id="s2">30</b><span>上下文</span></div>
+                  <div class="score"><b id="s3">35</b><span>可执行</span></div>
+                  <div class="score"><b id="s4">28</b><span>可复用</span></div>
+                </div>
+              </div>
+            </div>
+            <p class="micro anim">演示建议：先现场问一个弱提示，再把结构化提示粘进去，对比输出差异。</p>
+          </div>
+        </section>
+
+        <section>
+          <div class="slide-shell">
+            <div class="topline">
+              <div class="kicker anim">Case</div>
+              <div class="slide-no anim">08 / 14</div>
+            </div>
+            <h2 class="anim">案例：双周分享会本身就是一个信息系统</h2>
+            <div class="roadmap anim">
+              <div class="road-item">
+                <span class="dot"></span>
+                <h3>通知</h3>
+                <p>把时间、地点、主题、主讲人提前编码清楚。</p>
+              </div>
+              <div class="road-item">
+                <span class="dot"></span>
+                <h3>征集</h3>
+                <p>同步收集下一期报名，让内容不断档。</p>
+              </div>
+              <div class="road-item">
+                <span class="dot"></span>
+                <h3>候选池</h3>
+                <p>把临时热情变成可排期的内容储备。</p>
+              </div>
+              <div class="road-item">
+                <span class="dot"></span>
+                <h3>现场</h3>
+                <p>通过演示与提问，让知识从抽象变成可感知。</p>
+              </div>
+              <div class="road-item">
+                <span class="dot"></span>
+                <h3>归档</h3>
+                <p>把一次分享沉淀成可复用资料，而不是一次性事件。</p>
+              </div>
+            </div>
+            <div class="quote anim">
+              <p>机制设计的本质：减少信息断点，让下一次行动更容易发生。</p>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <div class="slide-shell">
+            <div class="topline">
+              <div class="kicker anim">AI In Workflow</div>
+              <div class="slide-no anim">09 / 14</div>
+            </div>
+            <h2 class="anim">AI 最适合放在“信息半成品”环节</h2>
+            <div class="cols">
+              <div class="card anim">
+                <h3>从零生成，风险最高</h3>
+                <p>没有目标和标准时，AI 会生成“顺滑但不一定正确”的文本。越像成品，越容易让人放松校验。</p>
+              </div>
+              <div class="card anim">
+                <h3>半成品加工，收益最高</h3>
+                <p>你给出原始材料、判断标准和限制，AI 负责整理、改写、扩展、对比、生成备选。</p>
+              </div>
+            </div>
+            <div class="cols-3">
+              <div class="card compact anim">
+                <h3>整理</h3>
+                <p>会议记录 → 行动项 / 风险 / 待确认。</p>
+              </div>
+              <div class="card compact anim">
+                <h3>改写</h3>
+                <p>口语想法 → 通知 / 邮件 / 汇报。</p>
+              </div>
+              <div class="card compact anim">
+                <h3>校验</h3>
+                <p>方案草稿 → 漏洞 / 反例 / 追问。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <div class="slide-shell">
+            <div class="topline">
+              <div class="kicker anim">Work Patterns</div>
+              <div class="slide-no anim">10 / 14</div>
+            </div>
+            <h2 class="anim">三个可以马上复制的工作流</h2>
+            <div class="cols-3">
+              <div class="card anim">
+                <span class="big-number">01</span>
+                <h3>会议后 10 分钟</h3>
+                <p>把原始纪要丢给 AI，输出“结论、行动项、负责人、截止时间、待确认问题”。</p>
+              </div>
+              <div class="card anim">
+                <span class="big-number cyan">02</span>
+                <h3>写作前 5 分钟</h3>
+                <p>先让 AI 追问目标、受众、语气、结构，再开始写，避免返工。</p>
+              </div>
+              <div class="card anim">
+                <span class="big-number green">03</span>
+                <h3>交付前 8 分钟</h3>
+                <p>让 AI 从“挑错者”视角检查遗漏、歧义、风险、下一步是否明确。</p>
+              </div>
+            </div>
+            <div class="quote anim">
+              <p>不要把 AI 当答案机器；把它当信息整理、结构检查和快速反馈的协作者。</p>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <div class="slide-shell">
+            <div class="topline">
+              <div class="kicker anim">Mental Model</div>
+              <div class="slide-no anim">11 / 14</div>
+            </div>
+            <h2 class="anim">人与 AI 协作的新分工</h2>
+            <div class="two-lane">
+              <div class="card anim">
+                <h3>人更应该负责</h3>
+                <div class="checklist">
+                  <div class="check">
+                    <i>✓</i>
+                    <p><strong>真实目标</strong>：为什么要做，做到什么程度算完成。</p>
+                  </div>
+                  <div class="check">
+                    <i>✓</i>
+                    <p><strong>边界判断</strong>：哪些信息可靠，哪些结论不能直接用。</p>
+                  </div>
+                  <div class="check">
+                    <i>✓</i>
+                    <p><strong>最终取舍</strong>：在业务、人、时间和风险之间做选择。</p>
+                  </div>
+                </div>
+              </div>
+              <div class="card anim">
+                <h3>AI 更适合负责</h3>
+                <div class="checklist">
+                  <div class="check">
+                    <i>✓</i>
+                    <p><strong>信息重组</strong>：摘要、归类、改写、格式化。</p>
+                  </div>
+                  <div class="check">
+                    <i>✓</i>
+                    <p><strong>方案发散</strong>：快速给出多个角度与备选路径。</p>
+                  </div>
+                  <div class="check">
+                    <i>✓</i>
+                    <p><strong>模拟反馈</strong>：从用户、老板、同事、风险视角提问。</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <div class="slide-shell">
+            <div class="topline">
+              <div class="kicker anim">Anti-patterns</div>
+              <div class="slide-no anim">12 / 14</div>
+            </div>
+            <h2 class="anim">四个常见误区</h2>
+            <div class="matrix">
+              <div class="matrix-cell anim">
+                <h3><span class="red">×</span> 把 AI 当搜索引擎</h3>
+                <p>搜索是找已有信息；AI 更擅长在上下文中重组和生成候选表达。</p>
+              </div>
+              <div class="matrix-cell anim">
+                <h3><span class="red">×</span> 一次提示就要最终答案</h3>
+                <p>高质量结果通常来自多轮反馈：先结构、再内容、再语气、再校验。</p>
+              </div>
+              <div class="matrix-cell anim">
+                <h3><span class="red">×</span> 只收藏提示词</h3>
+                <p>提示词会过期，信息结构更通用：目标、上下文、约束、标准、反馈。</p>
+              </div>
+              <div class="matrix-cell anim">
+                <h3><span class="red">×</span> 不做人工验收</h3>
+                <p>AI 可能顺滑地错。越重要的输出，越需要事实校验、逻辑校验和责任人确认。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <div class="slide-shell">
+            <div class="topline">
+              <div class="kicker anim">Takeaways</div>
+              <div class="slide-no anim">13 / 14</div>
+            </div>
+            <h2 class="anim">今天带走三句话</h2>
+            <div class="cols-3">
+              <div class="card anim">
+                <span class="big-number">1</span>
+                <h3>一切工作先看成信息流</h3>
+                <p>找到信息从哪里来、在哪里损耗、最终要驱动什么行动。</p>
+              </div>
+              <div class="card anim">
+                <span class="big-number cyan">2</span>
+                <h3>AI 输出取决于上下文概率</h3>
+                <p>你给的信息越明确，模型越容易沿着正确方向生成。</p>
+              </div>
+              <div class="card anim">
+                <span class="big-number green">3</span>
+                <h3>提示词背后是信息逻辑</h3>
+                <p>真正可复用的不是某句提示词，而是组织问题的方式。</p>
+              </div>
+            </div>
+            <div class="quote anim">
+              <p>AI 会放大信息质量：清楚的问题，得到可用的候选；混乱的问题，得到顺滑的混乱。</p>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <div class="slide-shell">
+            <div class="topline">
+              <div class="kicker anim">Discussion</div>
+              <div class="slide-no anim">14 / 14</div>
+            </div>
+            <h2 class="anim">现场讨论：把你的一个工作问题信息化</h2>
+            <div class="cols">
+              <div class="card anim">
+                <h3>练习 1：改造一个真实提示</h3>
+                <p>拿一个你最近问过 AI 的问题，用“目标、角色、上下文、约束、样例、标准、反馈”补齐。</p>
+              </div>
+              <div class="card anim">
+                <h3>练习 2：找一个信息断点</h3>
+                <p>在你所在岗位中，哪个环节最常因为信息不清导致返工？通知、交接、需求、复盘，还是归档？</p>
+              </div>
+            </div>
+            <h1 class="closing-title anim">Q&A</h1>
+            <p class="subhead anim">如果只能记住一句话：先设计信息，再使用 AI。</p>
+            <div class="corner-mark">END</div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
+    <script>
+      const promptModes = {
+        weak: {
+          prompt: "帮我写一个双周分享会通知。",
+          output:
+            "可能得到一份“看起来没问题”的通用通知，但主题亮点、报名引导、语气和公司机制都不稳定。",
+          scores: [42, 30, 35, 28],
+        },
+        strong: {
+          prompt:
+            "你是公司人力资源部同事。请为明天下午的“双周分享会”写一份群通知。\n\n背景：公司希望建立固定技术交流节奏，每两周一次。本期主题是“信息逻辑与 AI”，主讲人会用实际案例说明如何把工作问题整理成 AI 可处理的信息结构。\n\n要求：\n1. 语气专业但轻松；\n2. 控制在 220 字以内；\n3. 必须包含时间、地点、主题、主讲人占位符；\n4. 结尾同步征集下一期分享人；\n5. 输出为可直接发群的版本。",
+          output:
+            "输出会更接近可直接使用的通知：信息完整、语气稳定、行动明确，并且自动带上下一期报名引导。",
+          scores: [92, 88, 86, 82],
+        },
+      };
+
+      function animateNumber(el, nextValue) {
+        if (!window.gsap) {
+          el.textContent = nextValue;
+          return;
+        }
+        const state = { value: Number(el.textContent) || 0 };
+        gsap.to(state, {
+          value: nextValue,
+          duration: 0.55,
+          ease: "power2.out",
+          onUpdate: () => {
+            el.textContent = Math.round(state.value);
+          },
+        });
+      }
+
+      function setPromptMode(mode) {
+        const data = promptModes[mode];
+        if (!data) return;
+
+        document.querySelectorAll("[data-prompt-mode]").forEach((button) => {
+          button.classList.toggle("active", button.dataset.promptMode === mode);
+        });
+
+        const promptText = document.getElementById("promptText");
+        const outputText = document.getElementById("outputText");
+        if (promptText) promptText.textContent = data.prompt;
+        if (outputText) outputText.textContent = data.output;
+
+        ["s1", "s2", "s3", "s4"].forEach((id, index) => {
+          const el = document.getElementById(id);
+          if (el) animateNumber(el, data.scores[index]);
+        });
+
+        if (window.gsap) {
+          gsap.fromTo([promptText, outputText], { opacity: 0.35, y: 8 }, { opacity: 1, y: 0, duration: 0.35, ease: "power2.out" });
+        }
+      }
+
+      function animateSlide(slide) {
+        if (!slide || !window.gsap) return;
+
+        const items = slide.querySelectorAll(".anim");
+        gsap.killTweensOf(items);
+        gsap.fromTo(
+          items,
+          { opacity: 0, y: 24, filter: "blur(8px)" },
+          {
+            opacity: 1,
+            y: 0,
+            filter: "blur(0px)",
+            duration: 0.72,
+            stagger: 0.07,
+            ease: "power3.out",
+          }
+        );
+
+        const lines = slide.querySelectorAll(".flow-line");
+        lines.forEach((line, index) => {
+          const length = line.getTotalLength ? line.getTotalLength() : 0;
+          if (!length) return;
+          gsap.set(line, { strokeDasharray: length, strokeDashoffset: length });
+          gsap.to(line, {
+            strokeDashoffset: 0,
+            duration: 0.95,
+            delay: 0.25 + index * 0.18,
+            ease: "power2.out",
+          });
+        });
+
+        const bars = slide.querySelectorAll(".bar");
+        bars.forEach((bar, index) => {
+          gsap.fromTo(
+            bar,
+            { width: "0%" },
+            {
+              width: bar.dataset.width || "50%",
+              duration: 0.8,
+              delay: 0.2 + index * 0.08,
+              ease: "power3.out",
+            }
+          );
+        });
+
+        const dots = slide.querySelectorAll(".dot");
+        if (dots.length) {
+          gsap.fromTo(
+            dots,
+            { scale: 0.4, opacity: 0 },
+            { scale: 1, opacity: 1, duration: 0.55, stagger: 0.12, ease: "back.out(1.8)" }
+          );
+        }
+      }
+
+      document.querySelectorAll("[data-prompt-mode]").forEach((button) => {
+        button.addEventListener("click", () => setPromptMode(button.dataset.promptMode));
+      });
+
+      if (window.Reveal) {
+        Reveal.initialize({
+          hash: true,
+          controls: true,
+          progress: true,
+          center: true,
+          width: 1280,
+          height: 720,
+          margin: 0.035,
+          transition: "fade",
+          backgroundTransition: "fade",
+          keyboard: true,
+          touch: true,
+          slideNumber: false,
+        });
+
+        Reveal.on("ready", (event) => animateSlide(event.currentSlide));
+        Reveal.on("slidechanged", (event) => animateSlide(event.currentSlide));
+      } else {
+        document.body.classList.add("no-reveal");
+      }
+    </script>
+  </body>
+</html>

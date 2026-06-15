@@ -1,0 +1,1769 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>信息逻辑与 AI｜锚点动画分享稿</title>
+    <link rel="stylesheet" href="./vendor/swiper-bundle.min.css" />
+    <script>
+      document.documentElement.classList.add("js");
+    </script>
+    <style>
+      :root {
+        --paper: #14021d;
+        --paper-2: #050207;
+        --ink: #f5effa;
+        --heading: #faf7ff;
+        --body: #ddd3e8;
+        --muted: #b6a8c4;
+        --faint: #8b7a9b;
+        --line: rgba(255, 255, 255, 0.13);
+        --line-strong: rgba(255, 255, 255, 0.24);
+        --accent: #b66cff;
+        --blue: #7c8cff;
+        --green: #6ee7b7;
+        --red: #ff7a90;
+        --violet: #7030a0;
+        --shadow: 0 30px 100px rgba(0, 0, 0, 0.32);
+        --font-title: "Songti SC", "Hiragino Mincho ProN", "Source Han Serif SC", "Noto Serif CJK SC", "STSong", serif;
+        --font-body: "PingFang SC", "Hiragino Sans GB", "Source Han Sans SC", "Noto Sans CJK SC", "Microsoft YaHei", system-ui, sans-serif;
+        --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        color: var(--ink);
+        background:
+          radial-gradient(circle at 14% 16%, rgba(183, 108, 255, 0.34), transparent 30rem),
+          radial-gradient(circle at 86% 18%, rgba(112, 48, 160, 0.36), transparent 32rem),
+          radial-gradient(circle at 68% 86%, rgba(124, 140, 255, 0.12), transparent 30rem),
+          linear-gradient(90deg, #7030a0 0%, #2a0b3a 43%, #030205 100%);
+        font-family: var(--font-body);
+        font-weight: 400;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        opacity: 0.18;
+        background-image:
+          linear-gradient(var(--line) 1px, transparent 1px),
+          linear-gradient(90deg, var(--line) 1px, transparent 1px);
+        background-size: 58px 58px;
+        mask-image: linear-gradient(180deg, #000 0%, transparent 80%);
+      }
+
+      .hero-watermark {
+        position: fixed;
+        top: 50%;
+        right: -15vw;
+        z-index: 0;
+        width: min(72vw, 980px);
+        max-width: none;
+        pointer-events: none;
+        opacity: 0.22;
+        transform: translateY(-48%);
+        filter:
+          drop-shadow(0 0 1px rgba(255, 255, 255, 0.95))
+          drop-shadow(0 0 8px rgba(195, 137, 255, 0.34))
+          drop-shadow(0 0 18px rgba(181, 107, 255, 0.2));
+        animation: watermarkPulse 7.5s ease-in-out infinite;
+      }
+
+      @keyframes watermarkPulse {
+        0%,
+        100% {
+          opacity: 0.18;
+          transform: translateY(-48%) scale(0.99);
+          filter:
+            drop-shadow(0 0 1px rgba(255, 255, 255, 0.9))
+            drop-shadow(0 0 7px rgba(195, 137, 255, 0.24))
+            drop-shadow(0 0 14px rgba(181, 107, 255, 0.16));
+        }
+
+        50% {
+          opacity: 0.26;
+          transform: translateY(-48%) scale(1.015);
+          filter:
+            drop-shadow(0 0 1px rgba(255, 255, 255, 1))
+            drop-shadow(0 0 10px rgba(195, 137, 255, 0.4))
+            drop-shadow(0 0 24px rgba(181, 107, 255, 0.24));
+        }
+      }
+
+      ::selection {
+        color: #fff;
+        background: var(--accent);
+      }
+
+      .topbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 40;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 22px clamp(24px, 5vw, 70px);
+        pointer-events: none;
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        color: rgba(255, 255, 255, 0.82);
+        font-size: 13px;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+      }
+
+      .brand {
+        gap: 12px;
+        font-size: 15px;
+        letter-spacing: 0.04em;
+        text-transform: none;
+      }
+
+      .brand-logo {
+        width: 30px;
+        height: 30px;
+        object-fit: contain;
+        filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.28));
+      }
+
+      .brand-name {
+        display: inline-flex;
+        align-items: baseline;
+        gap: 10px;
+      }
+
+      .brand-cn {
+        font-weight: 760;
+      }
+
+      .brand-en {
+        color: rgba(255, 255, 255, 0.56);
+        font-size: 12px;
+        font-weight: 680;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .swiper {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        height: 100%;
+      }
+
+      .swiper-slide {
+        position: relative;
+        height: 100vh;
+        overflow: hidden;
+        opacity: 0.18;
+        transition: opacity 0.65s ease;
+      }
+
+      .swiper-slide-active {
+        opacity: 1;
+      }
+
+      .stage {
+        display: grid;
+        align-content: center;
+        width: min(1180px, calc(100vw - 120px));
+        min-height: 100vh;
+        margin: 0 auto;
+        padding: 96px 0 72px;
+      }
+
+      .stage.wide {
+        width: min(1280px, calc(100vw - 120px));
+      }
+
+      .js .stage,
+      .js [data-animate] {
+        opacity: 0;
+        transform: translateY(48px);
+        filter: blur(14px);
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 24px;
+        color: var(--accent);
+        font-size: clamp(12px, 1.1vw, 15px);
+        font-weight: 850;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+      }
+
+      .eyebrow::before {
+        content: "";
+        width: 42px;
+        height: 1px;
+        background: currentColor;
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin: 0;
+      }
+
+      h1 {
+        max-width: 1060px;
+        color: var(--heading);
+        font-family: var(--font-title);
+        font-size: clamp(56px, 6.4vw, 96px);
+        line-height: 1.02;
+        letter-spacing: -0.035em;
+        font-weight: 480;
+        white-space: nowrap;
+      }
+
+      h2 {
+        max-width: 1060px;
+        color: var(--heading);
+        font-family: var(--font-title);
+        font-size: clamp(42px, 4.8vw, 70px);
+        line-height: 1.08;
+        letter-spacing: -0.028em;
+        font-weight: 460;
+        white-space: nowrap;
+      }
+
+      [data-title-trigger] {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        width: fit-content;
+        cursor: pointer;
+        outline: none;
+        transition:
+          color 0.24s ease,
+          transform 0.24s ease;
+      }
+
+      [data-title-trigger]:hover {
+        color: var(--accent);
+        transform: translateX(2px);
+      }
+
+      [data-title-trigger]:focus-visible {
+        box-shadow: 0 0 0 4px rgba(198, 106, 29, 0.14);
+        border-radius: 16px;
+      }
+
+      h3 {
+        color: var(--heading);
+        font-family: var(--font-body);
+        font-size: clamp(20px, 2.1vw, 30px);
+        line-height: 1.28;
+        letter-spacing: -0.02em;
+        font-weight: 610;
+      }
+
+      .lead {
+        max-width: 820px;
+        margin-top: 28px;
+        color: var(--body);
+        font-size: clamp(20px, 2.05vw, 30px);
+        line-height: 1.62;
+        letter-spacing: -0.012em;
+        font-weight: 380;
+      }
+
+      [data-detail] {
+        display: none;
+        opacity: 0;
+      }
+
+      .swiper-slide.is-expanded [data-detail] {
+        display: block;
+      }
+
+      .swiper-slide.is-expanded .grid-2[data-detail],
+      .swiper-slide.is-expanded .grid-3[data-detail],
+      .swiper-slide.is-expanded .fallacy-grid[data-detail],
+      .swiper-slide.is-expanded .work-grid[data-detail],
+      .swiper-slide.is-expanded .formula[data-detail],
+      .swiper-slide.is-expanded .timeline[data-detail],
+      .swiper-slide.is-expanded .logic-table[data-detail],
+      .swiper-slide.is-expanded .rewrite[data-detail],
+      .swiper-slide.is-expanded .demo[data-detail],
+      .swiper-slide.is-expanded .meta-list[data-detail] {
+        display: grid;
+      }
+
+      .swiper-slide.is-expanded .chips[data-detail] {
+        display: flex;
+      }
+
+      .swiper-slide:not(.is-expanded) .stage.split,
+      .swiper-slide:not(.is-expanded) .stage.split.reverse,
+      .swiper-slide:not(.is-expanded) .stage.hero-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .swiper-slide:not(.is-expanded) .stage {
+        width: min(980px, calc(100vw - 120px));
+      }
+
+      .accent {
+        color: var(--accent);
+      }
+
+      .blue {
+        color: var(--blue);
+      }
+
+      .green {
+        color: var(--green);
+      }
+
+      .red {
+        color: var(--red);
+      }
+
+      .muted {
+        color: var(--muted);
+      }
+
+      .small {
+        color: var(--faint);
+        font-size: 14px;
+        line-height: 1.7;
+      }
+
+      .split {
+        display: grid;
+        grid-template-columns: minmax(0, 0.95fr) minmax(360px, 1.05fr);
+        gap: clamp(36px, 6vw, 86px);
+        align-items: center;
+      }
+
+      .split.reverse {
+        grid-template-columns: minmax(380px, 1.05fr) minmax(0, 0.95fr);
+      }
+
+      .panel {
+        position: relative;
+        padding: clamp(26px, 3vw, 40px);
+        border: 1px solid var(--line);
+        border-radius: 34px;
+        background: rgba(255, 255, 255, 0.075);
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(18px);
+      }
+
+      .quote {
+        max-width: 1000px;
+        padding-left: 28px;
+        border-left: 3px solid var(--accent);
+        color: var(--heading);
+        font-family: var(--font-title);
+        font-size: clamp(27px, 3.2vw, 48px);
+        line-height: 1.44;
+        letter-spacing: -0.025em;
+        font-weight: 520;
+      }
+
+      .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 32px;
+      }
+
+      .chip {
+        display: inline-flex;
+        align-items: center;
+        min-height: 34px;
+        padding: 0 13px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        color: var(--muted);
+        background: rgba(255, 255, 255, 0.075);
+        font-size: 14px;
+        font-weight: 780;
+      }
+
+      .hero-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.72fr);
+        gap: clamp(36px, 6vw, 84px);
+        align-items: center;
+      }
+
+      .orbit {
+        position: relative;
+        min-height: 520px;
+        border-left: 1px solid var(--line-strong);
+      }
+
+      .orbit-ring {
+        position: absolute;
+        left: 10%;
+        top: 50%;
+        width: min(34vw, 430px);
+        aspect-ratio: 1;
+        transform: translateY(-50%);
+        border: 1px solid var(--line);
+        border-radius: 50%;
+      }
+
+      .orbit-ring::before,
+      .orbit-ring::after {
+        content: "";
+        position: absolute;
+        inset: 13%;
+        border: 1px solid var(--line);
+        border-radius: inherit;
+      }
+
+      .orbit-ring::after {
+        inset: 31%;
+        background: rgba(255, 255, 255, 0.08);
+      }
+
+      .signal-dot {
+        position: absolute;
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: var(--accent);
+        box-shadow: 0 0 0 9px rgba(198, 106, 29, 0.13);
+      }
+
+      .signal-dot:nth-child(1) {
+        left: 58%;
+        top: 6%;
+      }
+
+      .signal-dot:nth-child(2) {
+        left: 86%;
+        top: 47%;
+        background: var(--blue);
+        box-shadow: 0 0 0 9px rgba(37, 93, 232, 0.1);
+      }
+
+      .signal-dot:nth-child(3) {
+        left: 24%;
+        top: 80%;
+        background: var(--green);
+        box-shadow: 0 0 0 9px rgba(8, 127, 91, 0.12);
+      }
+
+      .meta-list {
+        display: grid;
+        gap: 14px;
+        margin-top: 36px;
+        max-width: 760px;
+      }
+
+      .meta-item {
+        display: grid;
+        grid-template-columns: 92px 1fr;
+        gap: 18px;
+        padding: 16px 0;
+        border-top: 1px solid var(--line);
+      }
+
+      .meta-item b {
+        color: var(--ink);
+        font-size: 14px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .meta-item span {
+        color: var(--muted);
+        font-size: clamp(16px, 1.4vw, 20px);
+        line-height: 1.6;
+      }
+
+      .flow-grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 10px;
+        align-items: center;
+      }
+
+      .flow-node {
+        min-height: 126px;
+        padding: 18px 14px;
+        border: 1px solid var(--line);
+        border-radius: 24px;
+        background: rgba(255, 255, 255, 0.075);
+      }
+
+      .flow-node strong {
+        display: block;
+        margin-bottom: 10px;
+        font-size: 18px;
+      }
+
+      .flow-node span {
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.55;
+      }
+
+      .flow-arrow {
+        align-self: center;
+        justify-self: center;
+        color: var(--accent);
+        font-size: 28px;
+        font-weight: 900;
+      }
+
+      .grid-2,
+      .fallacy-grid,
+      .work-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+      }
+
+      .grid-3 {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+      }
+
+      .mini-card,
+      .fallacy-card {
+        min-height: 160px;
+        padding: 24px;
+        border-top: 1px solid var(--line-strong);
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.105), rgba(255, 255, 255, 0));
+      }
+
+      .mini-card .num,
+      .fallacy-card .tag {
+        display: block;
+        margin-bottom: 16px;
+        color: var(--accent);
+        font-size: 13px;
+        font-weight: 850;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+      }
+
+      .mini-card p,
+      .fallacy-card p {
+        margin-top: 10px;
+        color: var(--muted);
+        font-size: 16px;
+        line-height: 1.65;
+      }
+
+      .fallacy-card {
+        min-height: 190px;
+      }
+
+      .fallacy-card blockquote {
+        margin: 0;
+        color: var(--heading);
+        font-family: var(--font-title);
+        font-size: 24px;
+        line-height: 1.42;
+        letter-spacing: -0.018em;
+        font-weight: 540;
+      }
+
+      .logic-table {
+        display: grid;
+        gap: 12px;
+        margin-top: 32px;
+      }
+
+      .logic-row {
+        display: grid;
+        grid-template-columns: minmax(220px, 0.7fr) minmax(0, 1fr) minmax(0, 1fr);
+        gap: 14px;
+        align-items: stretch;
+      }
+
+      .logic-row > div {
+        padding: 18px 20px;
+        border: 1px solid var(--line);
+        border-radius: 22px;
+        background: rgba(255, 255, 255, 0.075);
+      }
+
+      .logic-row.header > div {
+        color: var(--faint);
+        background: transparent;
+        border: 0;
+        border-bottom: 1px solid var(--line-strong);
+        border-radius: 0;
+        font-size: 13px;
+        font-weight: 850;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .logic-row b {
+        display: block;
+        margin-bottom: 8px;
+        color: var(--heading);
+        font-family: var(--font-title);
+        font-size: 19px;
+        letter-spacing: -0.012em;
+        font-weight: 540;
+      }
+
+      .logic-row span {
+        color: var(--muted);
+        font-size: 15px;
+        line-height: 1.55;
+      }
+
+      .rewrite {
+        display: grid;
+        gap: 14px;
+        margin-top: 34px;
+      }
+
+      .rewrite-row {
+        display: grid;
+        grid-template-columns: minmax(260px, 0.86fr) 42px minmax(0, 1fr);
+        gap: 14px;
+        align-items: center;
+      }
+
+      .rewrite-cell {
+        padding: 22px;
+        border: 1px solid var(--line);
+        border-radius: 24px;
+        background: rgba(255, 255, 255, 0.075);
+      }
+
+      .rewrite-cell.bad {
+        border-color: rgba(255, 122, 144, 0.34);
+      }
+
+      .rewrite-cell.good {
+        border-color: rgba(110, 231, 183, 0.34);
+      }
+
+      .rewrite-cell b {
+        display: block;
+        margin-bottom: 9px;
+        color: var(--faint);
+        font-size: 12px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .rewrite-cell span {
+        color: var(--heading);
+        font-family: var(--font-title);
+        font-size: 19px;
+        line-height: 1.48;
+        font-weight: 540;
+      }
+
+      .arrow-mid {
+        color: var(--accent);
+        font-size: 28px;
+        font-weight: 900;
+        text-align: center;
+      }
+
+      .token-line {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 34px;
+      }
+
+      .token {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 42px;
+        padding: 0 14px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.09);
+        color: var(--ink);
+        font-size: 17px;
+        font-weight: 800;
+      }
+
+      .token.next {
+        color: #12041a;
+        background: var(--ink);
+      }
+
+      .prob {
+        display: grid;
+        gap: 15px;
+        margin-top: 30px;
+      }
+
+      .prob-row {
+        display: grid;
+        grid-template-columns: 132px 1fr 58px;
+        gap: 14px;
+        align-items: center;
+        color: var(--muted);
+        font-size: 15px;
+        font-weight: 750;
+      }
+
+      .prob-track {
+        height: 12px;
+        overflow: hidden;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      .prob-bar {
+        width: 0;
+        height: 100%;
+        border-radius: inherit;
+        background: linear-gradient(90deg, var(--blue), var(--accent));
+      }
+
+      .formula {
+        display: grid;
+        grid-template-columns: repeat(7, minmax(0, 1fr));
+        gap: 10px;
+        margin-top: 42px;
+      }
+
+      .slot {
+        position: relative;
+        min-height: 148px;
+        padding: 18px 14px;
+        border-top: 2px solid var(--ink);
+      }
+
+      .slot::after {
+        content: "→";
+        position: absolute;
+        right: -11px;
+        top: 20px;
+        color: var(--accent);
+        font-weight: 900;
+      }
+
+      .slot:last-child::after {
+        display: none;
+      }
+
+      .slot b {
+        display: block;
+        margin-bottom: 11px;
+        font-size: 20px;
+        letter-spacing: -0.03em;
+      }
+
+      .slot span {
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.55;
+      }
+
+      .demo {
+        display: grid;
+        grid-template-columns: minmax(340px, 0.9fr) minmax(0, 1.1fr);
+        gap: 18px;
+        margin-top: 34px;
+      }
+
+      .demo-box {
+        min-height: 360px;
+        padding: 26px;
+        border: 1px solid var(--line);
+        border-radius: 30px;
+        background: rgba(255, 255, 255, 0.075);
+      }
+
+      .demo-switch {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 22px;
+      }
+
+      .demo-switch button {
+        cursor: pointer;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        padding: 10px 14px;
+        background: transparent;
+        color: var(--muted);
+        font: inherit;
+        font-size: 14px;
+        font-weight: 850;
+      }
+
+      .demo-switch button.active {
+        border-color: var(--ink);
+        color: #12041a;
+        background: var(--ink);
+      }
+
+      pre {
+        margin: 0;
+        white-space: pre-wrap;
+        word-break: break-word;
+        color: var(--ink);
+        font-family: var(--font-mono);
+        font-size: 15px;
+        line-height: 1.72;
+      }
+
+      .score-line {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+        margin-top: 24px;
+      }
+
+      .score {
+        padding: 14px 10px;
+        border-top: 1px solid var(--line-strong);
+      }
+
+      .score b {
+        display: block;
+        color: var(--accent);
+        font-size: 30px;
+        line-height: 1;
+      }
+
+      .score span {
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .timeline {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 18px;
+        margin-top: 46px;
+      }
+
+      .time-item {
+        position: relative;
+        padding-top: 42px;
+        border-top: 1px solid var(--line-strong);
+      }
+
+      .time-item::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: -7px;
+        width: 13px;
+        height: 13px;
+        border-radius: 50%;
+        background: var(--accent);
+      }
+
+      .time-item h3 {
+        font-size: 23px;
+      }
+
+      .time-item p {
+        margin-top: 12px;
+        color: var(--muted);
+        font-size: 15px;
+        line-height: 1.65;
+      }
+
+      .speaker-note {
+        max-width: 760px;
+        margin-top: 28px;
+        color: var(--faint);
+        font-size: 15px;
+        line-height: 1.75;
+      }
+
+      .swiper-pagination {
+        right: clamp(18px, 3.4vw, 46px) !important;
+      }
+
+      .swiper-pagination-bullet {
+        display: grid;
+        place-items: center;
+        width: 34px;
+        height: 34px;
+        margin: 8px 0 !important;
+        opacity: 1;
+        color: rgba(255, 255, 255, 0.42);
+        background: transparent;
+        border: 1px solid transparent;
+        border-radius: 999px;
+        font-size: 11px;
+        font-weight: 850;
+        transition: 0.25s ease;
+      }
+
+      .swiper-pagination-bullet-active {
+        color: rgba(255, 255, 255, 0.92);
+        border-color: rgba(255, 255, 255, 0.28);
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      @media (max-width: 980px) {
+        html,
+        body {
+          overflow: auto;
+        }
+
+        .topbar {
+          padding: 18px 20px;
+        }
+
+        .swiper-pagination {
+          display: none;
+        }
+
+        .swiper,
+        .swiper-wrapper,
+        .swiper-slide {
+          height: auto;
+          overflow: visible;
+        }
+
+        .swiper-wrapper {
+          display: block;
+          transform: none !important;
+        }
+
+        .swiper-slide {
+          min-height: auto;
+          opacity: 1;
+        }
+
+        .stage,
+        .stage.wide {
+          width: calc(100vw - 44px);
+          min-height: auto;
+          padding: 100px 0 40px;
+        }
+
+        .js .stage,
+        .js [data-animate] {
+          opacity: 1;
+          transform: none;
+          filter: none;
+        }
+
+        .hero-grid,
+        .split,
+        .split.reverse,
+        .demo,
+        .flow-grid,
+        .grid-2,
+        .grid-3,
+        .fallacy-grid,
+        .work-grid,
+        .formula,
+        .timeline,
+        .logic-row,
+        .rewrite-row {
+          grid-template-columns: 1fr;
+        }
+
+        .orbit,
+        .hero-watermark,
+        .flow-arrow,
+        .slot::after,
+        .arrow-mid {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <img class="hero-watermark" src="./assets/geekonup-logo.svg" alt="" aria-hidden="true" />
+    <header class="topbar">
+      <div class="brand" aria-label="极客上线 GeekOnUp">
+        <img class="brand-logo" src="./assets/geekonup-logo.svg" alt="" />
+        <span class="brand-name">
+          <span class="brand-cn">极客上线</span>
+          <span class="brand-en">GeekOnUp</span>
+        </span>
+      </div>
+    </header>
+
+    <div class="swiper">
+      <div class="swiper-wrapper">
+        <section class="swiper-slide" data-hash="cover" data-title="封面">
+          <div class="stage hero-grid">
+            <div>
+              <div class="eyebrow" data-animate>Biweekly Sharing</div>
+              <h1 data-title-trigger tabindex="0" role="button" aria-expanded="false" data-animate>信息逻辑与 AI</h1>
+              <p class="lead" data-animate>
+                这次不把 AI 当成一个新工具来讲，而是回到一个更底层的问题：
+                <span class="accent">我们如何组织信息，才能让沟通、协作和判断更稳定？</span>
+              </p>
+              <div class="meta-list" data-detail data-animate>
+                <div class="meta-item">
+                  <b>主题</b>
+                  <span>从日常交流到大语言模型：信息如何被表达、压缩、推理和反馈。</span>
+                </div>
+                <div class="meta-item">
+                  <b>目标</b>
+                  <span>带走一套马上能用的 AI 协作方法，而不是只记住几个提示词。</span>
+                </div>
+              </div>
+            </div>
+            <div class="orbit" data-detail data-animate aria-hidden="true">
+              <div class="orbit-ring">
+                <i class="signal-dot"></i>
+                <i class="signal-dot"></i>
+                <i class="signal-dot"></i>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="swiper-slide" data-hash="reframe" data-title="重构问题">
+          <div class="stage split">
+            <div>
+              <div class="eyebrow" data-animate>01 / Reframe</div>
+              <h2 data-title-trigger tabindex="0" role="button" aria-expanded="false" data-animate>重新定义问题</h2>
+              <p class="lead" data-animate>
+                关键不是“怎么问 AI”，而是“怎么描述世界”。人和 AI 都不直接处理现实本身，而是处理现实被语言、表格、截图、会议纪要、需求文档压缩后的版本。
+              </p>
+            </div>
+            <div>
+              <div class="quote" data-detail data-animate>很多问题不是答案难，而是问题还没有被整理成可推理的信息。</div>
+              <div class="chips" data-detail data-animate>
+                <span class="chip">交流 = 编码与解码</span>
+                <span class="chip">协作 = 同步状态</span>
+                <span class="chip">决策 = 压缩变量</span>
+                <span class="chip">AI = 基于上下文生成候选</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="swiper-slide" data-hash="flow" data-title="信息链路">
+          <div class="stage">
+            <div class="eyebrow" data-animate>02 / Information Flow</div>
+            <h2 data-title-trigger tabindex="0" role="button" aria-expanded="false" data-animate>信息链路</h2>
+            <p class="lead" data-animate>
+              一件事从现实走向行动，会经过一条信息链路。只要其中任何一段含糊，后面的动作就会开始漂移；AI 加进来以后，这个漂移会被更快地放大。
+            </p>
+            <div class="panel" style="margin-top: 42px;" data-detail data-animate>
+              <div class="flow-grid">
+                <div class="flow-node" data-animate>
+                  <strong>现实</strong>
+                  <span>用户反馈、业务目标、现场问题、真实限制。</span>
+                </div>
+                <div class="flow-arrow" data-animate>→</div>
+                <div class="flow-node" data-animate>
+                  <strong>描述</strong>
+                  <span>我们写下来的需求、消息、提示词、会议纪要。</span>
+                </div>
+                <div class="flow-arrow" data-animate>→</div>
+                <div class="flow-node" data-animate>
+                  <strong>模型</strong>
+                  <span>人脑或 AI 根据已有上下文补全下一步。</span>
+                </div>
+              </div>
+              <div class="flow-grid" style="margin-top: 12px;">
+                <div class="flow-node" data-animate>
+                  <strong>反馈</strong>
+                  <span>结果是否有效，哪里不准，下一轮修什么。</span>
+                </div>
+                <div class="flow-arrow" data-animate>←</div>
+                <div class="flow-node" data-animate>
+                  <strong>行动</strong>
+                  <span>执行、发布、沟通、交付、归档。</span>
+                </div>
+                <div class="flow-arrow" data-animate>←</div>
+                <div class="flow-node" data-animate>
+                  <strong>候选</strong>
+                  <span>答案、草稿、方案、摘要、风险清单。</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="swiper-slide" data-hash="loss" data-title="信息损耗">
+          <div class="stage split reverse">
+            <div>
+              <div class="eyebrow" data-animate>03 / Information Loss</div>
+              <h2 data-title-trigger tabindex="0" role="button" aria-expanded="false" data-animate>信息损耗</h2>
+              <p class="lead" data-animate>信息损耗通常不是“没有说”，而是“说了但没被正确还原”。工作里的返工、误会、低效，很多都发生在这些微小断点上。</p>
+            </div>
+            <div class="grid-2" data-detail>
+              <div class="mini-card" data-animate>
+                <span class="num">LOSS 01</span>
+                <h3>省略</h3>
+                <p>我以为你知道背景，所以没有说清楚目标、限制、优先级。</p>
+              </div>
+              <div class="mini-card" data-animate>
+                <span class="num">LOSS 02</span>
+                <h3>歧义</h3>
+                <p>“尽快”“优化一下”“高级一点”听起来明确，执行时却有很多版本。</p>
+              </div>
+              <div class="mini-card" data-animate>
+                <span class="num">LOSS 03</span>
+                <h3>噪声</h3>
+                <p>无关信息太多，真正影响判断的变量被淹没。</p>
+              </div>
+              <div class="mini-card" data-animate>
+                <span class="num">LOSS 04</span>
+                <h3>过期</h3>
+                <p>上下文已经变化，但文档、口径和下一步动作没有同步更新。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="swiper-slide" data-hash="violence" data-title="语言暴力">
+          <div class="stage">
+            <div class="eyebrow" data-animate>04 / Language Pollution</div>
+            <h2 data-title-trigger tabindex="0" role="button" aria-expanded="false" data-animate>语言也会污染信息</h2>
+            <p class="lead" data-animate>
+              当语言不再传递信息，而是在争夺控制权，沟通就会变形。有些表达表面是在沟通，实际是在偷换问题：不讨论事实、理由和选择，而是把话题推向身份、亏欠、道德和服从。
+            </p>
+            <div class="fallacy-grid" style="margin-top: 42px;" data-detail>
+              <div class="fallacy-card" data-animate>
+                <span class="tag red">偷换概念</span>
+                <blockquote>“你现在翅膀硬了是吧？”</blockquote>
+                <p>把“不同意见”偷换成“背叛 / 不服管”。</p>
+              </div>
+              <div class="fallacy-card" data-animate>
+                <span class="tag red">身份压制</span>
+                <blockquote>“我生了你，你就得听我的。”</blockquote>
+                <p>把“生育事实”偷换成“永久控制权”。</p>
+              </div>
+              <div class="fallacy-card" data-animate>
+                <span class="tag red">动机遮蔽</span>
+                <blockquote>“我都是为你好。”</blockquote>
+                <p>用“出发点正确”掩盖方法是否合理。</p>
+              </div>
+              <div class="fallacy-card" data-animate>
+                <span class="tag red">人格攻击</span>
+                <blockquote>“你怎么这么不懂事？”</blockquote>
+                <p>把具体分歧升级成人格否定。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="swiper-slide" data-hash="fallacy" data-title="底层谬误">
+          <div class="stage wide">
+            <div class="eyebrow" data-animate>05 / Hidden Logic</div>
+            <h2 data-title-trigger tabindex="0" role="button" aria-expanded="false" data-animate>底层逻辑谬误</h2>
+            <p class="lead" data-animate>这些话的问题，不只是“不好听”，而是破坏了信息逻辑。</p>
+            <div class="logic-table" data-detail>
+              <div class="logic-row header" data-animate>
+                <div>话术</div>
+                <div>表面信息</div>
+                <div>真正的问题</div>
+              </div>
+              <div class="logic-row" data-animate>
+                <div><b>“你不听我的，就是不孝。”</b></div>
+                <div><span>我希望你采纳我的意见。</span></div>
+                <div><span>把不同意见定义成道德错误。</span></div>
+              </div>
+              <div class="logic-row" data-animate>
+                <div><b>“没有我，你能有今天吗？”</b></div>
+                <div><span>我曾经帮过你、付出过。</span></div>
+                <div><span>把过去帮助变成现在控制筹码。</span></div>
+              </div>
+              <div class="logic-row" data-animate>
+                <div><b>“你要是真爱我，就应该……”</b></div>
+                <div><span>我希望你重视我的感受。</span></div>
+                <div><span>把爱偷换成服从，把关系变成条件交换。</span></div>
+              </div>
+              <div class="logic-row" data-animate>
+                <div><b>“你太敏感了。”</b></div>
+                <div><span>我不接受你的反应。</span></div>
+                <div><span>否定感受，转移原始问题。</span></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="swiper-slide" data-hash="rewrite" data-title="健康表达">
+          <div class="stage wide">
+            <div class="eyebrow" data-animate>06 / Better Expression</div>
+            <h2 data-title-trigger tabindex="0" role="button" aria-expanded="false" data-animate>把情绪翻译成信息</h2>
+            <p class="lead" data-animate>健康沟通不是压掉情绪，而是把情绪翻译成可讨论、可确认、可协商的信息。</p>
+            <div class="rewrite" data-detail>
+              <div class="rewrite-row" data-animate>
+                <div class="rewrite-cell bad">
+                  <b>不健康表达</b>
+                  <span>你翅膀硬了是吧？</span>
+                </div>
+                <div class="arrow-mid">→</div>
+                <div class="rewrite-cell good">
+                  <b>更健康表达</b>
+                  <span>我感觉你现在有自己的想法了，我想听听你的理由。</span>
+                </div>
+              </div>
+              <div class="rewrite-row" data-animate>
+                <div class="rewrite-cell bad">
+                  <b>不健康表达</b>
+                  <span>我生了你，你就得听我的。</span>
+                </div>
+                <div class="arrow-mid">→</div>
+                <div class="rewrite-cell good">
+                  <b>更健康表达</b>
+                  <span>我有我的担心，但最终这个选择和你有关，我们可以讨论。</span>
+                </div>
+              </div>
+              <div class="rewrite-row" data-animate>
+                <div class="rewrite-cell bad">
+                  <b>不健康表达</b>
+                  <span>我都是为你好。</span>
+                </div>
+                <div class="arrow-mid">→</div>
+                <div class="rewrite-cell good">
+                  <b>更健康表达</b>
+                  <span>我的出发点是担心你，但我也需要确认我的方式是否合适。</span>
+                </div>
+              </div>
+            </div>
+            <p class="lead" style="max-width: 980px;" data-detail data-animate>
+              这一页可以连接回 AI：输入信息如果被偷换、污染或压制，输出和行动也会跟着偏。
+            </p>
+          </div>
+        </section>
+
+        <section class="swiper-slide" data-hash="llm" data-title="概率推理">
+          <div class="stage split">
+            <div>
+              <div class="eyebrow" data-animate>07 / LLM</div>
+              <h2 data-title-trigger tabindex="0" role="button" aria-expanded="false" data-animate>概率与上下文</h2>
+              <p class="lead" data-animate>
+                大语言模型的“推理”，可以先理解成上下文塑形后的概率选择。它不是在读懂你的全部现实，而是在你提供的上下文里，持续预测接下来最合理的表达、步骤和结构。
+              </p>
+            </div>
+            <div class="panel" data-detail data-animate>
+              <h3 data-animate>当前上下文</h3>
+              <div class="token-line">
+                <span class="token" data-animate>请</span>
+                <span class="token" data-animate>写</span>
+                <span class="token" data-animate>一份</span>
+                <span class="token" data-animate>双周分享会</span>
+                <span class="token" data-animate>通知</span>
+                <span class="token next" data-animate>下一词？</span>
+              </div>
+              <div class="prob" aria-label="probability example">
+                <div class="prob-row" data-animate>
+                  <span>各位同事</span>
+                  <div class="prob-track"><div class="prob-bar" data-bar="88%"></div></div>
+                  <span>高</span>
+                </div>
+                <div class="prob-row" data-animate>
+                  <span>尊敬的</span>
+                  <div class="prob-track"><div class="prob-bar" data-bar="58%"></div></div>
+                  <span>中</span>
+                </div>
+                <div class="prob-row" data-animate>
+                  <span>会议纪要</span>
+                  <div class="prob-track"><div class="prob-bar" data-bar="24%"></div></div>
+                  <span>低</span>
+                </div>
+                <div class="prob-row" data-animate>
+                  <span>香蕉</span>
+                  <div class="prob-track"><div class="prob-bar" data-bar="5%"></div></div>
+                  <span>极低</span>
+                </div>
+              </div>
+              <p class="small" style="margin-top: 20px;" data-animate>示意图只表达机制：上下文改变，概率分布就会改变。</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="swiper-slide" data-hash="prompt" data-title="提示词结构">
+          <div class="stage">
+            <div class="eyebrow" data-animate>08 / Prompt Is Information Design</div>
+            <h2 data-title-trigger tabindex="0" role="button" aria-expanded="false" data-animate>提示词不是咒语</h2>
+            <p class="lead" data-animate>
+              提示词的本质，是把问题变成结构。真正有复用价值的不是某一句“神奇提示词”，而是背后的信息槽。
+            </p>
+            <div class="formula" data-detail>
+              <div class="slot" data-animate>
+                <b>目标</b>
+                <span>要生成什么结果？用来做什么？</span>
+              </div>
+              <div class="slot" data-animate>
+                <b>角色</b>
+                <span>让 AI 站在哪个专业视角？</span>
+              </div>
+              <div class="slot" data-animate>
+                <b>上下文</b>
+                <span>背景、受众、现状、已知材料。</span>
+              </div>
+              <div class="slot" data-animate>
+                <b>约束</b>
+                <span>语气、长度、格式、禁区、时间。</span>
+              </div>
+              <div class="slot" data-animate>
+                <b>样例</b>
+                <span>参考、反例、已有风格。</span>
+              </div>
+              <div class="slot" data-animate>
+                <b>标准</b>
+                <span>怎么判断输出是否可用？</span>
+              </div>
+              <div class="slot" data-animate>
+                <b>反馈</b>
+                <span>指出偏差，推动下一轮收敛。</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="swiper-slide" data-hash="demo" data-title="现场演示">
+          <div class="stage">
+            <div class="eyebrow" data-animate>09 / Live Demo</div>
+            <h2 data-title-trigger tabindex="0" role="button" aria-expanded="false" data-animate>现场演示</h2>
+            <p class="lead" data-animate>同一个任务，信息密度不同，输出质量会完全不同。</p>
+            <div class="demo" data-detail data-animate>
+              <div class="demo-box">
+                <div class="demo-switch">
+                  <button type="button" class="active" data-demo="loose">弱输入</button>
+                  <button type="button" data-demo="structured">结构化输入</button>
+                </div>
+                <pre id="demoPrompt">帮我写一个双周分享会通知。</pre>
+              </div>
+              <div class="demo-box">
+                <h3 style="margin-bottom: 18px;">可能得到的结果</h3>
+                <pre id="demoOutput">文字通常不会太差，但它会偏通用：不知道公司机制、不知道本期主题亮点，也不一定会顺手征集下一期分享人。</pre>
+                <div class="score-line">
+                  <div class="score"><b id="score1">38</b><span>目标清晰</span></div>
+                  <div class="score"><b id="score2">24</b><span>上下文</span></div>
+                  <div class="score"><b id="score3">31</b><span>可执行</span></div>
+                  <div class="score"><b id="score4">26</b><span>可复用</span></div>
+                </div>
+              </div>
+            </div>
+            <p class="speaker-note" data-detail data-animate>
+              讲述建议：现场可以真的打开一个 AI 工具，先输入弱提示，再输入结构化提示。让大家看到变化，比解释概念更有说服力。
+            </p>
+          </div>
+        </section>
+
+        <section class="swiper-slide" data-hash="workflow" data-title="工作流">
+          <div class="stage split reverse">
+            <div>
+              <div class="eyebrow" data-animate>10 / Workflow</div>
+              <h2 data-title-trigger tabindex="0" role="button" aria-expanded="false" data-animate>信息半成品工作流</h2>
+              <p class="lead" data-animate>
+                AI 最适合放在“信息半成品”的加工环节。从零让 AI 替你决定方向，风险很高；把原始材料、判断标准和边界交给 AI，让它整理、改写、对比、挑错，收益更稳定。
+              </p>
+            </div>
+            <div class="work-grid" data-detail>
+              <div class="mini-card" data-animate>
+                <span class="num">WORKFLOW 01</span>
+                <h3>会议后 10 分钟</h3>
+                <p>纪要 → 结论、行动项、负责人、截止时间、待确认问题。</p>
+              </div>
+              <div class="mini-card" data-animate>
+                <span class="num">WORKFLOW 02</span>
+                <h3>写作前 5 分钟</h3>
+                <p>先让 AI 追问目标、受众、语气、结构，再开始写。</p>
+              </div>
+              <div class="mini-card" data-animate>
+                <span class="num">WORKFLOW 03</span>
+                <h3>交付前 8 分钟</h3>
+                <p>让 AI 从挑错者视角检查遗漏、歧义、风险和下一步。</p>
+              </div>
+              <div class="mini-card" data-animate>
+                <span class="num">WORKFLOW 04</span>
+                <h3>复盘后沉淀</h3>
+                <p>把一次经验变成模板、检查清单、下次可复用的提示词结构。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="swiper-slide" data-hash="system" data-title="双周机制">
+          <div class="stage">
+            <div class="eyebrow" data-animate>11 / Team System</div>
+            <h2 data-title-trigger tabindex="0" role="button" aria-expanded="false" data-animate>分享会也是信息系统</h2>
+            <p class="lead" data-animate>
+              双周分享会不是“每两周找个人讲一次”，而是通过通知、征集、候选池、现场演示和归档，减少知识流动中的断点。
+            </p>
+            <div class="timeline" data-detail>
+              <div class="time-item" data-animate>
+                <h3>通知</h3>
+                <p>提前把时间、地点、主题、主讲人和内容方向说清楚。</p>
+              </div>
+              <div class="time-item" data-animate>
+                <h3>征集</h3>
+                <p>本期通知发出时，同步启动下一期报名。</p>
+              </div>
+              <div class="time-item" data-animate>
+                <h3>候选池</h3>
+                <p>把临时意愿变成稳定排期，避免内容断档。</p>
+              </div>
+              <div class="time-item" data-animate>
+                <h3>演示</h3>
+                <p>用真实案例和现场操作，让经验更容易复制。</p>
+              </div>
+              <div class="time-item" data-animate>
+                <h3>归档</h3>
+                <p>把一次分享变成团队长期可检索的知识资产。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="swiper-slide" data-hash="human-ai" data-title="人机分工">
+          <div class="stage split">
+            <div>
+              <div class="eyebrow" data-animate>12 / Human × AI</div>
+              <h2 data-title-trigger tabindex="0" role="button" aria-expanded="false" data-animate>人机协作新分工</h2>
+              <p class="lead" data-animate>
+                新的分工是：人负责定义现实，AI 负责扩展候选。AI 的价值，是让我们更快看到更多表达、方案和风险，然后由人做最后取舍。
+              </p>
+            </div>
+            <div class="grid-2" data-detail>
+              <div class="mini-card" data-animate>
+                <span class="num green">HUMAN</span>
+                <h3>真实目标</h3>
+                <p>为什么要做，做到什么程度算完成。</p>
+              </div>
+              <div class="mini-card" data-animate>
+                <span class="num green">HUMAN</span>
+                <h3>边界判断</h3>
+                <p>哪些信息可靠，哪些结论不能直接用。</p>
+              </div>
+              <div class="mini-card" data-animate>
+                <span class="num blue">AI</span>
+                <h3>信息重组</h3>
+                <p>摘要、归类、改写、格式化、转换视角。</p>
+              </div>
+              <div class="mini-card" data-animate>
+                <span class="num blue">AI</span>
+                <h3>快速反馈</h3>
+                <p>从用户、老板、同事、风险视角模拟追问。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="swiper-slide" data-hash="takeaway" data-title="结论">
+          <div class="stage">
+            <div class="eyebrow" data-animate>13 / Takeaway</div>
+            <h2 data-title-trigger tabindex="0" role="button" aria-expanded="false" data-animate>先设计信息，再使用 AI</h2>
+            <p class="lead" data-animate>清楚的问题会得到可用的候选；混乱的问题只会得到顺滑的混乱。</p>
+            <div class="quote" style="margin-top: 34px;" data-detail data-animate>
+              如果这次分享只留下一个动作：下次问 AI 前，先补齐目标、上下文、约束和验收标准。
+            </div>
+            <div class="chips" data-detail data-animate>
+              <span class="chip">Q&A</span>
+              <span class="chip">现场改一个真实提示</span>
+              <span class="chip">找一个团队信息断点</span>
+            </div>
+          </div>
+        </section>
+      </div>
+      <div class="swiper-pagination"></div>
+    </div>
+
+    <script src="./vendor/gsap.min.js"></script>
+    <script src="./vendor/swiper-bundle.min.js"></script>
+    <script>
+      const demoMap = {
+        loose: {
+          prompt: "帮我写一个双周分享会通知。",
+          output:
+            "文字通常不会太差，但它会偏通用：不知道公司机制、不知道本期主题亮点，也不一定会顺手征集下一期分享人。",
+          scores: [38, 24, 31, 26],
+        },
+        structured: {
+          prompt:
+            "你是公司人力资源部同事。请为明天下午的“双周分享会”写一份群通知。\n\n背景：公司希望建立固定技术交流节奏，每两周一次。本期主题是“信息逻辑与 AI”，主讲人会用真实案例说明如何把工作问题整理成 AI 可处理的信息结构。\n\n要求：\n1. 语气专业但轻松；\n2. 控制在 220 字以内；\n3. 包含时间、地点、主题、主讲人占位符；\n4. 结尾同步征集下一期分享人；\n5. 输出为可直接发群的版本。",
+          output:
+            "结果更接近可直接发布：信息完整、语气稳定、行动明确，并且自然带出下一期报名，符合双周机制的连续性目标。",
+          scores: [92, 88, 86, 84],
+        },
+      };
+
+      const slides = Array.from(document.querySelectorAll(".swiper-slide"));
+
+      function pad(num) {
+        return String(num).padStart(2, "0");
+      }
+
+      function getBaseItems(slide) {
+        if (!slide) return [];
+        return Array.from(slide.querySelectorAll("[data-animate]")).filter((item) => !item.closest("[data-detail]"));
+      }
+
+      function getDetailItems(slide) {
+        if (!slide) return [];
+        return Array.from(slide.querySelectorAll("[data-detail], [data-detail] [data-animate]"));
+      }
+
+      function setExpanded(slide, expanded, options = {}) {
+        if (!slide || !window.gsap) return;
+        const immediate = Boolean(options.immediate);
+        const details = Array.from(slide.querySelectorAll("[data-detail]"));
+        const detailItems = getDetailItems(slide);
+        const title = slide.querySelector("[data-title-trigger]");
+
+        if (title) {
+          title.setAttribute("aria-expanded", expanded ? "true" : "false");
+        }
+
+        if (expanded) {
+          slide.classList.add("is-expanded");
+          gsap.killTweensOf(detailItems);
+          gsap.set(details, { display: "" });
+          gsap.fromTo(
+            detailItems,
+            { autoAlpha: 0, y: 28, filter: "blur(10px)" },
+            {
+              autoAlpha: 1,
+              y: 0,
+              filter: "blur(0px)",
+              duration: immediate ? 0 : 0.52,
+              stagger: immediate ? 0 : 0.035,
+              ease: "power3.out",
+            }
+          );
+          gsap.to(slide.querySelectorAll(".prob-bar"), {
+            width: (_, bar) => bar.dataset.bar || "60%",
+            duration: immediate ? 0 : 0.66,
+            stagger: immediate ? 0 : 0.07,
+            ease: "power3.out",
+          });
+        } else {
+          gsap.killTweensOf(detailItems);
+          const hide = () => {
+            slide.classList.remove("is-expanded");
+            gsap.set(detailItems, { autoAlpha: 0, y: 28, filter: "blur(10px)" });
+            gsap.set(slide.querySelectorAll(".prob-bar"), { width: "0%" });
+          };
+
+          if (immediate) {
+            hide();
+          } else {
+            gsap.to(detailItems, {
+              autoAlpha: 0,
+              y: 22,
+              filter: "blur(10px)",
+              duration: 0.28,
+              stagger: 0.012,
+              ease: "power2.out",
+              onComplete: hide,
+            });
+          }
+        }
+      }
+
+      function resetSlide(slide) {
+        if (!window.gsap || !slide) return;
+        const items = slide.querySelectorAll("[data-animate]");
+        setExpanded(slide, false, { immediate: true });
+        gsap.killTweensOf(items);
+        gsap.set(items, { autoAlpha: 0, y: 46, filter: "blur(14px)" });
+        gsap.set(slide.querySelectorAll(".prob-bar"), { width: "0%" });
+      }
+
+      function exitSlide(slide, direction) {
+        if (!window.gsap || !slide) return;
+        const items = slide.querySelectorAll("[data-animate]");
+        gsap.to(items, {
+          autoAlpha: 0,
+          y: direction > 0 ? -34 : 34,
+          filter: "blur(12px)",
+          duration: 0.38,
+          stagger: { each: 0.018, from: direction > 0 ? "start" : "end" },
+          ease: "power2.out",
+          onComplete: () => setExpanded(slide, false, { immediate: true }),
+        });
+      }
+
+      function animateSlide(slide) {
+        if (!window.gsap || !slide) {
+          document.documentElement.classList.remove("js");
+          return;
+        }
+
+        const stage = slide.querySelector(".stage");
+        setExpanded(slide, false, { immediate: true });
+
+        const items = getBaseItems(slide);
+        const bars = slide.querySelectorAll(".prob-bar");
+        const orbit = slide.querySelector(".orbit-ring");
+
+        gsap.killTweensOf([stage, ...items, ...bars, orbit].filter(Boolean));
+        gsap.set(stage, { autoAlpha: 0, y: 80, scale: 0.972, filter: "blur(18px)" });
+        gsap.set(items, { autoAlpha: 0, y: 46, filter: "blur(14px)" });
+        gsap.set(bars, { width: "0%" });
+
+        const tl = gsap.timeline();
+        tl.to(stage, {
+          autoAlpha: 1,
+          y: 0,
+          scale: 1,
+          filter: "blur(0px)",
+          duration: 0.74,
+          ease: "power3.out",
+        })
+          .to(
+            items,
+            {
+              autoAlpha: 1,
+              y: 0,
+              filter: "blur(0px)",
+              duration: 0.68,
+              stagger: 0.052,
+              ease: "power3.out",
+            },
+            "-=0.46"
+          );
+
+        if (orbit) {
+          tl.fromTo(
+            orbit,
+            { rotate: -20, scale: 0.9 },
+            { rotate: 0, scale: 1, duration: 1.2, ease: "expo.out" },
+            "-=0.8"
+          );
+          gsap.to(orbit, { rotate: 360, duration: 28, repeat: -1, ease: "none", delay: 1.1 });
+        }
+      }
+
+      function animateNumber(el, value) {
+        if (!el) return;
+        if (!window.gsap) {
+          el.textContent = value;
+          return;
+        }
+        const state = { value: Number(el.textContent) || 0 };
+        gsap.to(state, {
+          value,
+          duration: 0.5,
+          ease: "power2.out",
+          onUpdate: () => {
+            el.textContent = Math.round(state.value);
+          },
+        });
+      }
+
+      function setDemo(mode) {
+        const data = demoMap[mode];
+        if (!data) return;
+        document.querySelectorAll("[data-demo]").forEach((button) => {
+          button.classList.toggle("active", button.dataset.demo === mode);
+        });
+        const prompt = document.getElementById("demoPrompt");
+        const output = document.getElementById("demoOutput");
+        prompt.textContent = data.prompt;
+        output.textContent = data.output;
+        ["score1", "score2", "score3", "score4"].forEach((id, index) => {
+          animateNumber(document.getElementById(id), data.scores[index]);
+        });
+        if (window.gsap) {
+          gsap.fromTo([prompt, output], { opacity: 0.35, y: 10 }, { opacity: 1, y: 0, duration: 0.35, ease: "power2.out" });
+        }
+      }
+
+      document.querySelectorAll("[data-demo]").forEach((button) => {
+        button.addEventListener("click", () => setDemo(button.dataset.demo));
+      });
+
+      document.querySelectorAll("[data-title-trigger]").forEach((title) => {
+        const toggle = () => {
+          const slide = title.closest(".swiper-slide");
+          setExpanded(slide, !slide.classList.contains("is-expanded"));
+        };
+        title.addEventListener("click", toggle);
+        title.addEventListener("keydown", (event) => {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            toggle();
+          }
+        });
+      });
+
+      if (!window.Swiper || !window.gsap) {
+        document.documentElement.classList.remove("js");
+      } else {
+        gsap.defaults({ overwrite: "auto" });
+        slides.forEach(resetSlide);
+
+        const slideTitles = slides.map((slide) => slide.dataset.title || "");
+        const swiper = new Swiper(".swiper", {
+          direction: "vertical",
+          speed: 850,
+          resistanceRatio: 0.72,
+          keyboard: {
+            enabled: true,
+          },
+          mousewheel: {
+            forceToAxis: true,
+            sensitivity: 0.78,
+            thresholdDelta: 8,
+            thresholdTime: 180,
+          },
+          hashNavigation: {
+            watchState: true,
+          },
+          pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+            renderBullet(index, className) {
+              return `<button class="${className}" aria-label="${slideTitles[index]}"><span>${pad(index + 1)}</span></button>`;
+            },
+          },
+          effect: "creative",
+          creativeEffect: {
+            prev: {
+              translate: [0, "-18%", -180],
+              scale: 0.94,
+              opacity: 0,
+            },
+            next: {
+              translate: [0, "18%", -180],
+              scale: 0.94,
+              opacity: 0,
+            },
+          },
+          on: {
+            init(swiperInstance) {
+              animateSlide(swiperInstance.slides[swiperInstance.activeIndex]);
+            },
+            slideChangeTransitionStart(swiperInstance) {
+              const direction = swiperInstance.activeIndex > swiperInstance.previousIndex ? 1 : -1;
+              exitSlide(swiperInstance.slides[swiperInstance.previousIndex], direction);
+              animateSlide(swiperInstance.slides[swiperInstance.activeIndex]);
+            },
+          },
+        });
+
+        window.infoLogicDeck = swiper;
+      }
+    </script>
+  </body>
+</html>
