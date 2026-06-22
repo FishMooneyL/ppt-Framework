@@ -269,6 +269,7 @@
       }
 
       .stage {
+        position: relative;
         display: grid;
         align-content: center;
         width: min(1180px, calc(100vw - 120px));
@@ -344,6 +345,11 @@
         background: var(--accent);
       }
 
+      .swiper-slide::before {
+        content: "";
+        pointer-events: none;
+      }
+
       .swiper-slide::after {
         content: attr(data-title);
         position: absolute;
@@ -373,6 +379,29 @@
         filter: blur(0);
       }
 
+      .swiper-slide.is-content-ready::after {
+        opacity: 0;
+        transform: translateY(0);
+        filter: blur(0);
+        transition: none;
+      }
+
+      .swiper-slide.is-content-ready::before {
+        content: attr(data-title);
+        position: absolute;
+        top: 180px;
+        left: 110px;
+        z-index: 0;
+        color: rgba(255, 255, 255, 0.03);
+        font-family: var(--font-title);
+        font-size: 360px;
+        line-height: 1;
+        letter-spacing: 0.12em;
+        font-weight: 520;
+        white-space: nowrap;
+        user-select: none;
+      }
+
       .swiper-slide.is-title-only {
         cursor: pointer;
       }
@@ -390,14 +419,12 @@
       }
 
       .swiper-slide.is-content-ready .chapter-heading {
-        position: fixed;
-        top: 102px;
-        left: clamp(24px, 5vw, 70px);
-        z-index: 12;
-        opacity: 1;
-        visibility: visible;
-        transform: none;
-        filter: none;
+        display: none;
+      }
+
+      .swiper-slide.is-content-ready .stage > * {
+        position: relative;
+        z-index: 1;
       }
 
       .swiper-slide.is-content-ready .chapter-line {
@@ -1147,12 +1174,17 @@
           content: none;
         }
 
+        .swiper-slide::before {
+          content: none;
+        }
+
         .swiper-slide.is-title-only .stage {
           visibility: visible;
           pointer-events: auto;
         }
 
         .swiper-slide.is-content-ready .chapter-heading {
+          display: inline-flex;
           position: static;
           transform: none;
         }
