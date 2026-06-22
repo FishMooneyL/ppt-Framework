@@ -3,12 +3,14 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>信息逻辑与 AI｜锚点动画分享稿</title>
+    <title>先组织信息，再使用 AI｜锚点动画分享稿</title>
     <link rel="stylesheet" href="./vendor/swiper-bundle.min.css" />
     <script>
       document.documentElement.classList.add("js");
     </script>
     <style>
+      @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@500;700&display=swap");
+
       :root {
         --paper: #14021d;
         --paper-2: #050207;
@@ -223,6 +225,28 @@
         font-weight: 680;
         letter-spacing: 0.12em;
         text-transform: uppercase;
+      }
+
+      .topbar-topic {
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        color: rgba(255, 255, 255, 0.82);
+        font-family: "Noto Sans SC", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+        font-size: 15px;
+        font-weight: 600;
+        line-height: 30px;
+        letter-spacing: 0.08em;
+      }
+
+      .topbar-topic span {
+        display: inline-block;
+      }
+
+      .topbar-topic .slash {
+        color: rgba(255, 255, 255, 0.32);
+        font-weight: 500;
+        letter-spacing: 0;
       }
 
       .swiper {
@@ -1076,6 +1100,13 @@
           <span class="brand-en">GeekOnUp</span>
         </span>
       </div>
+      <div class="topbar-topic" aria-label="信息 逻辑 Ai">
+        <span>信息</span>
+        <span class="slash">/</span>
+        <span>逻辑</span>
+        <span class="slash">/</span>
+        <span>Ai</span>
+      </div>
     </header>
 
     <div class="swiper">
@@ -1084,7 +1115,7 @@
           <div class="stage hero-grid">
             <div>
               <div class="eyebrow" data-animate>Biweekly Sharing</div>
-              <h1 data-title-trigger tabindex="0" role="button" aria-expanded="false" data-animate>信息逻辑与 AI</h1>
+              <h1 data-title-trigger tabindex="0" role="button" aria-expanded="false" data-animate>先组织信息，再使用 AI</h1>
               <p class="lead" data-animate>
                 这次不把 AI 当成一个新工具来讲，而是回到一个更底层的问题：
                 <span class="accent">我们如何组织信息，才能让沟通、协作和判断更稳定？</span>
