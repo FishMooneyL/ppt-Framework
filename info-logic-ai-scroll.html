@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>先组织信息，再使用 AI｜锚点动画分享稿</title>
+    <title>始章｜锚点动画分享稿</title>
     <link rel="stylesheet" href="./vendor/swiper-bundle.min.css" />
     <script>
       document.documentElement.classList.add("js");
@@ -323,6 +323,25 @@
         letter-spacing: -0.035em;
         font-weight: 480;
         white-space: nowrap;
+      }
+
+      .chapter-title {
+        font-size: 32px;
+        line-height: 1;
+        letter-spacing: 0.08em;
+        font-weight: 520;
+      }
+
+      .chapter-heading {
+        display: inline-flex;
+        align-items: center;
+        gap: 14px;
+      }
+
+      .chapter-line {
+        width: 42px;
+        height: 1px;
+        background: var(--accent);
       }
 
       h2 {
@@ -1114,8 +1133,10 @@
         <section class="swiper-slide" data-hash="cover" data-title="封面">
           <div class="stage hero-grid">
             <div>
-              <div class="eyebrow" data-animate>Biweekly Sharing</div>
-              <h1 data-title-trigger tabindex="0" role="button" aria-expanded="false" data-animate>先组织信息，再使用 AI</h1>
+              <div class="chapter-heading" data-animate>
+                <span class="chapter-line" aria-hidden="true"></span>
+                <h1 class="chapter-title">始章</h1>
+              </div>
               <p class="lead" data-animate>
                 这次不把 AI 当成一个新工具来讲，而是回到一个更底层的问题：
                 <span class="accent">我们如何组织信息，才能让沟通、协作和判断更稳定？</span>
