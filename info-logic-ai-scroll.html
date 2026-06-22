@@ -81,7 +81,7 @@
 
       .hero-watermark {
         z-index: 0;
-        opacity: 0.34;
+        opacity: 0.2;
         filter:
           drop-shadow(0 0 1px rgba(255, 255, 255, 1))
           drop-shadow(0 0 7px rgba(255, 255, 255, 0.42))
@@ -92,7 +92,7 @@
 
       .face-smoke-canvas {
         z-index: 1;
-        opacity: 0.72;
+        opacity: 0.42;
         mix-blend-mode: screen;
         filter:
           blur(0.18px)
@@ -104,7 +104,7 @@
 
       .face-fluid-canvas {
         z-index: 2;
-        opacity: 0.66;
+        opacity: 0.36;
         mix-blend-mode: screen;
         filter:
           blur(0.15px)
@@ -117,7 +117,7 @@
       @keyframes watermarkPulse {
         0%,
         100% {
-          opacity: 0.26;
+          opacity: 0.16;
           transform: translateY(-48%) scale(0.99);
           filter:
             drop-shadow(0 0 1px rgba(255, 255, 255, 0.95))
@@ -127,7 +127,7 @@
         }
 
         50% {
-          opacity: 0.4;
+          opacity: 0.24;
           transform: translateY(-48%) scale(1.015);
           filter:
             drop-shadow(0 0 1px rgba(255, 255, 255, 1))
@@ -140,7 +140,7 @@
       @keyframes trailPulse {
         0%,
         100% {
-          opacity: 0.58;
+          opacity: 0.34;
           filter:
             drop-shadow(0 0 6px rgba(222, 186, 255, 0.2))
             drop-shadow(0 0 18px rgba(166, 86, 255, 0.2))
@@ -148,7 +148,7 @@
         }
 
         50% {
-          opacity: 0.76;
+          opacity: 0.46;
           filter:
             drop-shadow(0 0 9px rgba(222, 186, 255, 0.34))
             drop-shadow(0 0 24px rgba(166, 86, 255, 0.3))
@@ -483,9 +483,35 @@
         font-weight: 380;
       }
 
+      .lead.no-wrap {
+        max-width: none;
+        white-space: nowrap;
+      }
+
+      .stage.confuse-stage {
+        align-content: start;
+        padding-top: 150px;
+      }
+
+      .confuse-stage .lead {
+        margin-top: 0;
+      }
+
+      .confuse-stage .chain-lab {
+        width: 100%;
+      }
+
+      .confuse-stage .chain-board {
+        justify-content: start;
+      }
+
       [data-detail] {
         display: none;
         opacity: 0;
+      }
+
+      .swiper-slide:not(.is-expanded) [data-detail] {
+        display: none !important;
       }
 
       .swiper-slide.is-expanded [data-detail] {
@@ -605,6 +631,17 @@
         align-items: center;
       }
 
+      .cover-stage {
+        display: block;
+        min-height: auto;
+        padding-top: 96px;
+        padding-bottom: 40px;
+      }
+
+      .cover-copy {
+        max-width: 920px;
+      }
+
       .orbit {
         position: relative;
         min-height: 520px;
@@ -664,6 +701,183 @@
         box-shadow: 0 0 0 9px rgba(8, 127, 91, 0.12);
       }
 
+      .ai-flow {
+        display: grid;
+        grid-template-columns: minmax(110px, auto) 86px minmax(120px, auto) 86px minmax(92px, auto) 86px minmax(110px, auto);
+        grid-template-rows: repeat(2, auto);
+        align-items: center;
+        justify-content: center;
+        column-gap: clamp(10px, 1.2vw, 18px);
+        row-gap: 72px;
+        width: max-content;
+        min-height: 0;
+        padding: 10px 0;
+        margin-top: 120px;
+        margin-left: 0;
+        margin-right: 0;
+        transform: none;
+      }
+
+      .ai-flow-node {
+        appearance: none;
+        z-index: 2;
+        cursor: pointer;
+        border: 0;
+        padding: 0;
+        color: inherit;
+        background: transparent;
+        font: inherit;
+        text-align: center;
+        opacity: 0.26;
+        transform: scale(0.94);
+        transition:
+          opacity 0.28s ease,
+          transform 0.28s ease,
+          filter 0.28s ease;
+      }
+
+      .ai-flow-node b {
+        display: block;
+        color: var(--heading);
+        font-family: var(--font-title);
+        font-size: clamp(24px, 3.1vw, 42px);
+        line-height: 1.04;
+        letter-spacing: -0.04em;
+        font-weight: 520;
+        white-space: nowrap;
+      }
+
+      .ai-tool-icon {
+        display: block;
+        width: clamp(44px, 4.8vw, 68px);
+        height: clamp(44px, 4.8vw, 68px);
+        color: var(--heading);
+        filter: drop-shadow(0 0 18px rgba(183, 108, 255, 0.28));
+      }
+
+      .ai-flow-node span {
+        display: none;
+        margin-top: 10px;
+        color: var(--faint);
+        font-size: 13px;
+        line-height: 1.35;
+        white-space: nowrap;
+      }
+
+      .ai-flow-node:hover,
+      .ai-flow-node.is-active {
+        opacity: 1;
+        transform: scale(1.06);
+        filter: drop-shadow(0 0 18px rgba(183, 108, 255, 0.32));
+      }
+
+      .ai-flow-node.is-on {
+        opacity: 0.8;
+        transform: scale(1);
+      }
+
+      .ai-flow-node[data-ai-node="tools"] {
+        grid-column: 1;
+        grid-row: 1 / span 2;
+      }
+
+      .ai-flow-node[data-ai-node="prompt-a"] {
+        grid-column: 3;
+        grid-row: 1;
+      }
+
+      .ai-flow-node[data-ai-node="prompt-b"] {
+        grid-column: 3;
+        grid-row: 2;
+      }
+
+      .ai-flow-node[data-ai-node="bad"] {
+        grid-column: 5;
+        grid-row: 1;
+      }
+
+      .ai-flow-node[data-ai-node="good"] {
+        grid-column: 5;
+        grid-row: 2;
+      }
+
+      .ai-flow-node[data-ai-node="comm"] {
+        grid-column: 7;
+        grid-row: 1 / span 2;
+      }
+
+      .ai-flow-node[data-ai-node="bad"] b {
+        color: var(--red);
+        font-family: var(--font-body);
+        font-size: clamp(42px, 5.2vw, 72px);
+        letter-spacing: 0;
+        font-weight: 850;
+      }
+
+      .ai-flow-node[data-ai-node="good"] b {
+        color: var(--green);
+        font-family: var(--font-body);
+        font-size: clamp(42px, 5.2vw, 72px);
+        letter-spacing: 0;
+        font-weight: 850;
+      }
+
+      .ai-flow-path {
+        z-index: 1;
+        height: 2px;
+        transform-origin: left center;
+        background: linear-gradient(90deg, transparent, rgba(183, 108, 255, 0.76));
+        opacity: 0.12;
+        transition:
+          opacity 0.26s ease,
+          filter 0.26s ease;
+      }
+
+      .ai-flow-path.is-on {
+        opacity: 1;
+        filter: drop-shadow(0 0 10px rgba(183, 108, 255, 0.42));
+      }
+
+      .ai-flow-path[data-ai-path="tools-prompt-a"] {
+        grid-column: 2;
+        grid-row: 1;
+        width: 100%;
+        transform: translateY(40px) rotate(-20deg);
+      }
+
+      .ai-flow-path[data-ai-path="tools-prompt-b"] {
+        grid-column: 2;
+        grid-row: 2;
+        width: 100%;
+        transform: translateY(-40px) rotate(20deg);
+      }
+
+      .ai-flow-path[data-ai-path="prompt-a-bad"] {
+        grid-column: 4;
+        grid-row: 1;
+        width: 100%;
+      }
+
+      .ai-flow-path[data-ai-path="prompt-b-good"] {
+        grid-column: 4;
+        grid-row: 2;
+        width: 100%;
+      }
+
+      .ai-flow-path[data-ai-path="bad-comm"] {
+        grid-column: 6;
+        grid-row: 1;
+        width: 100%;
+        transform: rotate(20deg);
+      }
+
+      .ai-flow-path[data-ai-path="good-comm"] {
+        grid-column: 6;
+        grid-row: 2;
+        width: 100%;
+        transform: rotate(-20deg);
+      }
+
       .meta-list {
         display: grid;
         gap: 14px;
@@ -690,6 +904,177 @@
         color: var(--muted);
         font-size: clamp(16px, 1.4vw, 20px);
         line-height: 1.6;
+      }
+
+      .chain-lab {
+        margin-top: 42px;
+      }
+
+      .chain-board {
+        position: relative;
+        width: min(760px, 78vw);
+        aspect-ratio: 1;
+        margin: -120px auto 0;
+      }
+
+      .chain-board::before {
+        content: "";
+        position: absolute;
+        inset: 18%;
+        border: 1px solid rgba(255, 255, 255, 0.11);
+        border-radius: 50%;
+      }
+
+      .chain-node {
+        appearance: none;
+        position: absolute;
+        z-index: 2;
+        left: 50%;
+        top: 50%;
+        cursor: pointer;
+        border: 0;
+        padding: 0;
+        color: inherit;
+        background: transparent;
+        font: inherit;
+        min-width: clamp(76px, 7.4vw, 116px);
+        text-align: center;
+        opacity: 0.22;
+        transform: translate(-50%, -50%) translateY(10px);
+        transition:
+          opacity 0.28s ease,
+          transform 0.28s ease,
+          color 0.28s ease,
+          filter 0.28s ease;
+      }
+
+      .chain-node:hover {
+        opacity: 0.76;
+        transform: translate(-50%, -50%) translateY(-4px);
+      }
+
+      .chain-node:focus-visible {
+        outline: 0;
+        filter: drop-shadow(0 0 18px rgba(183, 108, 255, 0.42));
+      }
+
+      .chain-node b {
+        display: block;
+        color: var(--heading);
+        font-family: var(--font-title);
+        font-size: clamp(28px, 3.6vw, 52px);
+        line-height: 1.04;
+        letter-spacing: -0.05em;
+        font-weight: 520;
+      }
+
+      .chain-node span {
+        display: block;
+        margin-top: 12px;
+        color: var(--faint);
+        font-size: clamp(12px, 1.1vw, 15px);
+        line-height: 1.35;
+        white-space: nowrap;
+      }
+
+      .chain-node.is-visible {
+        opacity: 0.34;
+        transform: translate(-50%, -50%);
+      }
+
+      .chain-node.is-past {
+        opacity: 0.62;
+      }
+
+      .chain-node.is-active {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.06);
+        filter: drop-shadow(0 0 18px rgba(183, 108, 255, 0.36));
+      }
+
+      .chain-node[data-chain-node="0"] {
+        top: 50%;
+        left: 16%;
+      }
+
+      .chain-node[data-chain-node="1"] {
+        top: 18%;
+        left: 50%;
+      }
+
+      .chain-node[data-chain-node="2"] {
+        top: 50%;
+        left: 84%;
+      }
+
+      .chain-node[data-chain-node="3"] {
+        top: 82%;
+        left: 50%;
+      }
+
+      .chain-node[data-chain-node="4"] {
+        top: 50%;
+        left: 50%;
+      }
+
+      .chain-link {
+        position: absolute;
+        z-index: 1;
+        left: 50%;
+        top: 50%;
+        color: var(--accent);
+        font-size: clamp(24px, 2.5vw, 36px);
+        font-weight: 900;
+        opacity: 0.16;
+        transition:
+          opacity 0.25s ease,
+          color 0.25s ease,
+          transform 0.25s ease;
+      }
+
+      .chain-link.is-on {
+        opacity: 0.9;
+        transform: scale(1.08);
+      }
+
+      .chain-link[data-chain-link="0"] {
+        transform: translate(-50%, -50%) rotate(-34deg);
+        left: 32%;
+        top: 28%;
+      }
+
+      .chain-link[data-chain-link="0"].is-on {
+        transform: translate(-50%, -50%) rotate(-34deg) scale(1.08);
+      }
+
+      .chain-link[data-chain-link="1"] {
+        transform: translate(-50%, -50%) rotate(34deg);
+        left: 68%;
+        top: 28%;
+      }
+
+      .chain-link[data-chain-link="1"].is-on {
+        transform: translate(-50%, -50%) rotate(34deg) scale(1.08);
+      }
+
+      .chain-link[data-chain-link="2"] {
+        transform: translate(-50%, -50%) rotate(146deg);
+        left: 68%;
+        top: 72%;
+      }
+
+      .chain-link[data-chain-link="2"].is-on {
+        transform: translate(-50%, -50%) rotate(146deg) scale(1.08);
+      }
+
+      .chain-link[data-chain-link="3"] {
+        transform: translate(-50%, -50%) rotate(-146deg);
+        left: 32%;
+        top: 72%;
+      }
+
+      .chain-link[data-chain-link="3"].is-on {
+        transform: translate(-50%, -50%) rotate(-146deg) scale(1.08);
       }
 
       .flow-grid {
@@ -1227,10 +1612,31 @@
         .hero-watermark,
         .face-smoke-canvas,
         .face-fluid-canvas,
+        .ai-flow-path,
         .flow-arrow,
+        .chain-link,
         .slot::after,
         .arrow-mid {
           display: none;
+        }
+
+        .chain-board {
+          flex-direction: column;
+        }
+
+        .ai-flow {
+          min-height: auto;
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 28px;
+          margin-top: 34px;
+        }
+
+        .ai-flow-node,
+        .ai-flow-node[data-ai-node] {
+          position: static;
+          opacity: 1;
+          transform: none;
         }
       }
     </style>
@@ -1259,8 +1665,8 @@
     <div class="swiper">
       <div class="swiper-wrapper">
         <section class="swiper-slide" data-hash="cover" data-title="始章">
-          <div class="stage hero-grid">
-            <div>
+          <div class="stage cover-stage">
+            <div class="cover-copy">
               <div class="chapter-heading" data-animate>
                 <span class="chapter-line" aria-hidden="true"></span>
                 <h1 class="chapter-title" data-title-trigger tabindex="0" role="button" aria-expanded="false">始章</h1>
@@ -1280,11 +1686,85 @@
                 </div>
               </div>
             </div>
-            <div class="orbit" data-detail data-animate aria-hidden="true">
-              <div class="orbit-ring">
-                <i class="signal-dot"></i>
-                <i class="signal-dot"></i>
-                <i class="signal-dot"></i>
+            <div class="ai-flow" data-animate aria-label="AI 使用偏差到沟通的互动流程">
+              <button type="button" class="ai-flow-node is-active" data-ai-step="0" data-ai-node="tools" aria-label="AI 工具">
+                <svg class="ai-tool-icon" viewBox="0 0 64 64" role="img" aria-hidden="true">
+                  <path d="M32 6v8" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" />
+                  <circle cx="32" cy="5" r="3" fill="currentColor" />
+                  <rect x="13" y="16" width="38" height="34" rx="13" fill="none" stroke="currentColor" stroke-width="3.5" />
+                  <circle cx="25" cy="31" r="4" fill="currentColor" />
+                  <circle cx="39" cy="31" r="4" fill="currentColor" />
+                  <path d="M25 41c3.8 2.8 10.2 2.8 14 0" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" />
+                  <path d="M8 30v8M56 30v8" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" />
+                </svg>
+                <span>Skill / Agent / Harness / OpenClaw</span>
+              </button>
+              <div class="ai-flow-path" data-ai-path="tools-prompt-a"></div>
+              <button type="button" class="ai-flow-node" data-ai-step="1" data-ai-node="prompt-a">
+                <b>Prompt A</b>
+                <span>说法 A</span>
+              </button>
+              <div class="ai-flow-path" data-ai-path="tools-prompt-b"></div>
+              <button type="button" class="ai-flow-node" data-ai-step="2" data-ai-node="prompt-b">
+                <b>Prompt B</b>
+                <span>说法 B</span>
+              </button>
+              <div class="ai-flow-path" data-ai-path="prompt-a-bad"></div>
+              <button type="button" class="ai-flow-node" data-ai-step="3" data-ai-node="bad">
+                <b>×</b>
+                <span>不是我想要的</span>
+              </button>
+              <div class="ai-flow-path" data-ai-path="prompt-b-good"></div>
+              <button type="button" class="ai-flow-node" data-ai-step="4" data-ai-node="good">
+                <b>✓</b>
+                <span>这次对了</span>
+              </button>
+              <div class="ai-flow-path" data-ai-path="bad-comm"></div>
+              <div class="ai-flow-path" data-ai-path="good-comm"></div>
+              <button type="button" class="ai-flow-node" data-ai-step="5" data-ai-node="comm">
+                <b>沟通</b>
+                <span>根本问题</span>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <section class="swiper-slide" data-hash="confuse" data-title="惑章">
+          <div class="stage wide confuse-stage">
+            <div class="chapter-heading" data-animate>
+              <span class="chapter-line" aria-hidden="true"></span>
+              <h2 class="chapter-title" data-title-trigger tabindex="0" role="button" aria-expanded="false">惑章</h2>
+            </div>
+            <p class="lead no-wrap" data-animate>
+              在聊 AI 之前，先把一个更普通的问题说清楚：
+              <span class="accent">我们到底在沟通什么？</span>
+            </p>
+            <div class="chain-lab" data-animate>
+              <div class="chain-board" aria-label="惑章链式引导">
+                <button type="button" class="chain-node is-visible is-active" data-chain-step="0" data-chain-node="0">
+                  <b>载体 A</b>
+                  <span>人 / 文档 / AI</span>
+                </button>
+                <div class="chain-link" data-chain-link="0">→</div>
+                <button type="button" class="chain-node" data-chain-step="1" data-chain-node="1">
+                  <b>信息</b>
+                  <span>被表达</span>
+                </button>
+                <div class="chain-link" data-chain-link="1">→</div>
+                <button type="button" class="chain-node" data-chain-step="2" data-chain-node="2">
+                  <b>载体 B</b>
+                  <span>人 / 文档 / AI</span>
+                </button>
+                <div class="chain-link" data-chain-link="2">→</div>
+                <button type="button" class="chain-node" data-chain-step="3" data-chain-node="3">
+                  <b>理解</b>
+                  <span>能动还原</span>
+                </button>
+                <div class="chain-link" data-chain-link="3">→</div>
+                <button type="button" class="chain-node" data-chain-step="4" data-chain-node="4">
+                  <b>沟通</b>
+                  <span>确认同一件事</span>
+                </button>
               </div>
             </div>
           </div>
@@ -2682,6 +3162,65 @@
 
       document.querySelectorAll("[data-demo]").forEach((button) => {
         button.addEventListener("click", () => setDemo(button.dataset.demo));
+      });
+
+      function setAiFlowStep(step) {
+        const index = Number(step);
+        if (!Number.isInteger(index) || index < 0 || index > 5) return;
+
+        document.querySelectorAll("[data-ai-node]").forEach((node) => {
+          const nodeIndex = Number(node.dataset.aiStep);
+          node.classList.toggle("is-on", nodeIndex <= index);
+          node.classList.toggle("is-active", nodeIndex === index);
+        });
+
+        const activePaths = {
+          0: [],
+          1: ["tools-prompt-a"],
+          2: ["tools-prompt-a", "tools-prompt-b"],
+          3: ["tools-prompt-a", "tools-prompt-b", "prompt-a-bad"],
+          4: ["tools-prompt-a", "tools-prompt-b", "prompt-a-bad", "prompt-b-good"],
+          5: ["tools-prompt-a", "tools-prompt-b", "prompt-a-bad", "prompt-b-good", "bad-comm", "good-comm"],
+        }[index] || [];
+
+        document.querySelectorAll("[data-ai-path]").forEach((path) => {
+          path.classList.toggle("is-on", activePaths.includes(path.dataset.aiPath));
+        });
+
+        if (window.gsap) {
+          const activeNode = document.querySelector(`[data-ai-step="${index}"]`);
+          gsap.fromTo(activeNode, { scale: 0.94 }, { scale: 1, duration: 0.3, ease: "back.out(2)" });
+        }
+      }
+
+      document.querySelectorAll("[data-ai-step]").forEach((button) => {
+        button.addEventListener("click", (event) => {
+          event.stopPropagation();
+          setAiFlowStep(button.dataset.aiStep);
+        });
+      });
+
+      function setChainStep(step) {
+        const index = Number(step);
+        if (!Number.isInteger(index) || index < 0 || index > 4) return;
+
+        document.querySelectorAll("[data-chain-node]").forEach((node) => {
+          const nodeIndex = Number(node.dataset.chainNode);
+          node.classList.toggle("is-visible", nodeIndex <= index);
+          node.classList.toggle("is-past", nodeIndex < index);
+          node.classList.toggle("is-active", nodeIndex === index);
+        });
+
+        document.querySelectorAll("[data-chain-link]").forEach((link) => {
+          link.classList.toggle("is-on", Number(link.dataset.chainLink) < index);
+        });
+      }
+
+      document.querySelectorAll("[data-chain-step]").forEach((button) => {
+        button.addEventListener("click", (event) => {
+          event.stopPropagation();
+          setChainStep(button.dataset.chainStep);
+        });
       });
 
       slides.forEach((slide) => {
