@@ -442,28 +442,6 @@
         white-space: nowrap;
       }
 
-      [data-title-trigger] {
-        position: relative;
-        display: inline-flex;
-        align-items: center;
-        width: fit-content;
-        cursor: pointer;
-        outline: none;
-        transition:
-          color 0.24s ease,
-          transform 0.24s ease;
-      }
-
-      [data-title-trigger]:hover {
-        color: var(--accent);
-        transform: translateX(2px);
-      }
-
-      [data-title-trigger]:focus-visible {
-        box-shadow: 0 0 0 4px rgba(198, 106, 29, 0.14);
-        border-radius: 16px;
-      }
-
       h3 {
         color: var(--heading);
         font-family: var(--font-body);
@@ -503,46 +481,6 @@
 
       .confuse-stage .chain-board {
         justify-content: start;
-      }
-
-      [data-detail] {
-        display: none;
-        opacity: 0;
-      }
-
-      .swiper-slide:not(.is-expanded) [data-detail] {
-        display: none !important;
-      }
-
-      .swiper-slide.is-expanded [data-detail] {
-        display: block;
-      }
-
-      .swiper-slide.is-expanded .grid-2[data-detail],
-      .swiper-slide.is-expanded .grid-3[data-detail],
-      .swiper-slide.is-expanded .fallacy-grid[data-detail],
-      .swiper-slide.is-expanded .work-grid[data-detail],
-      .swiper-slide.is-expanded .formula[data-detail],
-      .swiper-slide.is-expanded .timeline[data-detail],
-      .swiper-slide.is-expanded .logic-table[data-detail],
-      .swiper-slide.is-expanded .rewrite[data-detail],
-      .swiper-slide.is-expanded .demo[data-detail],
-      .swiper-slide.is-expanded .meta-list[data-detail] {
-        display: grid;
-      }
-
-      .swiper-slide.is-expanded .chips[data-detail] {
-        display: flex;
-      }
-
-      .swiper-slide:not(.is-expanded) .stage.split,
-      .swiper-slide:not(.is-expanded) .stage.split.reverse,
-      .swiper-slide:not(.is-expanded) .stage.hero-grid {
-        grid-template-columns: minmax(0, 1fr);
-      }
-
-      .swiper-slide:not(.is-expanded) .stage {
-        width: min(980px, calc(100vw - 120px));
       }
 
       .accent {
@@ -1449,7 +1387,6 @@
         padding-top: 0;
       }
 
-      .swiper-slide:not(.is-expanded) .stage.violence-stage,
       .swiper-slide.is-content-ready .stage.violence-stage {
         width: 1620px;
       }
@@ -2320,22 +2257,12 @@
             <div class="cover-copy">
               <div class="chapter-heading" data-animate>
                 <span class="chapter-line" aria-hidden="true"></span>
-                <h1 class="chapter-title" data-title-trigger tabindex="0" role="button" aria-expanded="false">始章</h1>
+                <h1 class="chapter-title">始章</h1>
               </div>
               <p class="lead" data-animate>
                 这次不把 AI 当成一个新工具来讲，而是回到一个更底层的问题：
                 <span class="accent">我们如何组织信息，才能让沟通、协作和判断更稳定？</span>
               </p>
-              <div class="meta-list" data-detail data-animate>
-                <div class="meta-item">
-                  <b>主题</b>
-                  <span>从日常交流到大语言模型：信息如何被表达、压缩、推理和反馈。</span>
-                </div>
-                <div class="meta-item">
-                  <b>目标</b>
-                  <span>带走一套马上能用的 AI 协作方法，而不是只记住几个提示词。</span>
-                </div>
-              </div>
             </div>
             <div class="ai-flow" data-animate aria-label="AI 使用偏差到沟通的互动流程">
               <button type="button" class="ai-flow-node is-active" data-ai-step="0" data-ai-node="tools" aria-label="AI 工具">
@@ -2384,7 +2311,7 @@
           <div class="stage wide confuse-stage">
             <div class="chapter-heading" data-animate>
               <span class="chapter-line" aria-hidden="true"></span>
-              <h2 class="chapter-title" data-title-trigger tabindex="0" role="button" aria-expanded="false">惑章</h2>
+              <h2 class="chapter-title">惑章</h2>
             </div>
             <p class="lead no-wrap" data-animate>
               在聊 AI 之前，先把一个更普通的问题说清楚：
@@ -2426,7 +2353,7 @@
             <div>
               <div class="chapter-heading" data-animate>
                 <span class="chapter-line" aria-hidden="true"></span>
-                <h2 class="chapter-title" data-title-trigger tabindex="0" role="button" aria-expanded="false">问章</h2>
+                <h2 class="chapter-title">问章</h2>
               </div>
               <p class="lead" data-animate>
                 关键不是“怎么问 AI”，而是“怎么描述世界”。人和 AI 都不直接处理现实本身，而是处理现实被语言、表格、截图、会议纪要、需求文档压缩后的版本。
@@ -2468,7 +2395,7 @@
           <div class="stage">
             <div class="chapter-heading" data-animate>
               <span class="chapter-line" aria-hidden="true"></span>
-              <h2 class="chapter-title" data-title-trigger tabindex="0" role="button" aria-expanded="false">流章</h2>
+              <h2 class="chapter-title">流章</h2>
             </div>
             <p class="lead" data-animate>
               一件事从现实走向行动，会经过一条信息链路。只要其中任何一段含糊，后面的动作就会开始漂移；AI 加进来以后，这个漂移会被更快地放大。
@@ -2518,7 +2445,7 @@
             <div>
               <div class="chapter-heading" data-animate>
                 <span class="chapter-line" aria-hidden="true"></span>
-                <h2 class="chapter-title" data-title-trigger tabindex="0" role="button" aria-expanded="false">损章</h2>
+                <h2 class="chapter-title">损章</h2>
               </div>
               <p class="lead" data-animate>信息损耗通常不是“没有说”，而是“说了但没被正确还原”。工作里的返工、误会、低效，很多都发生在这些微小断点上。</p>
             </div>
@@ -2575,7 +2502,7 @@
           <div class="stage violence-stage">
             <div class="chapter-heading" data-animate>
               <span class="chapter-line" aria-hidden="true"></span>
-              <h2 class="chapter-title" data-title-trigger tabindex="0" role="button" aria-expanded="false">谬章</h2>
+              <h2 class="chapter-title">谬章</h2>
             </div>
             <p class="lead" data-animate>
               当语言不再传递信息，而是在争夺控制权，沟通就会变形。有些表达表面是在沟通，实际是在偷换问题：不讨论事实、理由和选择，而是把话题推向身份、亏欠、道德和服从。
@@ -2658,7 +2585,7 @@
             <div>
               <div class="chapter-heading" data-animate>
                 <span class="chapter-line" aria-hidden="true"></span>
-                <h2 class="chapter-title" data-title-trigger tabindex="0" role="button" aria-expanded="false">算章</h2>
+                <h2 class="chapter-title">算章</h2>
               </div>
               <p class="lead" data-animate>
                 大语言模型的“推理”，可以先理解成上下文塑形后的概率选择。它不是在读懂你的全部现实，而是在你提供的上下文里，持续预测接下来最合理的表达、步骤和结构。
@@ -2722,43 +2649,43 @@
           </div>
         </section>
 
-        <section class="swiper-slide" data-hash="prompt" data-title="词章">
+        <section class="swiper-slide" data-hash="prompt" data-title="敛章">
           <div class="stage">
             <div class="chapter-heading" data-animate>
               <span class="chapter-line" aria-hidden="true"></span>
-              <h2 class="chapter-title" data-title-trigger tabindex="0" role="button" aria-expanded="false">词章</h2>
+              <h2 class="chapter-title">敛章</h2>
             </div>
             <p class="lead" data-animate>
-              提示词的本质，是把问题变成结构。真正有复用价值的不是某一句“神奇提示词”，而是背后的信息槽。
+              和 AI 沟通，不是追求一句万能提示词，而是用更具体的描述，把它的概率从“很多可能”收敛到“更接近你的目标”。
             </p>
-            <div class="formula" data-detail>
+            <div class="formula" data-animate>
               <div class="slot" data-animate>
-                <b>目标</b>
-                <span>要生成什么结果？用来做什么？</span>
+                <b>动作</b>
+                <span>不是“帮我弄一下”，而是写、改、总结、对比、检查。</span>
               </div>
               <div class="slot" data-animate>
-                <b>角色</b>
-                <span>让 AI 站在哪个专业视角？</span>
+                <b>对象</b>
+                <span>明确处理谁、什么材料、哪一段内容。</span>
               </div>
               <div class="slot" data-animate>
-                <b>上下文</b>
-                <span>背景、受众、现状、已知材料。</span>
+                <b>场景</b>
+                <span>公司群、会议纪要、汇报文档、用户反馈。</span>
               </div>
               <div class="slot" data-animate>
-                <b>约束</b>
-                <span>语气、长度、格式、禁区、时间。</span>
+                <b>受众</b>
+                <span>给老板、同事、客户、候选人，表达会完全不同。</span>
               </div>
               <div class="slot" data-animate>
-                <b>样例</b>
-                <span>参考、反例、已有风格。</span>
+                <b>边界</b>
+                <span>字数、语气、格式、不能说什么、必须包含什么。</span>
               </div>
               <div class="slot" data-animate>
-                <b>标准</b>
-                <span>怎么判断输出是否可用？</span>
+                <b>例子</b>
+                <span>给一个参考或反例，让概率往你想要的风格靠近。</span>
               </div>
               <div class="slot" data-animate>
-                <b>反馈</b>
-                <span>指出偏差，推动下一轮收敛。</span>
+                <b>校准</b>
+                <span>指出哪里偏了，让下一轮继续收敛。</span>
               </div>
             </div>
           </div>
@@ -2768,31 +2695,9 @@
           <div class="stage">
             <div class="chapter-heading" data-animate>
               <span class="chapter-line" aria-hidden="true"></span>
-              <h2 class="chapter-title" data-title-trigger tabindex="0" role="button" aria-expanded="false">演章</h2>
+              <h2 class="chapter-title">演章</h2>
             </div>
             <p class="lead" data-animate>同一个任务，信息密度不同，输出质量会完全不同。</p>
-            <div class="demo" data-detail data-animate>
-              <div class="demo-box">
-                <div class="demo-switch">
-                  <button type="button" class="active" data-demo="loose">弱输入</button>
-                  <button type="button" data-demo="structured">结构化输入</button>
-                </div>
-                <pre id="demoPrompt">帮我写一个双周分享会通知。</pre>
-              </div>
-              <div class="demo-box">
-                <h3 style="margin-bottom: 18px;">可能得到的结果</h3>
-                <pre id="demoOutput">文字通常不会太差，但它会偏通用：不知道公司机制、不知道本期主题亮点，也不一定会顺手征集下一期分享人。</pre>
-                <div class="score-line">
-                  <div class="score"><b id="score1">38</b><span>目标清晰</span></div>
-                  <div class="score"><b id="score2">24</b><span>上下文</span></div>
-                  <div class="score"><b id="score3">31</b><span>可执行</span></div>
-                  <div class="score"><b id="score4">26</b><span>可复用</span></div>
-                </div>
-              </div>
-            </div>
-            <p class="speaker-note" data-detail data-animate>
-              讲述建议：现场可以真的打开一个 AI 工具，先输入弱提示，再输入结构化提示。让大家看到变化，比解释概念更有说服力。
-            </p>
           </div>
         </section>
 
@@ -2801,33 +2706,11 @@
             <div>
               <div class="chapter-heading" data-animate>
                 <span class="chapter-line" aria-hidden="true"></span>
-                <h2 class="chapter-title" data-title-trigger tabindex="0" role="button" aria-expanded="false">行章</h2>
+                <h2 class="chapter-title">行章</h2>
               </div>
               <p class="lead" data-animate>
                 AI 最适合放在“信息半成品”的加工环节。从零让 AI 替你决定方向，风险很高；把原始材料、判断标准和边界交给 AI，让它整理、改写、对比、挑错，收益更稳定。
               </p>
-            </div>
-            <div class="work-grid" data-detail>
-              <div class="mini-card" data-animate>
-                <span class="num">WORKFLOW 01</span>
-                <h3>会议后 10 分钟</h3>
-                <p>纪要 → 结论、行动项、负责人、截止时间、待确认问题。</p>
-              </div>
-              <div class="mini-card" data-animate>
-                <span class="num">WORKFLOW 02</span>
-                <h3>写作前 5 分钟</h3>
-                <p>先让 AI 追问目标、受众、语气、结构，再开始写。</p>
-              </div>
-              <div class="mini-card" data-animate>
-                <span class="num">WORKFLOW 03</span>
-                <h3>交付前 8 分钟</h3>
-                <p>让 AI 从挑错者视角检查遗漏、歧义、风险和下一步。</p>
-              </div>
-              <div class="mini-card" data-animate>
-                <span class="num">WORKFLOW 04</span>
-                <h3>复盘后沉淀</h3>
-                <p>把一次经验变成模板、检查清单、下次可复用的提示词结构。</p>
-              </div>
             </div>
           </div>
         </section>
@@ -2836,33 +2719,11 @@
           <div class="stage">
             <div class="chapter-heading" data-animate>
               <span class="chapter-line" aria-hidden="true"></span>
-              <h2 class="chapter-title" data-title-trigger tabindex="0" role="button" aria-expanded="false">会章</h2>
+              <h2 class="chapter-title">会章</h2>
             </div>
             <p class="lead" data-animate>
               双周分享会不是“每两周找个人讲一次”，而是通过通知、征集、候选池、现场演示和归档，减少知识流动中的断点。
             </p>
-            <div class="timeline" data-detail>
-              <div class="time-item" data-animate>
-                <h3>通知</h3>
-                <p>提前把时间、地点、主题、主讲人和内容方向说清楚。</p>
-              </div>
-              <div class="time-item" data-animate>
-                <h3>征集</h3>
-                <p>本期通知发出时，同步启动下一期报名。</p>
-              </div>
-              <div class="time-item" data-animate>
-                <h3>候选池</h3>
-                <p>把临时意愿变成稳定排期，避免内容断档。</p>
-              </div>
-              <div class="time-item" data-animate>
-                <h3>演示</h3>
-                <p>用真实案例和现场操作，让经验更容易复制。</p>
-              </div>
-              <div class="time-item" data-animate>
-                <h3>归档</h3>
-                <p>把一次分享变成团队长期可检索的知识资产。</p>
-              </div>
-            </div>
           </div>
         </section>
 
@@ -2871,33 +2732,11 @@
             <div>
               <div class="chapter-heading" data-animate>
                 <span class="chapter-line" aria-hidden="true"></span>
-                <h2 class="chapter-title" data-title-trigger tabindex="0" role="button" aria-expanded="false">合章</h2>
+                <h2 class="chapter-title">合章</h2>
               </div>
               <p class="lead" data-animate>
                 新的分工是：人负责定义现实，AI 负责扩展候选。AI 的价值，是让我们更快看到更多表达、方案和风险，然后由人做最后取舍。
               </p>
-            </div>
-            <div class="grid-2" data-detail>
-              <div class="mini-card" data-animate>
-                <span class="num green">HUMAN</span>
-                <h3>真实目标</h3>
-                <p>为什么要做，做到什么程度算完成。</p>
-              </div>
-              <div class="mini-card" data-animate>
-                <span class="num green">HUMAN</span>
-                <h3>边界判断</h3>
-                <p>哪些信息可靠，哪些结论不能直接用。</p>
-              </div>
-              <div class="mini-card" data-animate>
-                <span class="num blue">AI</span>
-                <h3>信息重组</h3>
-                <p>摘要、归类、改写、格式化、转换视角。</p>
-              </div>
-              <div class="mini-card" data-animate>
-                <span class="num blue">AI</span>
-                <h3>快速反馈</h3>
-                <p>从用户、老板、同事、风险视角模拟追问。</p>
-              </div>
             </div>
           </div>
         </section>
@@ -2906,17 +2745,9 @@
           <div class="stage">
             <div class="chapter-heading" data-animate>
               <span class="chapter-line" aria-hidden="true"></span>
-              <h2 class="chapter-title" data-title-trigger tabindex="0" role="button" aria-expanded="false">终章</h2>
+              <h2 class="chapter-title">终章</h2>
             </div>
             <p class="lead" data-animate>清楚的问题会得到可用的候选；混乱的问题只会得到顺滑的混乱。</p>
-            <div class="quote" style="margin-top: 34px;" data-detail data-animate>
-              如果这次分享只留下一个动作：下次问 AI 前，先补齐目标、上下文、约束和验收标准。
-            </div>
-            <div class="chips" data-detail data-animate>
-              <span class="chip">Q&A</span>
-              <span class="chip">现场改一个真实提示</span>
-              <span class="chip">找一个团队信息断点</span>
-            </div>
           </div>
         </section>
       </div>
@@ -3673,77 +3504,14 @@
       function getBaseItems(slide) {
         if (!slide) return [];
         return Array.from(slide.querySelectorAll("[data-animate]")).filter(
-          (item) => !item.closest("[data-detail]") && !item.classList.contains("chapter-heading")
+          (item) => !item.classList.contains("chapter-heading")
         );
-      }
-
-      function getDetailItems(slide) {
-        if (!slide) return [];
-        return Array.from(slide.querySelectorAll("[data-detail], [data-detail] [data-animate]"));
-      }
-
-      function setExpanded(slide, expanded, options = {}) {
-        if (!slide || !window.gsap) return;
-        const immediate = Boolean(options.immediate);
-        const details = Array.from(slide.querySelectorAll("[data-detail]"));
-        const detailItems = getDetailItems(slide);
-        const title = slide.querySelector("[data-title-trigger]");
-
-        if (title) {
-          title.setAttribute("aria-expanded", expanded ? "true" : "false");
-        }
-
-        if (expanded) {
-          slide.classList.add("is-expanded");
-          gsap.killTweensOf(detailItems);
-          gsap.set(details, { display: "" });
-          gsap.fromTo(
-            detailItems,
-            { autoAlpha: 0, y: 28, filter: "blur(10px)" },
-            {
-              autoAlpha: 1,
-              y: 0,
-              filter: "blur(0px)",
-              duration: immediate ? 0 : 0.52,
-              stagger: immediate ? 0 : 0.035,
-              ease: "power3.out",
-            }
-          );
-          gsap.to(slide.querySelectorAll(".prob-bar"), {
-            width: (_, bar) => bar.dataset.bar || "60%",
-            duration: immediate ? 0 : 0.66,
-            stagger: immediate ? 0 : 0.07,
-            ease: "power3.out",
-          });
-        } else {
-          gsap.killTweensOf(detailItems);
-          const hide = () => {
-            slide.classList.remove("is-expanded");
-            gsap.set(detailItems, { autoAlpha: 0, y: 28, filter: "blur(10px)" });
-            gsap.set(slide.querySelectorAll(".prob-bar"), { width: "0%" });
-          };
-
-          if (immediate) {
-            hide();
-          } else {
-            gsap.to(detailItems, {
-              autoAlpha: 0,
-              y: 22,
-              filter: "blur(10px)",
-              duration: 0.28,
-              stagger: 0.012,
-              ease: "power2.out",
-              onComplete: hide,
-            });
-          }
-        }
       }
 
       function resetSlide(slide) {
         if (!window.gsap || !slide) return;
         const items = slide.querySelectorAll("[data-animate]");
         slide.classList.remove("is-title-only", "is-content-ready");
-        setExpanded(slide, false, { immediate: true });
         gsap.killTweensOf(items);
         gsap.set(items, { autoAlpha: 0, y: 46, filter: "blur(14px)" });
         gsap.set(slide.querySelectorAll(".prob-bar"), { width: "0%" });
@@ -3760,7 +3528,6 @@
         const bars = slide.querySelectorAll(".prob-bar");
         const orbit = slide.querySelector(".orbit-ring");
 
-        setExpanded(slide, false, { immediate: true });
         slide.classList.remove("is-content-ready");
         slide.classList.add("is-title-only");
 
@@ -3782,7 +3549,6 @@
           ease: "power2.out",
           onComplete: () => {
             slide.classList.remove("is-title-only", "is-content-ready");
-            setExpanded(slide, false, { immediate: true });
           },
         });
       }
@@ -3799,7 +3565,6 @@
 
         const stage = slide.querySelector(".stage");
         const heading = slide.querySelector(".chapter-heading");
-        setExpanded(slide, false, { immediate: true });
         slide.classList.remove("is-title-only");
         slide.classList.add("is-content-ready");
 
@@ -4117,21 +3882,6 @@
         if (!activeSlide?.classList.contains("is-title-only")) return;
         event.preventDefault();
         revealSlideContent(activeSlide);
-      });
-
-      document.querySelectorAll("[data-title-trigger]").forEach((title) => {
-        const toggle = () => {
-          const slide = title.closest(".swiper-slide");
-          if (slide?.classList.contains("is-title-only")) return;
-          setExpanded(slide, !slide.classList.contains("is-expanded"));
-        };
-        title.addEventListener("click", toggle);
-        title.addEventListener("keydown", (event) => {
-          if (event.key === "Enter" || event.key === " ") {
-            event.preventDefault();
-            toggle();
-          }
-        });
       });
 
       if (!window.Swiper || !window.gsap) {
