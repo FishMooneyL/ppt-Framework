@@ -1576,14 +1576,61 @@
         box-shadow: 0 34px 120px rgba(0, 0, 0, 0.38);
       }
 
-      .prompt-modal pre {
+      .prompt-text {
         margin: 0;
-        white-space: pre-wrap;
-        word-break: break-word;
         color: var(--heading);
         font-family: var(--font-body);
         font-size: 18px;
         line-height: 1.85;
+      }
+
+      .prompt-mark {
+        cursor: pointer;
+        border-bottom: 1px dashed rgba(255, 255, 255, 0.62);
+        transition:
+          color 0.2s ease,
+          border-color 0.2s ease;
+      }
+
+      .prompt-mark:hover,
+      .prompt-mark.active {
+        color: #fff;
+        border-bottom-style: solid;
+        border-bottom-color: rgba(255, 255, 255, 0.95);
+      }
+
+      .prompt-bubble {
+        position: absolute;
+        z-index: 3;
+        display: none;
+        width: 330px;
+        padding: 16px 18px;
+        border-radius: 20px;
+        color: #111;
+        background: rgba(255, 255, 255, 0.96);
+        box-shadow:
+          0 20px 70px rgba(0, 0, 0, 0.38),
+          inset 0 0 0 1px rgba(183, 108, 255, 0.28);
+      }
+
+      .prompt-bubble.is-open {
+        display: block;
+      }
+
+      .prompt-bubble b {
+        display: block;
+        margin-bottom: 8px;
+        color: var(--accent);
+        font-size: 12px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .prompt-bubble span {
+        display: block;
+        color: rgba(0, 0, 0, 0.82);
+        font-size: 15px;
+        line-height: 1.65;
       }
 
       .control-dialog {
@@ -2767,7 +2814,10 @@
     <div class="prompt-overlay" data-prompt-overlay aria-hidden="true">
       <div class="prompt-modal" role="dialog" aria-modal="true" aria-label="长 Prompt 案例">
         <button type="button" class="translate-close" data-prompt-close aria-label="关闭">×</button>
-        <pre>现在我有个界面样式需求，目前我们项目是德州扑克相关的类似推特的网站，算是个垂直领域网站，框架nextjs，目前我们现在这个样式都是基于原型html进行了基本的布局，然后我希望我们的UI样式能够精致一点，我说的不是那种假精致，也不是随便找几个颜色涂上去就可以了，我们需要的是有一种艺术性的美学，也不是利用夸张的大字体对应小字体凸显某个部分，也不是希望样式有多花哨，有多少动效，我们更多的是希望看起来很协调，“看”这个词可能对于你来说很困难，你只需要理解两种颜色撞到一起不是很夸张的那种，我需要的是一种平衡，一种让用户能够看到这个就知道这个是内容，这个是标题，我不会奢望ui一次性就能达到我的要求，我们可以维护一个ui的规则在：“UI审美.md”里面，我会描述我看到你修改后的的内容是让我舒服的，你就总结这一块的内容的规律到这个md里面，然后如果我认为什么地方不足，你也得记录在里面，防止下次会出现类似的情况，比如某些颜色不能同时在一个容器里面出现，某些布局过于夸张，需要张弛有度，你得总结出我认为好看的布局，并且整体项目的骨架不要大改，除非你可以保证这个功能是在业务形态上是满足产品的本意，必要时刻你可以进页面查看当前页面效果是否达到了你设想的布局，并且我希望你能够在网上查找star比较高的github相关提示词以及相关网站，找出来之后你需要自己总结相关的内容到md，以及保存链接，有必要的时候还可以去到链接里面确认设计的页面是满足了用户的某种需求，现在请你找出一些相关符合推特风格的这种颜色设计的资料给我来看，让我可以通过链接访问网站来确定某些点，就算不是推特风格的也行，我需要有一些格调，并且我和你说的这些内容的关键点也得先写入审美.md，确保之后的规则都是按照当前用户的意图来执行的</pre>
+        <p class="prompt-text">
+          现在我有个界面样式需求，目前我们项目是<span class="prompt-mark" data-prompt-mark="context">德州扑克相关的类似推特的网站，算是个垂直领域网站，框架nextjs，目前我们现在这个样式都是基于原型html进行了基本的布局</span>，然后我希望我们的UI样式能够精致一点，<span class="prompt-mark" data-prompt-mark="positive">我说的不是那种假精致，也不是随便找几个颜色涂上去就可以了，我们需要的是有一种艺术性的美学</span>，也不是利用夸张的大字体对应小字体凸显某个部分，也不是希望样式有多花哨，有多少动效，我们更多的是希望看起来很协调，“看”这个词可能对于你来说很困难，你只需要理解<span class="prompt-mark" data-prompt-mark="negative">两种颜色撞到一起不是很夸张的那种，我需要的是一种平衡</span>，一种让用户能够看到这个就知道这个是内容，这个是标题，我不会奢望ui一次性就能达到我的要求，我们可以维护一个ui的规则在：“UI审美.md”里面，<span class="prompt-mark" data-prompt-mark="memory">我会描述我看到你修改后的的内容是让我舒服的，你就总结这一块的内容的规律到这个md里面，然后如果我认为什么地方不足，你也得记录在里面，防止下次会出现类似的情况</span>，比如某些颜色不能同时在一个容器里面出现，某些布局过于夸张，需要张弛有度，你得总结出我认为好看的布局，并且<span class="prompt-mark" data-prompt-mark="boundary">整体项目的骨架不要大改，除非你可以保证这个功能是在业务形态上是满足产品的本意</span>，<span class="prompt-mark" data-prompt-mark="verify">必要时刻你可以进页面查看当前页面效果是否达到了你设想的布局</span>，并且我希望你能够在网上查找star比较高的github相关提示词以及相关网站，找出来之后你需要自己总结相关的内容到md，以及保存链接，有必要的时候还可以去到链接里面确认设计的页面是满足了用户的某种需求，现在请你找出一些相关符合推特风格的这种颜色设计的资料给我来看，让我可以通过链接访问网站来确定某些点，就算不是推特风格的也行，我需要有一些格调，并且<span class="prompt-mark" data-prompt-mark="deliver">我和你说的这些内容的关键点也得先写入审美.md，确保之后的规则都是按照当前用户的意图来执行的</span>
+        </p>
+        <div class="prompt-bubble" data-prompt-bubble aria-live="polite"></div>
       </div>
     </div>
 
@@ -3790,6 +3840,68 @@
         return bubble;
       }
 
+      const promptMarkMap = {
+        context: {
+          title: "收敛项目场景",
+          text: "这段是在告诉 AI：别按普通网站乱设计。它是德州扑克、类推特、Next.js、已有原型，所以后面只能在这个产品语境里想 UI。",
+        },
+        positive: {
+          title: "收敛审美目标",
+          text: "这里不是只说“好看”，而是把目标说成精致、有美学。AI 就不该只加颜色、阴影、渐变来糊弄。",
+        },
+        negative: {
+          title: "排除错误风格",
+          text: "这段是在说不要冲、不要撞、不要过度刺激。它把 AI 容易走偏的花哨路线先剪掉。",
+        },
+        memory: {
+          title: "收敛成长期规则",
+          text: "这里让 AI 不只是改一次，而是把你觉得舒服或不舒服的规律记下来，下次继续沿用，减少重复犯错。",
+        },
+        boundary: {
+          title: "限制改动范围",
+          text: "这段是在防止 AI 为了好看把页面骨架推翻。意思是：可以美化，但不能破坏产品原本要解决的问题。",
+        },
+        verify: {
+          title: "要求看真实效果",
+          text: "这里把判断从脑补拉回页面实际效果。UI 不是只看代码，必须看渲染后舒服不舒服。",
+        },
+        deliver: {
+          title: "明确当前交付",
+          text: "最后这段把任务收口：先把关键规则写进文档，保证后续所有 UI 调整都按这个审美意图执行。",
+        },
+      };
+
+      function closePromptBubble() {
+        const bubble = document.querySelector("[data-prompt-bubble]");
+        if (!bubble) return;
+        bubble.classList.remove("is-open");
+      }
+
+      function openPromptBubble(mark) {
+        const data = promptMarkMap[mark.dataset.promptMark];
+        const bubble = document.querySelector("[data-prompt-bubble]");
+        const modal = document.querySelector(".prompt-modal");
+        if (!data || !bubble || !modal) return;
+
+        document.querySelectorAll("[data-prompt-mark]").forEach((item) => {
+          item.classList.toggle("active", item === mark);
+        });
+
+        bubble.innerHTML = `<b>${data.title}</b><span>${data.text}</span>`;
+        bubble.classList.add("is-open");
+
+        const markRect = mark.getBoundingClientRect();
+        const modalRect = modal.getBoundingClientRect();
+        const left = Math.min(modal.clientWidth - 350, Math.max(18, markRect.left - modalRect.left + markRect.width / 2 - 165));
+        const top = Math.min(modal.scrollTop + modal.clientHeight - 160, Math.max(modal.scrollTop + 18, markRect.bottom - modalRect.top + modal.scrollTop + 14));
+        bubble.style.left = `${left}px`;
+        bubble.style.top = `${top}px`;
+
+        if (window.gsap) {
+          gsap.fromTo(bubble, { autoAlpha: 0, y: 10 }, { autoAlpha: 1, y: 0, duration: 0.24, ease: "power2.out" });
+        }
+      }
+
       function closeTranslateOverlay() {
         const overlay = document.querySelector("[data-translate-overlay]");
         if (!overlay) return;
@@ -3802,6 +3914,7 @@
         if (!overlay) return;
         overlay.classList.remove("is-open");
         overlay.setAttribute("aria-hidden", "true");
+        closePromptBubble();
       }
 
       function openPromptOverlay() {
@@ -3878,13 +3991,28 @@
       });
 
       document.querySelector("[data-prompt-overlay]")?.addEventListener("click", (event) => {
-        if (event.target === event.currentTarget) closePromptOverlay();
+        if (event.target === event.currentTarget) {
+          closePromptOverlay();
+          return;
+        }
+        if (!event.target.closest("[data-prompt-mark]") && !event.target.closest("[data-prompt-bubble]")) {
+          closePromptBubble();
+          document.querySelectorAll("[data-prompt-mark]").forEach((item) => item.classList.remove("active"));
+        }
+      });
+
+      document.querySelectorAll("[data-prompt-mark]").forEach((mark) => {
+        mark.addEventListener("click", (event) => {
+          event.stopPropagation();
+          openPromptBubble(mark);
+        });
       });
 
       document.addEventListener("keydown", (event) => {
         if (event.key === "Escape") {
           closeTranslateOverlay();
           closePromptOverlay();
+          closePromptBubble();
         }
       });
 
