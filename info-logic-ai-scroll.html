@@ -1524,6 +1524,68 @@
         line-height: 1;
       }
 
+      .prompt-trigger {
+        appearance: none;
+        display: grid;
+        place-items: center;
+        width: 48px;
+        height: 42px;
+        margin-top: 30px;
+        padding: 0;
+        border: 0;
+        border-radius: 16px;
+        color: rgba(255, 255, 255, 0.84);
+        background: rgba(255, 255, 255, 0.1);
+        cursor: pointer;
+        transition:
+          color 0.22s ease,
+          background 0.22s ease,
+          transform 0.22s ease,
+          filter 0.22s ease;
+      }
+
+      .prompt-trigger:hover {
+        color: #fff;
+        background: rgba(183, 108, 255, 0.3);
+        filter: drop-shadow(0 0 14px rgba(183, 108, 255, 0.34));
+        transform: translateY(-2px);
+      }
+
+      .prompt-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 92;
+        display: none;
+        place-items: center;
+        background: rgba(5, 2, 8, 0.72);
+        backdrop-filter: blur(18px);
+      }
+
+      .prompt-overlay.is-open {
+        display: grid;
+      }
+
+      .prompt-modal {
+        position: relative;
+        width: 980px;
+        max-height: 72vh;
+        padding: 34px 38px;
+        overflow: auto;
+        border-radius: 32px;
+        background: rgba(255, 255, 255, 0.11);
+        box-shadow: 0 34px 120px rgba(0, 0, 0, 0.38);
+      }
+
+      .prompt-modal pre {
+        margin: 0;
+        white-space: pre-wrap;
+        word-break: break-word;
+        color: var(--heading);
+        font-family: var(--font-body);
+        font-size: 18px;
+        line-height: 1.85;
+      }
+
       .control-dialog {
         min-height: 220px;
         padding: 18px;
@@ -1879,46 +1941,6 @@
         line-height: 1.45;
       }
 
-      .formula {
-        display: grid;
-        grid-template-columns: repeat(7, minmax(0, 1fr));
-        gap: 10px;
-        margin-top: 42px;
-      }
-
-      .slot {
-        position: relative;
-        min-height: 148px;
-        padding: 18px 14px;
-        border-top: 2px solid var(--ink);
-      }
-
-      .slot::after {
-        content: "→";
-        position: absolute;
-        right: -11px;
-        top: 20px;
-        color: var(--accent);
-        font-weight: 900;
-      }
-
-      .slot:last-child::after {
-        display: none;
-      }
-
-      .slot b {
-        display: block;
-        margin-bottom: 11px;
-        font-size: 20px;
-        letter-spacing: -0.03em;
-      }
-
-      .slot span {
-        color: var(--muted);
-        font-size: 14px;
-        line-height: 1.55;
-      }
-
       .demo {
         display: grid;
         grid-template-columns: minmax(340px, 0.9fr) minmax(0, 1.1fr);
@@ -2159,7 +2181,6 @@
         .fallacy-grid,
         .control-dialog-grid,
         .work-grid,
-        .formula,
         .timeline,
         .logic-row,
         .rewrite-row {
@@ -2173,7 +2194,6 @@
         .ai-flow-path,
         .flow-arrow,
         .chain-link,
-        .slot::after,
         .arrow-mid {
           display: none;
         }
@@ -2658,36 +2678,12 @@
             <p class="lead" data-animate>
               和 AI 沟通，不是追求一句万能提示词，而是用更具体的描述，把它的概率从“很多可能”收敛到“更接近你的目标”。
             </p>
-            <div class="formula" data-animate>
-              <div class="slot" data-animate>
-                <b>动作</b>
-                <span>不是“帮我弄一下”，而是写、改、总结、对比、检查。</span>
-              </div>
-              <div class="slot" data-animate>
-                <b>对象</b>
-                <span>明确处理谁、什么材料、哪一段内容。</span>
-              </div>
-              <div class="slot" data-animate>
-                <b>场景</b>
-                <span>公司群、会议纪要、汇报文档、用户反馈。</span>
-              </div>
-              <div class="slot" data-animate>
-                <b>受众</b>
-                <span>给老板、同事、客户、候选人，表达会完全不同。</span>
-              </div>
-              <div class="slot" data-animate>
-                <b>边界</b>
-                <span>字数、语气、格式、不能说什么、必须包含什么。</span>
-              </div>
-              <div class="slot" data-animate>
-                <b>例子</b>
-                <span>给一个参考或反例，让概率往你想要的风格靠近。</span>
-              </div>
-              <div class="slot" data-animate>
-                <b>校准</b>
-                <span>指出哪里偏了，让下一轮继续收敛。</span>
-              </div>
-            </div>
+            <button type="button" class="prompt-trigger" data-prompt-open data-animate aria-label="查看长 Prompt 案例">
+              <svg class="translate-card-icon" viewBox="0 0 32 32" aria-hidden="true">
+                <rect x="5" y="7" width="22" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2.4" />
+                <path d="M10 13h12M10 18h8" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" />
+              </svg>
+            </button>
           </div>
         </section>
 
@@ -2765,6 +2761,13 @@
           <div class="translate-kicker">翻译成信息</div>
           <div class="translate-dialog" data-translate-target></div>
         </div>
+      </div>
+    </div>
+
+    <div class="prompt-overlay" data-prompt-overlay aria-hidden="true">
+      <div class="prompt-modal" role="dialog" aria-modal="true" aria-label="长 Prompt 案例">
+        <button type="button" class="translate-close" data-prompt-close aria-label="关闭">×</button>
+        <pre>现在我有个界面样式需求，目前我们项目是德州扑克相关的类似推特的网站，算是个垂直领域网站，框架nextjs，目前我们现在这个样式都是基于原型html进行了基本的布局，然后我希望我们的UI样式能够精致一点，我说的不是那种假精致，也不是随便找几个颜色涂上去就可以了，我们需要的是有一种艺术性的美学，也不是利用夸张的大字体对应小字体凸显某个部分，也不是希望样式有多花哨，有多少动效，我们更多的是希望看起来很协调，“看”这个词可能对于你来说很困难，你只需要理解两种颜色撞到一起不是很夸张的那种，我需要的是一种平衡，一种让用户能够看到这个就知道这个是内容，这个是标题，我不会奢望ui一次性就能达到我的要求，我们可以维护一个ui的规则在：“UI审美.md”里面，我会描述我看到你修改后的的内容是让我舒服的，你就总结这一块的内容的规律到这个md里面，然后如果我认为什么地方不足，你也得记录在里面，防止下次会出现类似的情况，比如某些颜色不能同时在一个容器里面出现，某些布局过于夸张，需要张弛有度，你得总结出我认为好看的布局，并且整体项目的骨架不要大改，除非你可以保证这个功能是在业务形态上是满足产品的本意，必要时刻你可以进页面查看当前页面效果是否达到了你设想的布局，并且我希望你能够在网上查找star比较高的github相关提示词以及相关网站，找出来之后你需要自己总结相关的内容到md，以及保存链接，有必要的时候还可以去到链接里面确认设计的页面是满足了用户的某种需求，现在请你找出一些相关符合推特风格的这种颜色设计的资料给我来看，让我可以通过链接访问网站来确定某些点，就算不是推特风格的也行，我需要有一些格调，并且我和你说的这些内容的关键点也得先写入审美.md，确保之后的规则都是按照当前用户的意图来执行的</pre>
       </div>
     </div>
 
@@ -3794,6 +3797,28 @@
         overlay.setAttribute("aria-hidden", "true");
       }
 
+      function closePromptOverlay() {
+        const overlay = document.querySelector("[data-prompt-overlay]");
+        if (!overlay) return;
+        overlay.classList.remove("is-open");
+        overlay.setAttribute("aria-hidden", "true");
+      }
+
+      function openPromptOverlay() {
+        const overlay = document.querySelector("[data-prompt-overlay]");
+        if (!overlay) return;
+        overlay.classList.add("is-open");
+        overlay.setAttribute("aria-hidden", "false");
+
+        if (window.gsap) {
+          gsap.fromTo(
+            overlay.querySelector(".prompt-modal"),
+            { autoAlpha: 0, scale: 0.96, y: 24 },
+            { autoAlpha: 1, scale: 1, y: 0, duration: 0.34, ease: "power3.out" }
+          );
+        }
+      }
+
       function openTranslateOverlay(type, chatWindow) {
         const overlay = document.querySelector("[data-translate-overlay]");
         const source = document.querySelector("[data-translate-source]");
@@ -3842,8 +3867,25 @@
         if (event.target === event.currentTarget) closeTranslateOverlay();
       });
 
+      document.querySelector("[data-prompt-open]")?.addEventListener("click", (event) => {
+        event.stopPropagation();
+        openPromptOverlay();
+      });
+
+      document.querySelector("[data-prompt-close]")?.addEventListener("click", (event) => {
+        event.stopPropagation();
+        closePromptOverlay();
+      });
+
+      document.querySelector("[data-prompt-overlay]")?.addEventListener("click", (event) => {
+        if (event.target === event.currentTarget) closePromptOverlay();
+      });
+
       document.addEventListener("keydown", (event) => {
-        if (event.key === "Escape") closeTranslateOverlay();
+        if (event.key === "Escape") {
+          closeTranslateOverlay();
+          closePromptOverlay();
+        }
       });
 
       document.querySelectorAll("[data-chat-window]").forEach((windowEl) => {
