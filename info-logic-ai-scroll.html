@@ -1288,6 +1288,114 @@
         color: var(--red);
       }
 
+      .chat-window {
+        width: min(360px, 100%);
+        min-height: 430px;
+        padding: 22px;
+        justify-self: start;
+        border: 0;
+        border-radius: 28px;
+        background: rgba(255, 255, 255, 0.08);
+        cursor: pointer;
+        margin-top: -50px;
+      }
+
+      .loss-stage {
+        grid-template-columns: minmax(0, 0.82fr) minmax(720px, 1.18fr);
+      }
+
+      .chat-pair {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+        align-items: start;
+      }
+
+      .chat-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 20px;
+        color: var(--faint);
+        font-size: 13px;
+        font-weight: 800;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .chat-dots {
+        display: inline-flex;
+        gap: 6px;
+      }
+
+      .chat-dots i {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.28);
+      }
+
+      .chat-body {
+        display: grid;
+        gap: 14px;
+      }
+
+      .chat-bubble {
+        display: none;
+        max-width: 78%;
+        padding: 14px 16px;
+        border-radius: 20px;
+        color: var(--heading);
+        font-size: 16px;
+        line-height: 1.55;
+      }
+
+      .chat-bubble.is-visible {
+        display: block;
+      }
+
+      .chat-bubble.left {
+        justify-self: start;
+        border-bottom-left-radius: 7px;
+        color: #111;
+        background: #fff;
+      }
+
+      .chat-bubble.right {
+        justify-self: end;
+        border-bottom-right-radius: 7px;
+        color: #fff;
+        background: #07c160;
+      }
+
+      .chat-bubble.problem {
+        color: #111;
+        background: #fff;
+      }
+
+      .chat-bubble.right.problem {
+        color: #fff;
+        background: #07c160;
+      }
+
+      .control-dialog-grid .chat-bubble.problem {
+        justify-self: center;
+        max-width: 92%;
+        border: 1px solid rgba(255, 255, 255, 0.22);
+        border-radius: 18px;
+        color: #fff;
+        background: rgba(255, 255, 255, 0.12);
+        text-align: center;
+        backdrop-filter: blur(10px);
+      }
+
+      .chat-hint {
+        margin-top: 18px;
+        color: var(--faint);
+        font-size: 13px;
+        text-align: center;
+      }
+
       .grid-2,
       .fallacy-grid,
       .work-grid {
@@ -1327,6 +1435,79 @@
         color: var(--muted);
         font-size: 16px;
         line-height: 1.65;
+      }
+
+      .control-dialog-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 8px;
+        margin-top: 30px;
+      }
+
+      .violence-stage {
+        width: 1620px;
+        padding-top: 0;
+      }
+
+      .swiper-slide:not(.is-expanded) .stage.violence-stage,
+      .swiper-slide.is-content-ready .stage.violence-stage {
+        width: 1620px;
+      }
+
+      .control-dialog-grid .chat-window {
+        width: 100%;
+        min-height: 330px;
+        margin-top: 0;
+        padding: 16px;
+      }
+
+      .control-dialog-grid .chat-bubble {
+        max-width: 88%;
+        padding: 11px 13px;
+        font-size: 14px;
+        line-height: 1.45;
+      }
+
+      .control-dialog {
+        min-height: 220px;
+        padding: 18px;
+        border-top: 1px solid rgba(255, 255, 255, 0.22);
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.095), rgba(255, 255, 255, 0));
+      }
+
+      .control-dialog .tag {
+        display: block;
+        margin-bottom: 16px;
+        color: var(--red);
+        font-size: 12px;
+        font-weight: 850;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+      }
+
+      .dialog-line {
+        margin-top: 10px;
+        padding: 12px 14px;
+        border-radius: 18px;
+        font-size: 15px;
+        line-height: 1.45;
+      }
+
+      .dialog-line.ask {
+        color: #111;
+        background: #fff;
+      }
+
+      .dialog-line.trap {
+        color: #fff;
+        background: rgba(255, 122, 144, 0.62);
+      }
+
+      .control-dialog p {
+        margin-top: 14px;
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.55;
       }
 
       .fallacy-card {
@@ -1777,6 +1958,7 @@
         .grid-2,
         .grid-3,
         .fallacy-grid,
+        .control-dialog-grid,
         .work-grid,
         .formula,
         .timeline,
@@ -1820,6 +2002,10 @@
           height: auto;
           display: grid;
           gap: 22px;
+        }
+
+        .chat-pair {
+          grid-template-columns: 1fr;
         }
 
         .scene-center,
@@ -2066,7 +2252,7 @@
         </section>
 
         <section class="swiper-slide" data-hash="loss" data-title="损章">
-          <div class="stage split reverse">
+          <div class="stage split reverse loss-stage">
             <div>
               <div class="chapter-heading" data-animate>
                 <span class="chapter-line" aria-hidden="true"></span>
@@ -2074,33 +2260,57 @@
               </div>
               <p class="lead" data-animate>信息损耗通常不是“没有说”，而是“说了但没被正确还原”。工作里的返工、误会、低效，很多都发生在这些微小断点上。</p>
             </div>
-            <div class="grid-2" data-detail>
-              <div class="mini-card" data-animate>
-                <span class="num">LOSS 01</span>
-                <h3>省略</h3>
-                <p>我以为你知道背景，所以没有说清楚目标、限制、优先级。</p>
+            <div class="chat-pair">
+              <div class="chat-window" data-animate data-chat-window aria-label="脑补导致的信息损耗对话窗口">
+                <div class="chat-body">
+                  <div class="chat-bubble left is-visible" data-chat-bubble>
+                    A：我今晚可能来不了，家里临时有点事。
+                  </div>
+                  <div class="chat-bubble right" data-chat-bubble>
+                    B：A 说他今晚不来了。
+                  </div>
+                  <div class="chat-bubble left" data-chat-bubble>
+                    C：他是不是不想参加？
+                  </div>
+                  <div class="chat-bubble right" data-chat-bubble>
+                    B：可能吧，感觉他不太积极。
+                  </div>
+                  <div class="chat-bubble left problem" data-chat-bubble>
+                    原信息：可能来不了，因为家里临时有事。
+                  </div>
+                  <div class="chat-bubble right problem" data-chat-bubble>
+                    损耗点：原因丢了，态度被脑补出来了。
+                  </div>
+                </div>
               </div>
-              <div class="mini-card" data-animate>
-                <span class="num">LOSS 02</span>
-                <h3>歧义</h3>
-                <p>“尽快”“优化一下”“高级一点”听起来明确，执行时却有很多版本。</p>
-              </div>
-              <div class="mini-card" data-animate>
-                <span class="num">LOSS 03</span>
-                <h3>噪声</h3>
-                <p>无关信息太多，真正影响判断的变量被淹没。</p>
-              </div>
-              <div class="mini-card" data-animate>
-                <span class="num">LOSS 04</span>
-                <h3>过期</h3>
-                <p>上下文已经变化，但文档、口径和下一步动作没有同步更新。</p>
+              <div class="chat-window" data-animate data-chat-window aria-label="添油加醋导致的信息损耗对话窗口">
+                <div class="chat-body">
+                  <div class="chat-bubble left is-visible" data-chat-bubble>
+                    A：这个方案我还想再看看，有几个点没想清楚。
+                  </div>
+                  <div class="chat-bubble right" data-chat-bubble>
+                    B：A 说这个方案不太行。
+                  </div>
+                  <div class="chat-bubble left" data-chat-bubble>
+                    C：他原话这么说的？
+                  </div>
+                  <div class="chat-bubble right" data-chat-bubble>
+                    B：差不多吧，他看起来挺不满意的。
+                  </div>
+                  <div class="chat-bubble left problem" data-chat-bubble>
+                    原信息：还没想清楚，需要再确认。
+                  </div>
+                  <div class="chat-bubble right problem" data-chat-bubble>
+                    损耗点：谨慎表达被加工成了否定态度。
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </section>
 
         <section class="swiper-slide" data-hash="violence" data-title="染章">
-          <div class="stage">
+          <div class="stage violence-stage">
             <div class="chapter-heading" data-animate>
               <span class="chapter-line" aria-hidden="true"></span>
               <h2 class="chapter-title" data-title-trigger tabindex="0" role="button" aria-expanded="false">染章</h2>
@@ -2108,26 +2318,50 @@
             <p class="lead" data-animate>
               当语言不再传递信息，而是在争夺控制权，沟通就会变形。有些表达表面是在沟通，实际是在偷换问题：不讨论事实、理由和选择，而是把话题推向身份、亏欠、道德和服从。
             </p>
-            <div class="fallacy-grid" style="margin-top: 42px;" data-detail>
-              <div class="fallacy-card" data-animate>
-                <span class="tag red">偷换概念</span>
-                <blockquote>“你现在翅膀硬了是吧？”</blockquote>
-                <p>把“不同意见”偷换成“背叛 / 不服管”。</p>
+            <div class="control-dialog-grid" data-animate>
+              <div class="chat-window" data-chat-window aria-label="道德绑架对话窗口">
+                <div class="chat-body">
+                  <div class="chat-bubble left is-visible" data-chat-bubble>你不听我的，就是不孝。</div>
+                  <div class="chat-bubble right" data-chat-bubble>我是在讨论选择，不是在否定你。</div>
+                  <div class="chat-bubble left" data-chat-bubble>你现在连基本的良心都没有了吗？</div>
+                  <div class="chat-bubble left problem" data-chat-bubble>损失点：事实分歧被推成道德审判。</div>
+                  <div class="chat-bubble right" data-chat-bubble>我不接受用“有没有良心”来评价我。我们可以讨论这件事的选择、影响和边界；如果你不同意，请说具体理由。</div>
+                  <div class="chat-bubble left" data-chat-bubble>你读书就是跟我犟嘴的？</div>
+                  <div class="chat-bubble right" data-chat-bubble>你冷静之后我们再聊。</div>
+                </div>
               </div>
-              <div class="fallacy-card" data-animate>
-                <span class="tag red">身份压制</span>
-                <blockquote>“我生了你，你就得听我的。”</blockquote>
-                <p>把“生育事实”偷换成“永久控制权”。</p>
+              <div class="chat-window" data-chat-window aria-label="服从控制对话窗口">
+                <div class="chat-body">
+                  <div class="chat-bubble left is-visible" data-chat-bubble>你要是真的爱我，就应该听我的。</div>
+                  <div class="chat-bubble right" data-chat-bubble>爱不等于必须服从。</div>
+                  <div class="chat-bubble left" data-chat-bubble>那你就是不在乎我。</div>
+                  <div class="chat-bubble left problem" data-chat-bubble>损失点：关系诉求被偷换成服从要求。</div>
+                  <div class="chat-bubble right" data-chat-bubble>我在乎你，但这个决定需要按理由讨论。</div>
+                  <div class="chat-bubble left" data-chat-bubble>你就是自私，只想着你自己。</div>
+                  <div class="chat-bubble right" data-chat-bubble>如果继续用标签评价我，我们先暂停，等能具体讨论再说。</div>
+                </div>
               </div>
-              <div class="fallacy-card" data-animate>
-                <span class="tag red">动机遮蔽</span>
-                <blockquote>“我都是为你好。”</blockquote>
-                <p>用“出发点正确”掩盖方法是否合理。</p>
+              <div class="chat-window" data-chat-window aria-label="身份压制对话窗口">
+                <div class="chat-body">
+                  <div class="chat-bubble left is-visible" data-chat-bubble>我是你长辈，你就得尊重我。</div>
+                  <div class="chat-bubble right" data-chat-bubble>尊重可以有，但理由也要能讨论。</div>
+                  <div class="chat-bubble left" data-chat-bubble>你现在是在教我做事？</div>
+                  <div class="chat-bubble left problem" data-chat-bubble>损失点：事实和理由被身份压掉。</div>
+                  <div class="chat-bubble right" data-chat-bubble>我尊重身份，但这件事还是要看事实和边界。</div>
+                  <div class="chat-bubble left" data-chat-bubble>你还没资格跟我谈边界。</div>
+                  <div class="chat-bubble right" data-chat-bubble>如果不能讨论事实，只能讨论资格，那这个话题先到这里。</div>
+                </div>
               </div>
-              <div class="fallacy-card" data-animate>
-                <span class="tag red">人格攻击</span>
-                <blockquote>“你怎么这么不懂事？”</blockquote>
-                <p>把具体分歧升级成人格否定。</p>
+              <div class="chat-window" data-chat-window aria-label="亏欠控制对话窗口">
+                <div class="chat-body">
+                  <div class="chat-bubble left is-visible" data-chat-bubble>没有我，你能有今天吗？</div>
+                  <div class="chat-bubble right" data-chat-bubble>我承认你的付出，但这件事还是要单独判断。</div>
+                  <div class="chat-bubble left" data-chat-bubble>所以你现在就是忘恩负义。</div>
+                  <div class="chat-bubble left problem" data-chat-bubble>损失点：过去帮助变成了现在的控制筹码。</div>
+                  <div class="chat-bubble right" data-chat-bubble>感谢和亏欠我会面对，但不能用来替代这件事的判断。</div>
+                  <div class="chat-bubble left" data-chat-bubble>现在让你做这点事，你都不愿意？</div>
+                  <div class="chat-bubble right" data-chat-bubble>我会记得你的付出，但这件事我不会用亏欠来决定。</div>
+                </div>
               </div>
             </div>
           </div>
@@ -3446,6 +3680,28 @@
         button.addEventListener("click", (event) => {
           event.stopPropagation();
           setChainStep(button.dataset.chainStep);
+        });
+      });
+
+      document.querySelectorAll("[data-chat-window]").forEach((windowEl) => {
+        const bubbles = Array.from(windowEl.querySelectorAll("[data-chat-bubble]"));
+        let visibleCount = bubbles.filter((bubble) => bubble.classList.contains("is-visible")).length || 1;
+
+        windowEl.addEventListener("click", (event) => {
+          event.stopPropagation();
+          if (visibleCount >= bubbles.length) {
+            visibleCount = 1;
+            bubbles.forEach((bubble, index) => bubble.classList.toggle("is-visible", index === 0));
+            return;
+          }
+
+          const bubble = bubbles[visibleCount];
+          bubble.classList.add("is-visible");
+          visibleCount += 1;
+
+          if (window.gsap) {
+            gsap.fromTo(bubble, { autoAlpha: 0, y: 16 }, { autoAlpha: 1, y: 0, duration: 0.3, ease: "power2.out" });
+          }
         });
       });
 
