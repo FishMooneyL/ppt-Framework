@@ -1750,6 +1750,30 @@
         align-items: center;
       }
 
+      .feedback-row {
+        grid-template-columns: max-content 42px max-content;
+        justify-content: start;
+      }
+
+      .feedback-row .rewrite-cell {
+        width: max-content;
+        max-width: 680px;
+      }
+
+      .feedback-row .rewrite-cell.bad {
+        max-width: 260px;
+      }
+
+      .feedback-row .rewrite-cell {
+        padding: 0;
+        border: 0;
+        background: transparent;
+      }
+
+      .feedback-row .rewrite-cell b {
+        display: none;
+      }
+
       .rewrite-cell {
         padding: 22px;
         border: 1px solid var(--line);
@@ -2734,52 +2758,27 @@
           </div>
         </section>
 
-        <section class="swiper-slide" data-hash="demo" data-title="演章">
+        <section class="swiper-slide" data-hash="feedback" data-title="馈章">
           <div class="stage">
             <div class="chapter-heading" data-animate>
               <span class="chapter-line" aria-hidden="true"></span>
-              <h2 class="chapter-title">演章</h2>
-            </div>
-            <p class="lead" data-animate>同一个任务，信息密度不同，输出质量会完全不同。</p>
-          </div>
-        </section>
-
-        <section class="swiper-slide" data-hash="workflow" data-title="行章">
-          <div class="stage split reverse">
-            <div>
-              <div class="chapter-heading" data-animate>
-                <span class="chapter-line" aria-hidden="true"></span>
-                <h2 class="chapter-title">行章</h2>
-              </div>
-              <p class="lead" data-animate>
-                AI 最适合放在“信息半成品”的加工环节。从零让 AI 替你决定方向，风险很高；把原始材料、判断标准和边界交给 AI，让它整理、改写、对比、挑错，收益更稳定。
-              </p>
-            </div>
-          </div>
-        </section>
-
-        <section class="swiper-slide" data-hash="system" data-title="会章">
-          <div class="stage">
-            <div class="chapter-heading" data-animate>
-              <span class="chapter-line" aria-hidden="true"></span>
-              <h2 class="chapter-title">会章</h2>
+              <h2 class="chapter-title">馈章</h2>
             </div>
             <p class="lead" data-animate>
-              双周分享会不是“每两周找个人讲一次”，而是通过通知、征集、候选池、现场演示和归档，减少知识流动中的断点。
+              收敛不是一次完成的。第一次 Prompt 只是把方向拉近，真正稳定的结果来自持续反馈。不要只说“再好一点”，而是把偏差说成具体信息。
             </p>
-          </div>
-        </section>
-
-        <section class="swiper-slide" data-hash="human-ai" data-title="合章">
-          <div class="stage split">
-            <div>
-              <div class="chapter-heading" data-animate>
-                <span class="chapter-line" aria-hidden="true"></span>
-                <h2 class="chapter-title">合章</h2>
+            <div class="rewrite" data-animate>
+              <div class="rewrite-row feedback-row">
+                <div class="rewrite-cell bad">
+                  <b>低质量反馈</b>
+                  <span>不够高级，再精致一点。</span>
+                </div>
+                <div class="arrow-mid">→</div>
+                <div class="rewrite-cell good">
+                  <b>高质量反馈</b>
+                  <span>这里的问题不是颜色不够多，而是标题、正文、按钮的层级不清。保持当前布局，只调整字号、间距和灰度，让内容优先级更明显。</span>
+                </div>
               </div>
-              <p class="lead" data-animate>
-                新的分工是：人负责定义现实，AI 负责扩展候选。AI 的价值，是让我们更快看到更多表达、方案和风险，然后由人做最后取舍。
-              </p>
             </div>
           </div>
         </section>
@@ -2790,7 +2789,9 @@
               <span class="chapter-line" aria-hidden="true"></span>
               <h2 class="chapter-title">终章</h2>
             </div>
-            <p class="lead" data-animate>清楚的问题会得到可用的候选；混乱的问题只会得到顺滑的混乱。</p>
+            <p class="lead" data-animate>
+              这次分享最后想落到一句话：AI 不是凭空理解现实，它只是在我们给出的信息版本里继续推下去。现实一旦被语言、截图、纪要和需求压缩，含糊就会沿着链路漂移；语言一旦开始争夺控制权，问题就会被偷换；AI 加进来以后，这些偏差不会消失，只会更快放大。所以真正要练的不是“神奇提示词”，而是把目标、事实、边界、理由和反馈整理成可讨论、可验证、可继续校准的信息结构。
+            </p>
           </div>
         </section>
       </div>
