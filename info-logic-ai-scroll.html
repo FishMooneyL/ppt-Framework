@@ -1197,6 +1197,97 @@
         font-weight: 900;
       }
 
+      .drift-flow {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 56px minmax(0, 1fr) 56px minmax(0, 1fr);
+        grid-template-rows: auto 44px auto;
+        gap: 8px 10px;
+        align-items: center;
+        margin-top: 48px;
+      }
+
+      .drift-step {
+        position: relative;
+        display: grid;
+        align-content: center;
+        justify-items: center;
+        min-height: 178px;
+        padding: 0 8px;
+        text-align: center;
+      }
+
+      .drift-step[data-drift="1"] {
+        grid-column: 1;
+        grid-row: 1;
+      }
+
+      .drift-step[data-drift="2"] {
+        grid-column: 3;
+        grid-row: 1;
+      }
+
+      .drift-step[data-drift="3"] {
+        grid-column: 5;
+        grid-row: 1;
+      }
+
+      .drift-step[data-drift="4"] {
+        grid-column: 5;
+        grid-row: 3;
+      }
+
+      .drift-step[data-drift="5"] {
+        grid-column: 3;
+        grid-row: 3;
+      }
+
+      .drift-step[data-drift="6"] {
+        grid-column: 1;
+        grid-row: 3;
+      }
+
+      .drift-arrow {
+        display: grid;
+        place-items: center;
+        align-self: center;
+        justify-self: center;
+        color: var(--accent);
+        font-size: 26px;
+        font-weight: 900;
+        line-height: 1;
+      }
+
+      .drift-step b {
+        display: block;
+        color: var(--heading);
+        font-family: var(--font-title);
+        font-size: clamp(18px, 1.9vw, 26px);
+        line-height: 1.15;
+        letter-spacing: -0.035em;
+        font-weight: 520;
+      }
+
+      .drift-step span {
+        display: block;
+        margin-top: 10px;
+        color: var(--faint);
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .drift-step p {
+        margin-top: 12px;
+        color: var(--muted);
+        font-size: clamp(13px, 1.05vw, 15px);
+        line-height: 1.55;
+      }
+
+      .drift-step:last-child p {
+        color: var(--red);
+      }
+
       .grid-2,
       .fallacy-grid,
       .work-grid {
@@ -1682,6 +1773,7 @@
         .split.reverse,
         .demo,
         .flow-grid,
+        .drift-flow,
         .grid-2,
         .grid-3,
         .fallacy-grid,
@@ -1738,6 +1830,15 @@
         }
 
         .scene-line {
+          display: none;
+        }
+
+        .drift-step[data-drift] {
+          grid-column: auto;
+          grid-row: auto;
+        }
+
+        .drift-arrow {
           display: none;
         }
       }
@@ -1924,38 +2025,41 @@
             <p class="lead" data-animate>
               一件事从现实走向行动，会经过一条信息链路。只要其中任何一段含糊，后面的动作就会开始漂移；AI 加进来以后，这个漂移会被更快地放大。
             </p>
-            <div class="panel" style="margin-top: 42px;" data-detail data-animate>
-              <div class="flow-grid">
-                <div class="flow-node" data-animate>
-                  <strong>现实</strong>
-                  <span>用户反馈、业务目标、现场问题、真实限制。</span>
-                </div>
-                <div class="flow-arrow" data-animate>→</div>
-                <div class="flow-node" data-animate>
-                  <strong>描述</strong>
-                  <span>我们写下来的需求、消息、提示词、会议纪要。</span>
-                </div>
-                <div class="flow-arrow" data-animate>→</div>
-                <div class="flow-node" data-animate>
-                  <strong>模型</strong>
-                  <span>人脑或 AI 根据已有上下文补全下一步。</span>
-                </div>
+            <div class="drift-flow" data-animate aria-label="一句话多次转述后的信息漂移">
+              <div class="drift-step" data-drift="1">
+                <span>原始反馈</span>
+                <b>提交按钮偶尔没反应</b>
+                <p>主要发生在手机端弱网环境。</p>
               </div>
-              <div class="flow-grid" style="margin-top: 12px;">
-                <div class="flow-node" data-animate>
-                  <strong>反馈</strong>
-                  <span>结果是否有效，哪里不准，下一轮修什么。</span>
-                </div>
-                <div class="flow-arrow" data-animate>←</div>
-                <div class="flow-node" data-animate>
-                  <strong>行动</strong>
-                  <span>执行、发布、沟通、交付、归档。</span>
-                </div>
-                <div class="flow-arrow" data-animate>←</div>
-                <div class="flow-node" data-animate>
-                  <strong>候选</strong>
-                  <span>答案、草稿、方案、摘要、风险清单。</span>
-                </div>
+              <div class="drift-arrow" style="grid-column: 2; grid-row: 1;" aria-hidden="true">→</div>
+              <div class="drift-step" data-drift="2">
+                <span>客服转述</span>
+                <b>提交按钮有问题</b>
+                <p>弱网、手机端、偶尔这些条件没了。</p>
+              </div>
+              <div class="drift-arrow" style="grid-column: 4; grid-row: 1;" aria-hidden="true">→</div>
+              <div class="drift-step" data-drift="3">
+                <span>产品转述</span>
+                <b>提交体验不好</b>
+                <p>具体故障变成了体验感受。</p>
+              </div>
+              <div class="drift-arrow" style="grid-column: 5; grid-row: 2;" aria-hidden="true">↓</div>
+              <div class="drift-step" data-drift="4">
+                <span>会议纪要</span>
+                <b>优化提交流程</b>
+                <p>范围从按钮扩大到整个流程。</p>
+              </div>
+              <div class="drift-arrow" style="grid-column: 4; grid-row: 3;" aria-hidden="true">←</div>
+              <div class="drift-step" data-drift="5">
+                <span>研发任务</span>
+                <b>重构提交页交互</b>
+                <p>开始按一个更大的方案执行。</p>
+              </div>
+              <div class="drift-arrow" style="grid-column: 2; grid-row: 3;" aria-hidden="true">←</div>
+              <div class="drift-step" data-drift="6">
+                <span>AI Prompt</span>
+                <b>设计更好的提交流程</b>
+                <p>最后解决的，可能已经不是原问题。</p>
               </div>
             </div>
           </div>
