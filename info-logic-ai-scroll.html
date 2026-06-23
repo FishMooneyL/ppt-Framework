@@ -1806,8 +1806,22 @@
         background: rgba(255, 255, 255, 0.075);
       }
 
+      .llm-stage {
+        align-content: center;
+      }
+
+      .llm-stage .lead {
+        max-width: 1080px;
+      }
+
+      .llm-stage .llm-lab {
+        margin-top: 30px;
+      }
+
       .llm-switch {
         display: flex;
+        align-items: center;
+        flex-wrap: wrap;
         gap: 10px;
         margin-bottom: 22px;
       }
@@ -1831,7 +1845,7 @@
       }
 
       .llm-prompt {
-        min-height: 72px;
+        min-height: 38px;
         color: var(--heading);
         font-family: var(--font-mono);
         font-size: 15px;
@@ -1842,24 +1856,27 @@
         display: grid;
         grid-template-columns: repeat(5, minmax(0, 1fr));
         gap: 8px;
-        margin-top: 24px;
+        margin-top: 8px;
         align-items: stretch;
       }
 
       .llm-step {
         position: relative;
+        display: grid;
+        place-content: center;
         min-height: 92px;
         padding: 14px 10px;
-        border-top: 1px solid rgba(255, 255, 255, 0.22);
+        text-align: center;
       }
 
       .llm-step::after {
         content: "→";
         position: absolute;
-        top: 12px;
+        top: 50%;
         right: -10px;
         color: var(--accent);
         font-weight: 900;
+        transform: translateY(-50%);
       }
 
       .llm-step:last-child::after {
@@ -1882,51 +1899,30 @@
       }
 
       .llm-result {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 18px;
-        margin-top: 26px;
-      }
-
-      .llm-output {
-        padding: 18px;
-        border-radius: 22px;
-        background: rgba(255, 255, 255, 0.075);
-      }
-
-      .llm-output b {
         display: block;
-        margin-bottom: 10px;
-        color: var(--faint);
-        font-size: 12px;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-      }
-
-      .llm-output span {
-        color: var(--heading);
-        font-family: var(--font-title);
-        font-size: 22px;
-        line-height: 1.35;
+        margin-top: 26px;
       }
 
       .llm-probs {
         display: grid;
-        gap: 12px;
+        gap: 14px;
+        padding: 20px;
+        border-radius: 22px;
+        background: rgba(255, 255, 255, 0.075);
       }
 
       .llm-prob-row {
         display: grid;
-        grid-template-columns: 90px 1fr 44px;
-        gap: 10px;
+        grid-template-columns: 150px 1fr 54px;
+        gap: 14px;
         align-items: center;
         color: var(--muted);
-        font-size: 13px;
-        font-weight: 750;
+        font-size: 15px;
+        font-weight: 800;
       }
 
       .llm-track {
-        height: 10px;
+        height: 12px;
         overflow: hidden;
         border-radius: 999px;
         background: rgba(255, 255, 255, 0.1);
@@ -1937,6 +1933,13 @@
         height: 100%;
         border-radius: inherit;
         background: linear-gradient(90deg, var(--green), var(--accent));
+      }
+
+      .intent-note {
+        margin-top: 12px;
+        color: rgba(255, 255, 255, 0.42);
+        font-size: 12px;
+        line-height: 1.45;
       }
 
       .formula {
@@ -2651,7 +2654,7 @@
         </section>
 
         <section class="swiper-slide" data-hash="llm" data-title="算章">
-          <div class="stage split">
+          <div class="stage llm-stage">
             <div>
               <div class="chapter-heading" data-animate>
                 <span class="chapter-line" aria-hidden="true"></span>
@@ -2665,6 +2668,7 @@
               <div class="llm-switch" aria-label="切换不同 Prompt">
                 <button type="button" class="active" data-llm-mode="vague">模糊 Prompt</button>
                 <button type="button" data-llm-mode="clear">结构 Prompt</button>
+                <button type="button" data-llm-mode="noise">混入无关词</button>
               </div>
               <div class="llm-prompt" id="llmPrompt">帮我写一个通知。</div>
               <div class="llm-flow" aria-label="大模型推理流程">
@@ -2690,10 +2694,6 @@
                 </div>
               </div>
               <div class="llm-result">
-                <div class="llm-output">
-                  <b>输出倾向</b>
-                  <span id="llmOutput">通用通知模板</span>
-                </div>
                 <div class="llm-probs" aria-label="不同输出概率">
                   <div class="llm-prob-row">
                     <span id="llmLabel1">通用模板</span>
@@ -2710,8 +2710,14 @@
                     <div class="llm-track"><div class="llm-bar" id="llmBar3" style="width: 10%;"></div></div>
                     <span id="llmPct3">10%</span>
                   </div>
+                  <div class="llm-prob-row">
+                    <span id="llmLabel4">工作语境</span>
+                    <div class="llm-track"><div class="llm-bar" id="llmBar4" style="width: 8%;"></div></div>
+                    <span id="llmPct4">8%</span>
+                  </div>
                 </div>
               </div>
+              <div class="intent-note">比例是讲解示意：不同 Prompt 会改变模型对关键词和输出方向的概率分布。</div>
             </div>
           </div>
         </section>
@@ -3630,20 +3636,29 @@
       const llmModes = {
         vague: {
           prompt: "帮我写一个通知。",
-          output: "通用通知模板",
           rows: [
             ["通用模板", 72],
             ["可发布版本", 18],
             ["追问信息", 10],
+            ["工作语境", 8],
           ],
         },
         clear: {
           prompt: "请写一条公司群通知：明天下午 3 点，双周分享会，主题“信息逻辑与 AI”，语气轻松专业，200 字内，结尾征集下一期分享人。",
-          output: "接近可直接发布的通知",
           rows: [
-            ["可发布版本", 81],
+            ["公司群通知", 81],
+            ["会议时间地点", 68],
+            ["轻松专业", 52],
             ["通用模板", 13],
-            ["追问信息", 6],
+          ],
+        },
+        noise: {
+          prompt: "请写一条公司群通知：明天下午 3 点，双周分享会，主题“信息逻辑与 AI”，语气轻松专业，200 字内。香蕉。",
+          rows: [
+            ["公司群通知", 65],
+            ["会议时间地点", 54],
+            ["水果/黄色", 16],
+            ["通用模板", 11],
           ],
         },
       };
@@ -3884,9 +3899,7 @@
         });
 
         const prompt = document.getElementById("llmPrompt");
-        const output = document.getElementById("llmOutput");
         if (prompt) prompt.textContent = data.prompt;
-        if (output) output.textContent = data.output;
 
         data.rows.forEach(([label, pct], index) => {
           const row = index + 1;
@@ -3905,7 +3918,7 @@
         });
 
         if (window.gsap) {
-          gsap.fromTo([prompt, output].filter(Boolean), { autoAlpha: 0.35, y: 10 }, { autoAlpha: 1, y: 0, duration: 0.3, ease: "power2.out" });
+          gsap.fromTo(prompt, { autoAlpha: 0.35, y: 10 }, { autoAlpha: 1, y: 0, duration: 0.3, ease: "power2.out" });
         }
       }
 
