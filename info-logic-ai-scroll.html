@@ -1455,10 +1455,17 @@
       }
 
       .control-dialog-grid .chat-window {
+        display: flex;
+        flex-direction: column;
         width: 100%;
         min-height: 330px;
         margin-top: 0;
         padding: 16px;
+      }
+
+      .control-dialog-grid .chat-body {
+        flex: 1;
+        align-content: start;
       }
 
       .control-dialog-grid .chat-bubble {
@@ -1466,6 +1473,118 @@
         padding: 11px 13px;
         font-size: 14px;
         line-height: 1.45;
+      }
+
+      .translate-trigger {
+        appearance: none;
+        display: grid;
+        place-items: center;
+        width: 44px;
+        height: 38px;
+        margin: 14px auto 0;
+        padding: 0;
+        border: 0;
+        border-radius: 16px;
+        color: rgba(255, 255, 255, 0.82);
+        background: rgba(255, 255, 255, 0.1);
+        cursor: pointer;
+        transition:
+          color 0.22s ease,
+          background 0.22s ease,
+          transform 0.22s ease,
+          filter 0.22s ease;
+      }
+
+      .translate-trigger:hover {
+        color: #fff;
+        background: rgba(183, 108, 255, 0.3);
+        filter: drop-shadow(0 0 14px rgba(183, 108, 255, 0.34));
+        transform: translateY(-2px);
+      }
+
+      .translate-card-icon {
+        width: 24px;
+        height: 24px;
+      }
+
+      .translate-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 90;
+        display: none;
+        place-items: center;
+        padding: 0;
+        background: rgba(5, 2, 8, 0.72);
+        backdrop-filter: blur(18px);
+      }
+
+      .translate-overlay.is-open {
+        display: grid;
+      }
+
+      .translate-modal {
+        position: relative;
+        display: grid;
+        grid-template-columns: 660px 660px;
+        gap: 34px;
+        align-items: center;
+        justify-content: center;
+        width: 1354px;
+      }
+
+      .translate-panel {
+        min-height: 530px;
+        padding: 24px;
+        border-radius: 32px;
+        background: rgba(255, 255, 255, 0.1);
+        box-shadow: 0 34px 120px rgba(0, 0, 0, 0.36);
+      }
+
+      .translate-kicker {
+        margin-bottom: 18px;
+        color: var(--faint);
+        font-size: 13px;
+        font-weight: 850;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+      }
+
+      .translate-dialog {
+        display: grid;
+        gap: 14px;
+      }
+
+      .translate-dialog .chat-bubble {
+        display: block;
+        max-width: 82%;
+        padding: 14px 16px;
+        font-size: 16px;
+        line-height: 1.5;
+      }
+
+      .translate-dialog .chat-bubble.problem {
+        justify-self: center;
+        max-width: 92%;
+        border-radius: 18px;
+        color: #fff;
+        background: rgba(255, 255, 255, 0.12);
+        text-align: center;
+      }
+
+      .translate-close {
+        appearance: none;
+        position: absolute;
+        top: -56px;
+        right: 0;
+        width: 42px;
+        height: 42px;
+        border: 0;
+        border-radius: 50%;
+        color: rgba(255, 255, 255, 0.86);
+        background: rgba(255, 255, 255, 0.12);
+        cursor: pointer;
+        font-size: 28px;
+        line-height: 1;
       }
 
       .control-dialog {
@@ -2469,6 +2588,12 @@
                   <div class="chat-bubble left" data-chat-bubble>你读书就是跟我犟嘴的？</div>
                   <div class="chat-bubble right" data-chat-bubble>你冷静之后我们再聊。</div>
                 </div>
+                <button type="button" class="translate-trigger" data-translate-open="moral" aria-label="打开道德绑架的翻译卡片">
+                  <svg class="translate-card-icon" viewBox="0 0 32 32" aria-hidden="true">
+                    <rect x="5" y="7" width="22" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2.4" />
+                    <path d="M10 13h12M10 18h8" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" />
+                  </svg>
+                </button>
               </div>
               <div class="chat-window" data-chat-window aria-label="服从控制对话窗口">
                 <div class="chat-body">
@@ -2480,6 +2605,12 @@
                   <div class="chat-bubble left" data-chat-bubble>你就是自私，只想着你自己。</div>
                   <div class="chat-bubble right" data-chat-bubble>如果继续用标签评价我，我们先暂停，等能具体讨论再说。</div>
                 </div>
+                <button type="button" class="translate-trigger" data-translate-open="obedience" aria-label="打开服从控制的翻译卡片">
+                  <svg class="translate-card-icon" viewBox="0 0 32 32" aria-hidden="true">
+                    <rect x="5" y="7" width="22" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2.4" />
+                    <path d="M10 13h12M10 18h8" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" />
+                  </svg>
+                </button>
               </div>
               <div class="chat-window" data-chat-window aria-label="身份压制对话窗口">
                 <div class="chat-body">
@@ -2491,6 +2622,12 @@
                   <div class="chat-bubble left" data-chat-bubble>你还没资格跟我谈边界。</div>
                   <div class="chat-bubble right" data-chat-bubble>如果不能讨论事实，只能讨论资格，那这个话题先到这里。</div>
                 </div>
+                <button type="button" class="translate-trigger" data-translate-open="identity" aria-label="打开身份压制的翻译卡片">
+                  <svg class="translate-card-icon" viewBox="0 0 32 32" aria-hidden="true">
+                    <rect x="5" y="7" width="22" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2.4" />
+                    <path d="M10 13h12M10 18h8" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" />
+                  </svg>
+                </button>
               </div>
               <div class="chat-window" data-chat-window aria-label="亏欠控制对话窗口">
                 <div class="chat-body">
@@ -2502,50 +2639,12 @@
                   <div class="chat-bubble left" data-chat-bubble>现在让你做这点事，你都不愿意？</div>
                   <div class="chat-bubble right" data-chat-bubble>我会记得你的付出，但这件事我不会用亏欠来决定。</div>
                 </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section class="swiper-slide" data-hash="rewrite" data-title="译章">
-          <div class="stage violence-stage">
-            <div class="chapter-heading" data-animate>
-              <span class="chapter-line" aria-hidden="true"></span>
-              <h2 class="chapter-title" data-title-trigger tabindex="0" role="button" aria-expanded="false">译章</h2>
-            </div>
-            <p class="lead" data-animate>健康沟通不是压掉情绪，而是把情绪翻译成可讨论、可确认、可协商的信息。</p>
-            <div class="control-dialog-grid" data-animate>
-              <div class="chat-window" data-chat-window aria-label="选择分歧的健康表达">
-                <div class="chat-body">
-                  <div class="chat-bubble left is-visible" data-chat-bubble>我感觉你现在有自己的想法了，可以说说你的理由吗？</div>
-                  <div class="chat-bubble right" data-chat-bubble>可以，我想试一次自己的方案，也愿意讲清楚风险。</div>
-                  <div class="chat-bubble left" data-chat-bubble>我担心你踩坑，我们一起把后果列出来看看。</div>
-                  <div class="chat-bubble left problem" data-chat-bubble>翻译点：把“你翅膀硬了”改成“我想理解你的理由”。</div>
-                </div>
-              </div>
-              <div class="chat-window" data-chat-window aria-label="担心的健康表达">
-                <div class="chat-body">
-                  <div class="chat-bubble left is-visible" data-chat-bubble>这件事我有些担心，你愿意听听我的顾虑吗？</div>
-                  <div class="chat-bubble right" data-chat-bubble>可以，但最后决定我希望能自己负责。</div>
-                  <div class="chat-bubble left" data-chat-bubble>好，那我只说风险和建议，不替你做决定。</div>
-                  <div class="chat-bubble left problem" data-chat-bubble>翻译点：把“你就得听我的”改成“我有担心，想表达建议”。</div>
-                </div>
-              </div>
-              <div class="chat-window" data-chat-window aria-label="身份经验的健康表达">
-                <div class="chat-body">
-                  <div class="chat-bubble left is-visible" data-chat-bubble>我有一些经验想分享，但也想听听你的判断。</div>
-                  <div class="chat-bubble right" data-chat-bubble>可以，我们只讨论这件事本身。</div>
-                  <div class="chat-bubble left" data-chat-bubble>好，我说具体原因，你也可以不同意。</div>
-                  <div class="chat-bubble left problem" data-chat-bubble>翻译点：把“我是长辈”改成“我有经验，但理由可以讨论”。</div>
-                </div>
-              </div>
-              <div class="chat-window" data-chat-window aria-label="亏欠关系的健康表达">
-                <div class="chat-body">
-                  <div class="chat-bubble left is-visible" data-chat-bubble>这件事我确实希望你能帮忙，但你可以拒绝。</div>
-                  <div class="chat-bubble right" data-chat-bubble>谢谢你直接说请求，我会认真考虑。</div>
-                  <div class="chat-bubble left" data-chat-bubble>如果你不方便，也告诉我你的边界。</div>
-                  <div class="chat-bubble left problem" data-chat-bubble>翻译点：把“你欠我的”改成“我有请求，你有选择”。</div>
-                </div>
+                <button type="button" class="translate-trigger" data-translate-open="debt" aria-label="打开亏欠控制的翻译卡片">
+                  <svg class="translate-card-icon" viewBox="0 0 32 32" aria-hidden="true">
+                    <rect x="5" y="7" width="22" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2.4" />
+                    <path d="M10 13h12M10 18h8" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" />
+                  </svg>
+                </button>
               </div>
             </div>
           </div>
@@ -2816,6 +2915,20 @@
         </section>
       </div>
       <div class="swiper-pagination"></div>
+    </div>
+
+    <div class="translate-overlay" data-translate-overlay aria-hidden="true">
+      <div class="translate-modal" role="dialog" aria-modal="true" aria-label="沟通翻译对照">
+        <button type="button" class="translate-close" data-translate-close aria-label="关闭">×</button>
+        <div class="translate-panel">
+          <div class="translate-kicker">原对话</div>
+          <div class="translate-dialog" data-translate-source></div>
+        </div>
+        <div class="translate-panel">
+          <div class="translate-kicker">翻译成信息</div>
+          <div class="translate-dialog" data-translate-target></div>
+        </div>
+      </div>
     </div>
 
     <script src="./vendor/gsap.min.js"></script>
@@ -3860,6 +3973,99 @@
           event.stopPropagation();
           setChainStep(button.dataset.chainStep);
         });
+      });
+
+      const translateMap = {
+        moral: [
+          ["left", "我感觉你现在有自己的想法了，可以说说你的理由吗？"],
+          ["right", "可以，我们把选择、影响和边界讲清楚。"],
+          ["left", "我担心你踩坑，我们一起把后果列出来看看。"],
+          ["problem", "翻译点：把道德审判翻译成“我想理解你的理由”。"],
+        ],
+        obedience: [
+          ["left", "这个决定我很在意，你愿意听听我的担心吗？"],
+          ["right", "我会听你的感受，但决定仍然需要看理由和边界。"],
+          ["left", "好，那我只说风险和建议，不替你做决定。"],
+          ["problem", "翻译点：把服从要求翻译成“我有担心，想表达建议”。"],
+        ],
+        identity: [
+          ["left", "我有一些经验想分享，但也想听听你的判断。"],
+          ["right", "可以，我们只讨论这件事本身和具体理由。"],
+          ["left", "好，我说具体原因，你也可以不同意。"],
+          ["problem", "翻译点：把身份压制翻译成“我有经验，但理由可以讨论”。"],
+        ],
+        debt: [
+          ["left", "这件事我确实希望你能帮忙，但你可以拒绝。"],
+          ["right", "我会认真考虑，也会说明我的边界。"],
+          ["left", "如果你不方便，也告诉我你的边界。"],
+          ["problem", "翻译点：把亏欠控制翻译成“我有请求，你有选择”。"],
+        ],
+      };
+
+      function createTranslateBubble(side, text) {
+        const bubble = document.createElement("div");
+        bubble.className = `chat-bubble ${side}`;
+        bubble.textContent = text;
+        return bubble;
+      }
+
+      function closeTranslateOverlay() {
+        const overlay = document.querySelector("[data-translate-overlay]");
+        if (!overlay) return;
+        overlay.classList.remove("is-open");
+        overlay.setAttribute("aria-hidden", "true");
+      }
+
+      function openTranslateOverlay(type, chatWindow) {
+        const overlay = document.querySelector("[data-translate-overlay]");
+        const source = document.querySelector("[data-translate-source]");
+        const target = document.querySelector("[data-translate-target]");
+        const translated = translateMap[type];
+        if (!overlay || !source || !target || !translated || !chatWindow) return;
+
+        source.replaceChildren();
+        target.replaceChildren();
+
+        chatWindow.querySelectorAll("[data-chat-bubble]").forEach((bubble) => {
+          const cloned = bubble.cloneNode(true);
+          cloned.classList.add("is-visible");
+          source.appendChild(cloned);
+        });
+
+        translated.forEach(([side, text]) => {
+          target.appendChild(createTranslateBubble(side, text));
+        });
+
+        overlay.classList.add("is-open");
+        overlay.setAttribute("aria-hidden", "false");
+
+        if (window.gsap) {
+          gsap.fromTo(
+            overlay.querySelector(".translate-modal"),
+            { autoAlpha: 0, scale: 0.96, y: 24 },
+            { autoAlpha: 1, scale: 1, y: 0, duration: 0.34, ease: "power3.out" }
+          );
+        }
+      }
+
+      document.querySelectorAll("[data-translate-open]").forEach((button) => {
+        button.addEventListener("click", (event) => {
+          event.stopPropagation();
+          openTranslateOverlay(button.dataset.translateOpen, button.closest("[data-chat-window]"));
+        });
+      });
+
+      document.querySelector("[data-translate-close]")?.addEventListener("click", (event) => {
+        event.stopPropagation();
+        closeTranslateOverlay();
+      });
+
+      document.querySelector("[data-translate-overlay]")?.addEventListener("click", (event) => {
+        if (event.target === event.currentTarget) closeTranslateOverlay();
+      });
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") closeTranslateOverlay();
       });
 
       document.querySelectorAll("[data-chat-window]").forEach((windowEl) => {
