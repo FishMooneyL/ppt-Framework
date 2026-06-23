@@ -1680,6 +1680,146 @@
         background: linear-gradient(90deg, var(--blue), var(--accent));
       }
 
+      .llm-lab {
+        padding: 26px;
+        border: 1px solid var(--line);
+        border-radius: 30px;
+        background: rgba(255, 255, 255, 0.075);
+      }
+
+      .llm-switch {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 22px;
+      }
+
+      .llm-switch button {
+        cursor: pointer;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        padding: 10px 14px;
+        color: var(--muted);
+        background: transparent;
+        font: inherit;
+        font-size: 14px;
+        font-weight: 850;
+      }
+
+      .llm-switch button.active {
+        color: #12041a;
+        background: var(--ink);
+        border-color: var(--ink);
+      }
+
+      .llm-prompt {
+        min-height: 72px;
+        color: var(--heading);
+        font-family: var(--font-mono);
+        font-size: 15px;
+        line-height: 1.65;
+      }
+
+      .llm-flow {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 8px;
+        margin-top: 24px;
+        align-items: stretch;
+      }
+
+      .llm-step {
+        position: relative;
+        min-height: 92px;
+        padding: 14px 10px;
+        border-top: 1px solid rgba(255, 255, 255, 0.22);
+      }
+
+      .llm-step::after {
+        content: "→";
+        position: absolute;
+        top: 12px;
+        right: -10px;
+        color: var(--accent);
+        font-weight: 900;
+      }
+
+      .llm-step:last-child::after {
+        display: none;
+      }
+
+      .llm-step b {
+        display: block;
+        color: var(--heading);
+        font-size: 16px;
+        line-height: 1.2;
+      }
+
+      .llm-step span {
+        display: block;
+        margin-top: 8px;
+        color: var(--faint);
+        font-size: 12px;
+        line-height: 1.45;
+      }
+
+      .llm-result {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 18px;
+        margin-top: 26px;
+      }
+
+      .llm-output {
+        padding: 18px;
+        border-radius: 22px;
+        background: rgba(255, 255, 255, 0.075);
+      }
+
+      .llm-output b {
+        display: block;
+        margin-bottom: 10px;
+        color: var(--faint);
+        font-size: 12px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .llm-output span {
+        color: var(--heading);
+        font-family: var(--font-title);
+        font-size: 22px;
+        line-height: 1.35;
+      }
+
+      .llm-probs {
+        display: grid;
+        gap: 12px;
+      }
+
+      .llm-prob-row {
+        display: grid;
+        grid-template-columns: 90px 1fr 44px;
+        gap: 10px;
+        align-items: center;
+        color: var(--muted);
+        font-size: 13px;
+        font-weight: 750;
+      }
+
+      .llm-track {
+        height: 10px;
+        overflow: hidden;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      .llm-bar {
+        width: 0;
+        height: 100%;
+        border-radius: inherit;
+        background: linear-gradient(90deg, var(--green), var(--accent));
+      }
+
       .formula {
         display: grid;
         grid-template-columns: repeat(7, minmax(0, 1fr));
@@ -2309,11 +2449,11 @@
           </div>
         </section>
 
-        <section class="swiper-slide" data-hash="violence" data-title="染章">
+        <section class="swiper-slide" data-hash="fallacy" data-title="谬章">
           <div class="stage violence-stage">
             <div class="chapter-heading" data-animate>
               <span class="chapter-line" aria-hidden="true"></span>
-              <h2 class="chapter-title" data-title-trigger tabindex="0" role="button" aria-expanded="false">染章</h2>
+              <h2 class="chapter-title" data-title-trigger tabindex="0" role="button" aria-expanded="false">谬章</h2>
             </div>
             <p class="lead" data-animate>
               当语言不再传递信息，而是在争夺控制权，沟通就会变形。有些表达表面是在沟通，实际是在偷换问题：不讨论事实、理由和选择，而是把话题推向身份、亏欠、道德和服从。
@@ -2367,88 +2507,47 @@
           </div>
         </section>
 
-        <section class="swiper-slide" data-hash="fallacy" data-title="谬章">
-          <div class="stage wide">
-            <div class="chapter-heading" data-animate>
-              <span class="chapter-line" aria-hidden="true"></span>
-              <h2 class="chapter-title" data-title-trigger tabindex="0" role="button" aria-expanded="false">谬章</h2>
-            </div>
-            <p class="lead" data-animate>这些话的问题，不只是“不好听”，而是破坏了信息逻辑。</p>
-            <div class="logic-table" data-detail>
-              <div class="logic-row header" data-animate>
-                <div>话术</div>
-                <div>表面信息</div>
-                <div>真正的问题</div>
-              </div>
-              <div class="logic-row" data-animate>
-                <div><b>“你不听我的，就是不孝。”</b></div>
-                <div><span>我希望你采纳我的意见。</span></div>
-                <div><span>把不同意见定义成道德错误。</span></div>
-              </div>
-              <div class="logic-row" data-animate>
-                <div><b>“没有我，你能有今天吗？”</b></div>
-                <div><span>我曾经帮过你、付出过。</span></div>
-                <div><span>把过去帮助变成现在控制筹码。</span></div>
-              </div>
-              <div class="logic-row" data-animate>
-                <div><b>“你要是真爱我，就应该……”</b></div>
-                <div><span>我希望你重视我的感受。</span></div>
-                <div><span>把爱偷换成服从，把关系变成条件交换。</span></div>
-              </div>
-              <div class="logic-row" data-animate>
-                <div><b>“你太敏感了。”</b></div>
-                <div><span>我不接受你的反应。</span></div>
-                <div><span>否定感受，转移原始问题。</span></div>
-              </div>
-            </div>
-          </div>
-        </section>
-
         <section class="swiper-slide" data-hash="rewrite" data-title="译章">
-          <div class="stage wide">
+          <div class="stage violence-stage">
             <div class="chapter-heading" data-animate>
               <span class="chapter-line" aria-hidden="true"></span>
               <h2 class="chapter-title" data-title-trigger tabindex="0" role="button" aria-expanded="false">译章</h2>
             </div>
             <p class="lead" data-animate>健康沟通不是压掉情绪，而是把情绪翻译成可讨论、可确认、可协商的信息。</p>
-            <div class="rewrite" data-detail>
-              <div class="rewrite-row" data-animate>
-                <div class="rewrite-cell bad">
-                  <b>不健康表达</b>
-                  <span>你翅膀硬了是吧？</span>
-                </div>
-                <div class="arrow-mid">→</div>
-                <div class="rewrite-cell good">
-                  <b>更健康表达</b>
-                  <span>我感觉你现在有自己的想法了，我想听听你的理由。</span>
+            <div class="control-dialog-grid" data-animate>
+              <div class="chat-window" data-chat-window aria-label="选择分歧的健康表达">
+                <div class="chat-body">
+                  <div class="chat-bubble left is-visible" data-chat-bubble>我感觉你现在有自己的想法了，可以说说你的理由吗？</div>
+                  <div class="chat-bubble right" data-chat-bubble>可以，我想试一次自己的方案，也愿意讲清楚风险。</div>
+                  <div class="chat-bubble left" data-chat-bubble>我担心你踩坑，我们一起把后果列出来看看。</div>
+                  <div class="chat-bubble left problem" data-chat-bubble>翻译点：把“你翅膀硬了”改成“我想理解你的理由”。</div>
                 </div>
               </div>
-              <div class="rewrite-row" data-animate>
-                <div class="rewrite-cell bad">
-                  <b>不健康表达</b>
-                  <span>我生了你，你就得听我的。</span>
-                </div>
-                <div class="arrow-mid">→</div>
-                <div class="rewrite-cell good">
-                  <b>更健康表达</b>
-                  <span>我有我的担心，但最终这个选择和你有关，我们可以讨论。</span>
+              <div class="chat-window" data-chat-window aria-label="担心的健康表达">
+                <div class="chat-body">
+                  <div class="chat-bubble left is-visible" data-chat-bubble>这件事我有些担心，你愿意听听我的顾虑吗？</div>
+                  <div class="chat-bubble right" data-chat-bubble>可以，但最后决定我希望能自己负责。</div>
+                  <div class="chat-bubble left" data-chat-bubble>好，那我只说风险和建议，不替你做决定。</div>
+                  <div class="chat-bubble left problem" data-chat-bubble>翻译点：把“你就得听我的”改成“我有担心，想表达建议”。</div>
                 </div>
               </div>
-              <div class="rewrite-row" data-animate>
-                <div class="rewrite-cell bad">
-                  <b>不健康表达</b>
-                  <span>我都是为你好。</span>
+              <div class="chat-window" data-chat-window aria-label="身份经验的健康表达">
+                <div class="chat-body">
+                  <div class="chat-bubble left is-visible" data-chat-bubble>我有一些经验想分享，但也想听听你的判断。</div>
+                  <div class="chat-bubble right" data-chat-bubble>可以，我们只讨论这件事本身。</div>
+                  <div class="chat-bubble left" data-chat-bubble>好，我说具体原因，你也可以不同意。</div>
+                  <div class="chat-bubble left problem" data-chat-bubble>翻译点：把“我是长辈”改成“我有经验，但理由可以讨论”。</div>
                 </div>
-                <div class="arrow-mid">→</div>
-                <div class="rewrite-cell good">
-                  <b>更健康表达</b>
-                  <span>我的出发点是担心你，但我也需要确认我的方式是否合适。</span>
+              </div>
+              <div class="chat-window" data-chat-window aria-label="亏欠关系的健康表达">
+                <div class="chat-body">
+                  <div class="chat-bubble left is-visible" data-chat-bubble>这件事我确实希望你能帮忙，但你可以拒绝。</div>
+                  <div class="chat-bubble right" data-chat-bubble>谢谢你直接说请求，我会认真考虑。</div>
+                  <div class="chat-bubble left" data-chat-bubble>如果你不方便，也告诉我你的边界。</div>
+                  <div class="chat-bubble left problem" data-chat-bubble>翻译点：把“你欠我的”改成“我有请求，你有选择”。</div>
                 </div>
               </div>
             </div>
-            <p class="lead" style="max-width: 980px;" data-detail data-animate>
-              这一页可以连接回 AI：输入信息如果被偷换、污染或压制，输出和行动也会跟着偏。
-            </p>
           </div>
         </section>
 
@@ -2463,39 +2562,57 @@
                 大语言模型的“推理”，可以先理解成上下文塑形后的概率选择。它不是在读懂你的全部现实，而是在你提供的上下文里，持续预测接下来最合理的表达、步骤和结构。
               </p>
             </div>
-            <div class="panel" data-detail data-animate>
-              <h3 data-animate>当前上下文</h3>
-              <div class="token-line">
-                <span class="token" data-animate>请</span>
-                <span class="token" data-animate>写</span>
-                <span class="token" data-animate>一份</span>
-                <span class="token" data-animate>双周分享会</span>
-                <span class="token" data-animate>通知</span>
-                <span class="token next" data-animate>下一词？</span>
+            <div class="llm-lab" data-animate>
+              <div class="llm-switch" aria-label="切换不同 Prompt">
+                <button type="button" class="active" data-llm-mode="vague">模糊 Prompt</button>
+                <button type="button" data-llm-mode="clear">结构 Prompt</button>
               </div>
-              <div class="prob" aria-label="probability example">
-                <div class="prob-row" data-animate>
-                  <span>各位同事</span>
-                  <div class="prob-track"><div class="prob-bar" data-bar="88%"></div></div>
-                  <span>高</span>
+              <div class="llm-prompt" id="llmPrompt">帮我写一个通知。</div>
+              <div class="llm-flow" aria-label="大模型推理流程">
+                <div class="llm-step">
+                  <b>Prompt</b>
+                  <span>输入的上下文</span>
                 </div>
-                <div class="prob-row" data-animate>
-                  <span>尊敬的</span>
-                  <div class="prob-track"><div class="prob-bar" data-bar="58%"></div></div>
-                  <span>中</span>
+                <div class="llm-step">
+                  <b>Token 化</b>
+                  <span>拆成可计算片段</span>
                 </div>
-                <div class="prob-row" data-animate>
-                  <span>会议纪要</span>
-                  <div class="prob-track"><div class="prob-bar" data-bar="24%"></div></div>
-                  <span>低</span>
+                <div class="llm-step">
+                  <b>上下文塑形</b>
+                  <span>注意力分配权重</span>
                 </div>
-                <div class="prob-row" data-animate>
-                  <span>香蕉</span>
-                  <div class="prob-track"><div class="prob-bar" data-bar="5%"></div></div>
-                  <span>极低</span>
+                <div class="llm-step">
+                  <b>概率分布</b>
+                  <span>候选答案排序</span>
+                </div>
+                <div class="llm-step">
+                  <b>输出</b>
+                  <span>选择更可能的表达</span>
                 </div>
               </div>
-              <p class="small" style="margin-top: 20px;" data-animate>示意图只表达机制：上下文改变，概率分布就会改变。</p>
+              <div class="llm-result">
+                <div class="llm-output">
+                  <b>输出倾向</b>
+                  <span id="llmOutput">通用通知模板</span>
+                </div>
+                <div class="llm-probs" aria-label="不同输出概率">
+                  <div class="llm-prob-row">
+                    <span id="llmLabel1">通用模板</span>
+                    <div class="llm-track"><div class="llm-bar" id="llmBar1" style="width: 72%;"></div></div>
+                    <span id="llmPct1">72%</span>
+                  </div>
+                  <div class="llm-prob-row">
+                    <span id="llmLabel2">可发布版本</span>
+                    <div class="llm-track"><div class="llm-bar" id="llmBar2" style="width: 18%;"></div></div>
+                    <span id="llmPct2">18%</span>
+                  </div>
+                  <div class="llm-prob-row">
+                    <span id="llmLabel3">追问信息</span>
+                    <div class="llm-track"><div class="llm-bar" id="llmBar3" style="width: 10%;"></div></div>
+                    <span id="llmPct3">10%</span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </section>
@@ -3397,6 +3514,27 @@
         },
       };
 
+      const llmModes = {
+        vague: {
+          prompt: "帮我写一个通知。",
+          output: "通用通知模板",
+          rows: [
+            ["通用模板", 72],
+            ["可发布版本", 18],
+            ["追问信息", 10],
+          ],
+        },
+        clear: {
+          prompt: "请写一条公司群通知：明天下午 3 点，双周分享会，主题“信息逻辑与 AI”，语气轻松专业，200 字内，结尾征集下一期分享人。",
+          output: "接近可直接发布的通知",
+          rows: [
+            ["可发布版本", 81],
+            ["通用模板", 13],
+            ["追问信息", 6],
+          ],
+        },
+      };
+
       const slides = Array.from(document.querySelectorAll(".swiper-slide"));
       let deckSwiper = null;
 
@@ -3622,6 +3760,47 @@
 
       document.querySelectorAll("[data-demo]").forEach((button) => {
         button.addEventListener("click", () => setDemo(button.dataset.demo));
+      });
+
+      function setLlmMode(mode) {
+        const data = llmModes[mode];
+        if (!data) return;
+
+        document.querySelectorAll("[data-llm-mode]").forEach((button) => {
+          button.classList.toggle("active", button.dataset.llmMode === mode);
+        });
+
+        const prompt = document.getElementById("llmPrompt");
+        const output = document.getElementById("llmOutput");
+        if (prompt) prompt.textContent = data.prompt;
+        if (output) output.textContent = data.output;
+
+        data.rows.forEach(([label, pct], index) => {
+          const row = index + 1;
+          const labelEl = document.getElementById(`llmLabel${row}`);
+          const pctEl = document.getElementById(`llmPct${row}`);
+          const barEl = document.getElementById(`llmBar${row}`);
+          if (labelEl) labelEl.textContent = label;
+          if (pctEl) pctEl.textContent = `${pct}%`;
+          if (barEl) {
+            if (window.gsap) {
+              gsap.to(barEl, { width: `${pct}%`, duration: 0.42, ease: "power2.out" });
+            } else {
+              barEl.style.width = `${pct}%`;
+            }
+          }
+        });
+
+        if (window.gsap) {
+          gsap.fromTo([prompt, output].filter(Boolean), { autoAlpha: 0.35, y: 10 }, { autoAlpha: 1, y: 0, duration: 0.3, ease: "power2.out" });
+        }
+      }
+
+      document.querySelectorAll("[data-llm-mode]").forEach((button) => {
+        button.addEventListener("click", (event) => {
+          event.stopPropagation();
+          setLlmMode(button.dataset.llmMode);
+        });
       });
 
       function setAiFlowStep(step) {
