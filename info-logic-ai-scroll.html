@@ -906,6 +906,93 @@
         line-height: 1.6;
       }
 
+      .scene-map {
+        display: grid;
+        grid-template-columns: max-content 72px max-content;
+        gap: 0;
+        align-items: center;
+        width: max-content;
+        margin-top: 58px;
+      }
+
+      .scene-center {
+        text-align: left;
+      }
+
+      .scene-center b,
+      .scene-node b {
+        display: block;
+        color: var(--heading);
+        font-family: var(--font-title);
+        font-weight: 520;
+        line-height: 1.12;
+        letter-spacing: -0.035em;
+      }
+
+      .scene-center b {
+        font-size: clamp(30px, 3.2vw, 46px);
+      }
+
+      .scene-center span,
+      .scene-node span {
+        display: block;
+        margin-top: 8px;
+        color: var(--faint);
+        font-size: 13px;
+        line-height: 1.35;
+        white-space: nowrap;
+      }
+
+      .scene-node {
+        display: grid;
+        grid-template-columns: 150px 1fr;
+        gap: 18px;
+        align-items: baseline;
+        padding: 14px 0;
+        opacity: 0.86;
+      }
+
+      .scene-node b {
+        font-size: clamp(20px, 2.1vw, 30px);
+      }
+
+      .scene-node span {
+        margin-top: 0;
+        font-size: clamp(15px, 1.35vw, 19px);
+      }
+
+      .scene-rail {
+        position: relative;
+        align-self: stretch;
+      }
+
+      .scene-rail::before {
+        content: "";
+        position: absolute;
+        left: calc(50% + 60px);
+        top: 12%;
+        bottom: 12%;
+        width: 1px;
+        background: rgba(183, 108, 255, 0.32);
+      }
+
+      .scene-rail::after {
+        content: "→";
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        color: var(--accent);
+        font-size: 34px;
+        font-weight: 900;
+        transform: translate(-34%, -50%);
+      }
+
+      .scene-list {
+        display: grid;
+        gap: 4px;
+        transform: translateX(40px);
+      }
+
       .chain-lab {
         margin-top: 42px;
       }
@@ -918,11 +1005,7 @@
       }
 
       .chain-board::before {
-        content: "";
-        position: absolute;
-        inset: 18%;
-        border: 1px solid rgba(255, 255, 255, 0.11);
-        border-radius: 50%;
+        content: none;
       }
 
       .chain-node {
@@ -966,14 +1049,15 @@
         line-height: 1.04;
         letter-spacing: -0.05em;
         font-weight: 520;
+        white-space: nowrap;
       }
 
       .chain-node span {
-        display: block;
-        margin-top: 12px;
+        display: none;
+        margin-top: 8px;
         color: var(--faint);
-        font-size: clamp(12px, 1.1vw, 15px);
-        line-height: 1.35;
+        font-size: clamp(10px, 0.9vw, 13px);
+        line-height: 1.2;
         white-space: nowrap;
       }
 
@@ -1030,6 +1114,7 @@
           opacity 0.25s ease,
           color 0.25s ease,
           transform 0.25s ease;
+        pointer-events: none;
       }
 
       .chain-link.is-on {
@@ -1638,6 +1723,23 @@
           opacity: 1;
           transform: none;
         }
+
+        .scene-map {
+          height: auto;
+          display: grid;
+          gap: 22px;
+        }
+
+        .scene-center,
+        .scene-node,
+        .scene-node[data-scene] {
+          position: static;
+          transform: none;
+        }
+
+        .scene-line {
+          display: none;
+        }
       }
     </style>
   </head>
@@ -1737,33 +1839,33 @@
             </div>
             <p class="lead no-wrap" data-animate>
               在聊 AI 之前，先把一个更普通的问题说清楚：
-              <span class="accent">我们到底在沟通什么？</span>
+              <span class="accent">沟通到底是为了什么？</span>
             </p>
             <div class="chain-lab" data-animate>
               <div class="chain-board" aria-label="惑章链式引导">
                 <button type="button" class="chain-node is-visible is-active" data-chain-step="0" data-chain-node="0">
                   <b>载体 A</b>
-                  <span>人 / 文档 / AI</span>
+                  <span>表达者</span>
                 </button>
                 <div class="chain-link" data-chain-link="0">→</div>
                 <button type="button" class="chain-node" data-chain-step="1" data-chain-node="1">
                   <b>信息</b>
-                  <span>被表达</span>
+                  <span>被承载</span>
                 </button>
                 <div class="chain-link" data-chain-link="1">→</div>
                 <button type="button" class="chain-node" data-chain-step="2" data-chain-node="2">
                   <b>载体 B</b>
-                  <span>人 / 文档 / AI</span>
+                  <span>理解者</span>
                 </button>
                 <div class="chain-link" data-chain-link="2">→</div>
                 <button type="button" class="chain-node" data-chain-step="3" data-chain-node="3">
                   <b>理解</b>
-                  <span>能动还原</span>
+                  <span>主动还原</span>
                 </button>
                 <div class="chain-link" data-chain-link="3">→</div>
                 <button type="button" class="chain-node" data-chain-step="4" data-chain-node="4">
                   <b>沟通</b>
-                  <span>确认同一件事</span>
+                  <span>对齐行动</span>
                 </button>
               </div>
             </div>
@@ -1771,7 +1873,7 @@
         </section>
 
         <section class="swiper-slide" data-hash="reframe" data-title="问章">
-          <div class="stage split">
+          <div class="stage">
             <div>
               <div class="chapter-heading" data-animate>
                 <span class="chapter-line" aria-hidden="true"></span>
@@ -1781,13 +1883,33 @@
                 关键不是“怎么问 AI”，而是“怎么描述世界”。人和 AI 都不直接处理现实本身，而是处理现实被语言、表格、截图、会议纪要、需求文档压缩后的版本。
               </p>
             </div>
-            <div>
-              <div class="quote" data-detail data-animate>很多问题不是答案难，而是问题还没有被整理成可推理的信息。</div>
-              <div class="chips" data-detail data-animate>
-                <span class="chip">交流 = 编码与解码</span>
-                <span class="chip">协作 = 同步状态</span>
-                <span class="chip">决策 = 压缩变量</span>
-                <span class="chip">AI = 基于上下文生成候选</span>
+            <div class="scene-map" data-animate aria-label="真实问题在多个场景中的信息映射">
+              <div class="scene-center">
+                <b>真实问题</b>
+                <span>用户点提交没反应</span>
+              </div>
+              <div class="scene-rail" aria-hidden="true"></div>
+              <div class="scene-list">
+                <div class="scene-node" data-scene="user">
+                  <b>用户原话</b>
+                  <span>我点了没反应</span>
+                </div>
+                <div class="scene-node" data-scene="ticket">
+                  <b>客服工单</b>
+                  <span>提交按钮异常</span>
+                </div>
+                <div class="scene-node" data-scene="product">
+                  <b>产品需求</b>
+                  <span>提交流程体验不好</span>
+                </div>
+                <div class="scene-node" data-scene="meeting">
+                  <b>会议纪要</b>
+                  <span>本周处理提交问题</span>
+                </div>
+                <div class="scene-node" data-scene="ai">
+                  <b>AI Prompt</b>
+                  <span>帮我分析原因</span>
+                </div>
               </div>
             </div>
           </div>
