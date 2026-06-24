@@ -156,10 +156,29 @@
         }
       }
 
+      @keyframes cloudBreath {
+        0%,
+        100% {
+          transform: translate(calc(var(--cloud-x) - var(--cloud-slide, 0px)), var(--cloud-y)) scale(1);
+          filter:
+            drop-shadow(0 16px 32px rgba(0, 0, 0, 0.28))
+            drop-shadow(0 0 24px rgba(217, 214, 220, 0.24));
+        }
+
+        50% {
+          transform: translate(calc(var(--cloud-x) + var(--cloud-slide, 0px)), var(--cloud-y)) scale(1.045);
+          filter:
+            drop-shadow(0 18px 36px rgba(0, 0, 0, 0.3))
+            drop-shadow(0 0 34px rgba(217, 214, 220, 0.34));
+        }
+      }
+
       @media (prefers-reduced-motion: reduce) {
         .hero-watermark,
         .face-smoke-canvas,
-        .face-fluid-canvas {
+        .face-fluid-canvas,
+        .carrier-cloud,
+        .chain-cloud {
           animation: none;
         }
       }
@@ -444,6 +463,18 @@
       }
 
       .swiper-slide.is-cover-flow-ready .ai-flow {
+        pointer-events: auto;
+      }
+
+      .swiper-slide.is-confuse-copy-only {
+        cursor: pointer;
+      }
+
+      .swiper-slide.is-confuse-copy-only .chain-lab {
+        pointer-events: none;
+      }
+
+      .swiper-slide.is-confuse-chain-ready .chain-lab {
         pointer-events: auto;
       }
 
@@ -784,6 +815,7 @@
         letter-spacing: 0.08em;
         text-shadow: 0 1px 0 rgba(255, 255, 255, 0.28);
         opacity: 0;
+        transform-origin: center;
         transform: translate(var(--cloud-x), var(--cloud-y)) scale(0.72);
         transition:
           opacity 0.36s ease,
@@ -793,36 +825,43 @@
       .carrier-cloud:nth-child(1) {
         --cloud-x: -136px;
         --cloud-y: -124px;
+        --cloud-breathe-delay: -0.2s;
         transition-delay: 0.02s;
       }
 
       .carrier-cloud:nth-child(2) {
         --cloud-x: -218px;
         --cloud-y: -38px;
+        --cloud-breathe-delay: -1.4s;
         transition-delay: 0.07s;
       }
 
       .carrier-cloud:nth-child(3) {
         --cloud-x: -160px;
         --cloud-y: 58px;
+        --cloud-breathe-delay: -2.6s;
         transition-delay: 0.12s;
       }
 
       .carrier-cloud:nth-child(4) {
         --cloud-x: -24px;
         --cloud-y: -150px;
+        --cloud-breathe-delay: -3.7s;
         transition-delay: 0.17s;
       }
 
       .carrier-cloud:nth-child(5) {
         --cloud-x: -12px;
         --cloud-y: 102px;
+        --cloud-breathe-delay: -4.8s;
         transition-delay: 0.22s;
       }
 
       .ai-flow-node[data-ai-node="carrier"].is-cloud-open .carrier-cloud {
         opacity: 1;
         transform: translate(var(--cloud-x), var(--cloud-y)) scale(1);
+        animation: cloudBreath 7.5s ease-in-out infinite;
+        animation-delay: var(--cloud-breathe-delay, 0s);
       }
 
       .ai-flow-node[data-ai-node="tools"] {
@@ -1146,6 +1185,152 @@
         opacity: 1;
         transform: translate(-50%, -50%) scale(1.06);
         filter: drop-shadow(0 0 18px rgba(183, 108, 255, 0.36));
+      }
+
+      .chain-clouds {
+        position: absolute;
+        inset: 50% auto auto 50%;
+        width: 1px;
+        height: 1px;
+        pointer-events: none;
+      }
+
+      .chain-cloud {
+        --cloud-x: 0px;
+        --cloud-y: 0px;
+        --cloud-breathe-delay: 0s;
+        --cloud-slide: 0px;
+        position: absolute;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 122px;
+        height: 74px;
+        padding: 11px 18px 0;
+        color: rgba(48, 37, 67, 0.9);
+        background: url("./assets/cloud-fill.svg") center / 100% 100% no-repeat;
+        filter:
+          drop-shadow(0 16px 32px rgba(0, 0, 0, 0.28))
+          drop-shadow(0 0 24px rgba(217, 214, 220, 0.24));
+        font-size: 20px;
+        font-weight: 820;
+        letter-spacing: 0.08em;
+        text-shadow: 0 1px 0 rgba(255, 255, 255, 0.28);
+        transform-origin: center;
+        transform: translate(var(--cloud-x), var(--cloud-y)) scale(1);
+        animation: cloudBreath 7.5s ease-in-out infinite;
+        animation-delay: var(--cloud-breathe-delay);
+      }
+
+      .chain-cloud-node {
+        min-width: 0;
+        width: 1px;
+        height: 1px;
+        overflow: visible;
+      }
+
+      .chain-cloud-node > b,
+      .chain-cloud-node > span {
+        display: none;
+      }
+
+      .chain-cloud-node .chain-clouds {
+        inset: 0 auto auto 0;
+        pointer-events: auto;
+      }
+
+      .chain-cloud-node .chain-cloud {
+        cursor: pointer;
+        pointer-events: auto;
+      }
+
+      .chain-clouds.is-top .chain-cloud,
+      .chain-clouds.is-bottom .chain-cloud {
+        --cloud-slide: 18px;
+      }
+
+      .chain-clouds.is-left .chain-cloud:nth-child(1) {
+        --cloud-x: -132px;
+        --cloud-y: -112px;
+        --cloud-breathe-delay: -0.4s;
+      }
+
+      .chain-clouds.is-left .chain-cloud:nth-child(2) {
+        --cloud-x: -178px;
+        --cloud-y: -24px;
+        --cloud-breathe-delay: -1.6s;
+      }
+
+      .chain-clouds.is-left .chain-cloud:nth-child(3) {
+        --cloud-x: -124px;
+        --cloud-y: 58px;
+        --cloud-breathe-delay: -2.8s;
+      }
+
+      .chain-clouds.is-left .chain-cloud:nth-child(4) {
+        --cloud-x: -34px;
+        --cloud-y: -118px;
+        --cloud-breathe-delay: -4s;
+      }
+
+      .chain-clouds.is-right .chain-cloud:nth-child(1) {
+        --cloud-x: 34px;
+        --cloud-y: -112px;
+        --cloud-breathe-delay: -0.8s;
+      }
+
+      .chain-clouds.is-right .chain-cloud:nth-child(2) {
+        --cloud-x: 92px;
+        --cloud-y: -24px;
+        --cloud-breathe-delay: -2s;
+      }
+
+      .chain-clouds.is-right .chain-cloud:nth-child(3) {
+        --cloud-x: 48px;
+        --cloud-y: 58px;
+        --cloud-breathe-delay: -3.2s;
+      }
+
+      .chain-clouds.is-right .chain-cloud:nth-child(4) {
+        --cloud-x: -86px;
+        --cloud-y: -118px;
+        --cloud-breathe-delay: -4.4s;
+      }
+
+      .chain-clouds.is-top .chain-cloud:nth-child(1) {
+        --cloud-x: -142px;
+        --cloud-y: 4px;
+        --cloud-breathe-delay: -0.6s;
+      }
+
+      .chain-clouds.is-top .chain-cloud:nth-child(2) {
+        --cloud-x: -44px;
+        --cloud-y: -28px;
+        --cloud-breathe-delay: -1.8s;
+      }
+
+      .chain-clouds.is-top .chain-cloud:nth-child(3) {
+        --cloud-x: 58px;
+        --cloud-y: 4px;
+        --cloud-breathe-delay: -3s;
+      }
+
+      .chain-clouds.is-bottom .chain-cloud:nth-child(1) {
+        --cloud-x: -142px;
+        --cloud-y: -74px;
+        --cloud-breathe-delay: -1s;
+      }
+
+      .chain-clouds.is-bottom .chain-cloud:nth-child(2) {
+        --cloud-x: -44px;
+        --cloud-y: -42px;
+        --cloud-breathe-delay: -2.2s;
+      }
+
+      .chain-clouds.is-bottom .chain-cloud:nth-child(3) {
+        --cloud-x: 58px;
+        --cloud-y: -74px;
+        --cloud-breathe-delay: -3.4s;
       }
 
       .chain-node[data-chain-node="0"] {
@@ -2564,23 +2749,45 @@
             <div class="chain-lab" data-animate>
               <div class="chain-board" aria-label="惑章链式引导">
                 <button type="button" class="chain-node is-visible is-active" data-chain-step="0" data-chain-node="0">
-                  <b>载体 A</b>
+                  <b>人</b>
                   <span>表达者</span>
+                  <div class="chain-clouds is-left" aria-hidden="true">
+                    <div class="chain-cloud">文档</div>
+                    <div class="chain-cloud">语言</div>
+                    <div class="chain-cloud">表情</div>
+                    <div class="chain-cloud">语气</div>
+                  </div>
                 </button>
                 <div class="chain-link" data-chain-link="0">→</div>
-                <button type="button" class="chain-node" data-chain-step="1" data-chain-node="1">
+                <button type="button" class="chain-node chain-cloud-node" data-chain-step="1" data-chain-node="1" aria-label="信息载体">
                   <b>信息</b>
                   <span>被承载</span>
+                  <div class="chain-clouds is-top" aria-hidden="true">
+                    <div class="chain-cloud">表达</div>
+                    <div class="chain-cloud">压缩</div>
+                    <div class="chain-cloud">传递</div>
+                  </div>
                 </button>
                 <div class="chain-link" data-chain-link="1">→</div>
                 <button type="button" class="chain-node" data-chain-step="2" data-chain-node="2">
-                  <b>载体 B</b>
+                  <b>人</b>
                   <span>理解者</span>
+                  <div class="chain-clouds is-right" aria-hidden="true">
+                    <div class="chain-cloud">语境</div>
+                    <div class="chain-cloud">经验</div>
+                    <div class="chain-cloud">记忆</div>
+                    <div class="chain-cloud">意图</div>
+                  </div>
                 </button>
                 <div class="chain-link" data-chain-link="2">→</div>
-                <button type="button" class="chain-node" data-chain-step="3" data-chain-node="3">
-                  <b>理解</b>
-                  <span>主动还原</span>
+                <button type="button" class="chain-node chain-cloud-node" data-chain-step="3" data-chain-node="3" aria-label="信息偏差">
+                  <b>信息</b>
+                  <span>再次生成</span>
+                  <div class="chain-clouds is-bottom" aria-hidden="true">
+                    <div class="chain-cloud">接收</div>
+                    <div class="chain-cloud">还原</div>
+                    <div class="chain-cloud">判断</div>
+                  </div>
                 </button>
                 <div class="chain-link" data-chain-link="3">→</div>
                 <button type="button" class="chain-node" data-chain-step="4" data-chain-node="4">
@@ -3731,11 +3938,32 @@
         });
       }
 
+      function resetChainState(scope = document) {
+        const root = scope || document;
+        root.querySelectorAll("[data-chain-node]").forEach((node) => {
+          const isFirst = node.dataset.chainNode === "0";
+          node.classList.toggle("is-visible", isFirst);
+          node.classList.remove("is-past");
+          node.classList.toggle("is-active", isFirst);
+        });
+        root.querySelectorAll("[data-chain-link]").forEach((link) => {
+          link.classList.remove("is-on");
+        });
+      }
+
       function resetSlide(slide) {
         if (!window.gsap || !slide) return;
         const items = slide.querySelectorAll("[data-animate]");
-        slide.classList.remove("is-title-only", "is-content-ready", "is-cover-copy-only", "is-cover-flow-ready");
+        slide.classList.remove(
+          "is-title-only",
+          "is-content-ready",
+          "is-cover-copy-only",
+          "is-cover-flow-ready",
+          "is-confuse-copy-only",
+          "is-confuse-chain-ready"
+        );
         resetAiFlowState(slide);
+        resetChainState(slide);
         gsap.killTweensOf(items);
         gsap.set(items, { autoAlpha: 0, y: 46, filter: "blur(14px)" });
         gsap.set(slide.querySelectorAll(".prob-bar"), { width: "0%" });
@@ -3772,7 +4000,14 @@
           stagger: { each: 0.018, from: direction > 0 ? "start" : "end" },
           ease: "power2.out",
           onComplete: () => {
-            slide.classList.remove("is-title-only", "is-content-ready", "is-cover-copy-only", "is-cover-flow-ready");
+            slide.classList.remove(
+              "is-title-only",
+              "is-content-ready",
+              "is-cover-copy-only",
+              "is-cover-flow-ready",
+              "is-confuse-copy-only",
+              "is-confuse-chain-ready"
+            );
           },
         });
       }
@@ -3796,6 +4031,7 @@
         const bars = slide.querySelectorAll(".prob-bar");
         const orbit = slide.querySelector(".orbit-ring");
         const isCover = slide.dataset.hash === "cover";
+        const isConfuse = slide.dataset.hash === "confuse";
 
         gsap.killTweensOf([stage, heading, ...items, ...bars, orbit].filter(Boolean));
         gsap.set([stage, heading].filter(Boolean), { clearProps: "transform,filter" });
@@ -3812,6 +4048,25 @@
           slide.classList.add("is-cover-copy-only");
           gsap.set(copyItems, { autoAlpha: 0, y: 74, filter: "blur(14px)" });
           gsap.set(flow, { autoAlpha: 0, y: 48, filter: "blur(14px)" });
+          gsap.to(copyItems, {
+            autoAlpha: 1,
+            y: 54,
+            filter: "blur(0px)",
+            duration: 0.58,
+            stagger: 0.045,
+            ease: "power3.out",
+          });
+          return;
+        }
+
+        if (isConfuse) {
+          const copyItems = Array.from(slide.querySelectorAll(".lead[data-animate]"));
+          const chainLab = slide.querySelector(".chain-lab");
+
+          slide.classList.add("is-confuse-copy-only");
+          resetChainState(slide);
+          gsap.set(copyItems, { autoAlpha: 0, y: 74, filter: "blur(14px)" });
+          gsap.set(chainLab, { autoAlpha: 0, y: 48, filter: "blur(14px)" });
           gsap.to(copyItems, {
             autoAlpha: 1,
             y: 54,
@@ -3885,6 +4140,32 @@
         });
         gsap.fromTo(
           flow,
+          { autoAlpha: 0, y: 56, filter: "blur(14px)" },
+          { autoAlpha: 1, y: 0, filter: "blur(0px)", duration: 0.7, ease: "power3.out" },
+        );
+      }
+
+      function revealConfuseChain(slide) {
+        if (!window.gsap || !slide || slide.dataset.hash !== "confuse" || !slide.classList.contains("is-confuse-copy-only")) return;
+
+        const copyItems = Array.from(slide.querySelectorAll(".lead[data-animate]"));
+        const chainLab = slide.querySelector(".chain-lab");
+        if (!chainLab) return;
+
+        slide.classList.remove("is-confuse-copy-only");
+        slide.classList.add("is-confuse-chain-ready");
+        resetChainState(slide);
+
+        gsap.killTweensOf([chainLab, ...copyItems]);
+        gsap.to(copyItems, {
+          y: 0,
+          filter: "blur(0px)",
+          duration: 0.62,
+          stagger: 0.035,
+          ease: "power3.inOut",
+        });
+        gsap.fromTo(
+          chainLab,
           { autoAlpha: 0, y: 56, filter: "blur(14px)" },
           { autoAlpha: 1, y: 0, filter: "blur(0px)", duration: 0.7, ease: "power3.out" },
         );
@@ -4277,6 +4558,14 @@
             if (interactive) return;
             event.preventDefault();
             revealCoverFlow(slide);
+            return;
+          }
+
+          if (slide.dataset.hash === "confuse" && slide.classList.contains("is-confuse-copy-only")) {
+            const interactive = event.target.closest("button, a, [data-chain-step], [data-prompt-open], [data-translate-open]");
+            if (interactive) return;
+            event.preventDefault();
+            revealConfuseChain(slide);
             return;
           }
 
