@@ -431,6 +431,22 @@
         display: none;
       }
 
+      .swiper-slide.is-cover-copy-only {
+        cursor: pointer;
+      }
+
+      .swiper-slide.is-cover-copy-only .cover-copy {
+        pointer-events: auto;
+      }
+
+      .swiper-slide.is-cover-copy-only .ai-flow {
+        pointer-events: none;
+      }
+
+      .swiper-slide.is-cover-flow-ready .ai-flow {
+        pointer-events: auto;
+      }
+
       h2 {
         max-width: 1060px;
         color: var(--heading);
@@ -641,7 +657,7 @@
 
       .ai-flow {
         display: grid;
-        grid-template-columns: minmax(110px, auto) 86px minmax(120px, auto) 86px minmax(92px, auto) 86px minmax(110px, auto);
+        grid-template-columns: minmax(80px, auto) 58px minmax(72px, auto) 66px minmax(120px, auto) 76px minmax(82px, auto) 76px minmax(92px, auto) 78px minmax(110px, auto);
         grid-template-rows: repeat(2, auto);
         align-items: center;
         justify-content: center;
@@ -651,13 +667,14 @@
         min-height: 0;
         padding: 10px 0;
         margin-top: 120px;
-        margin-left: 0;
+        margin-left: clamp(36px, 5vw, 84px);
         margin-right: 0;
         transform: none;
       }
 
       .ai-flow-node {
         appearance: none;
+        position: relative;
         z-index: 2;
         cursor: pointer;
         border: 0;
@@ -666,12 +683,15 @@
         background: transparent;
         font: inherit;
         text-align: center;
-        opacity: 0.26;
-        transform: scale(0.94);
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transform: scale(0.9);
         transition:
           opacity 0.28s ease,
           transform 0.28s ease,
-          filter 0.28s ease;
+          filter 0.28s ease,
+          visibility 0s linear 0.28s;
       }
 
       .ai-flow-node b {
@@ -702,6 +722,14 @@
         white-space: nowrap;
       }
 
+      .ai-flow-node.is-visible,
+      .ai-flow-node.is-on,
+      .ai-flow-node.is-active {
+        visibility: visible;
+        pointer-events: auto;
+        transition-delay: 0s;
+      }
+
       .ai-flow-node:hover,
       .ai-flow-node.is-active {
         opacity: 1;
@@ -714,33 +742,116 @@
         transform: scale(1);
       }
 
-      .ai-flow-node[data-ai-node="tools"] {
+      .ai-flow-node.is-on.is-active {
+        opacity: 1;
+        transform: scale(1.06);
+      }
+
+      .ai-flow-node[data-ai-node="carrier"] {
         grid-column: 1;
         grid-row: 1 / span 2;
       }
 
-      .ai-flow-node[data-ai-node="prompt-a"] {
+      .ai-flow-node[data-ai-node="human"] {
         grid-column: 3;
+        grid-row: 1 / span 2;
+      }
+
+      .carrier-clouds {
+        position: absolute;
+        inset: 50% auto auto 50%;
+        width: 1px;
+        height: 1px;
+        pointer-events: none;
+      }
+
+      .carrier-cloud {
+        position: absolute;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 122px;
+        height: 74px;
+        padding: 11px 18px 0;
+        border: 0;
+        color: rgba(48, 37, 67, 0.9);
+        background: url("./assets/cloud-fill.svg") center / 100% 100% no-repeat;
+        filter:
+          drop-shadow(0 16px 32px rgba(0, 0, 0, 0.28))
+          drop-shadow(0 0 24px rgba(217, 214, 220, 0.24));
+        font-size: 20px;
+        font-weight: 820;
+        letter-spacing: 0.08em;
+        text-shadow: 0 1px 0 rgba(255, 255, 255, 0.28);
+        opacity: 0;
+        transform: translate(var(--cloud-x), var(--cloud-y)) scale(0.72);
+        transition:
+          opacity 0.36s ease,
+          transform 0.46s cubic-bezier(0.2, 0.9, 0.2, 1.15);
+      }
+
+      .carrier-cloud:nth-child(1) {
+        --cloud-x: -136px;
+        --cloud-y: -124px;
+        transition-delay: 0.02s;
+      }
+
+      .carrier-cloud:nth-child(2) {
+        --cloud-x: -218px;
+        --cloud-y: -38px;
+        transition-delay: 0.07s;
+      }
+
+      .carrier-cloud:nth-child(3) {
+        --cloud-x: -160px;
+        --cloud-y: 58px;
+        transition-delay: 0.12s;
+      }
+
+      .carrier-cloud:nth-child(4) {
+        --cloud-x: -24px;
+        --cloud-y: -150px;
+        transition-delay: 0.17s;
+      }
+
+      .carrier-cloud:nth-child(5) {
+        --cloud-x: -12px;
+        --cloud-y: 102px;
+        transition-delay: 0.22s;
+      }
+
+      .ai-flow-node[data-ai-node="carrier"].is-cloud-open .carrier-cloud {
+        opacity: 1;
+        transform: translate(var(--cloud-x), var(--cloud-y)) scale(1);
+      }
+
+      .ai-flow-node[data-ai-node="tools"] {
+        grid-column: 7;
+        grid-row: 1 / span 2;
+      }
+
+      .ai-flow-node[data-ai-node="prompt-a"] {
+        grid-column: 5;
         grid-row: 1;
       }
 
       .ai-flow-node[data-ai-node="prompt-b"] {
-        grid-column: 3;
+        grid-column: 5;
         grid-row: 2;
       }
 
       .ai-flow-node[data-ai-node="bad"] {
-        grid-column: 5;
+        grid-column: 9;
         grid-row: 1;
       }
 
       .ai-flow-node[data-ai-node="good"] {
-        grid-column: 5;
+        grid-column: 9;
         grid-row: 2;
       }
 
       .ai-flow-node[data-ai-node="comm"] {
-        grid-column: 7;
+        grid-column: 11;
         grid-row: 1 / span 2;
       }
 
@@ -765,7 +876,7 @@
         height: 2px;
         transform-origin: left center;
         background: linear-gradient(90deg, transparent, rgba(183, 108, 255, 0.76));
-        opacity: 0.12;
+        opacity: 0;
         transition:
           opacity 0.26s ease,
           filter 0.26s ease;
@@ -776,41 +887,64 @@
         filter: drop-shadow(0 0 10px rgba(183, 108, 255, 0.42));
       }
 
-      .ai-flow-path[data-ai-path="tools-prompt-a"] {
+      .ai-flow-path[data-ai-path="carrier-human"] {
         grid-column: 2;
+        grid-row: 1 / span 2;
+        align-self: center;
+        width: 100%;
+      }
+
+      .ai-flow-path[data-ai-path="human-prompt-a"] {
+        grid-column: 4;
         grid-row: 1;
         width: 100%;
         transform: translateY(40px) rotate(-20deg);
       }
 
-      .ai-flow-path[data-ai-path="tools-prompt-b"] {
-        grid-column: 2;
+      .ai-flow-path[data-ai-path="human-prompt-b"] {
+        grid-column: 4;
         grid-row: 2;
         width: 100%;
         transform: translateY(-40px) rotate(20deg);
       }
 
-      .ai-flow-path[data-ai-path="prompt-a-bad"] {
-        grid-column: 4;
+      .ai-flow-path[data-ai-path="prompt-a-tools"] {
+        grid-column: 6;
         grid-row: 1;
         width: 100%;
+        transform: translateY(4px) rotate(20deg);
       }
 
-      .ai-flow-path[data-ai-path="prompt-b-good"] {
-        grid-column: 4;
+      .ai-flow-path[data-ai-path="prompt-b-tools"] {
+        grid-column: 6;
         grid-row: 2;
         width: 100%;
+        transform: translateY(-4px) rotate(-20deg);
+      }
+
+      .ai-flow-path[data-ai-path="tools-bad"] {
+        grid-column: 8;
+        grid-row: 1;
+        width: 100%;
+        transform: translateY(40px) rotate(-20deg);
+      }
+
+      .ai-flow-path[data-ai-path="tools-good"] {
+        grid-column: 8;
+        grid-row: 2;
+        width: 100%;
+        transform: translateY(-40px) rotate(20deg);
       }
 
       .ai-flow-path[data-ai-path="bad-comm"] {
-        grid-column: 6;
+        grid-column: 10;
         grid-row: 1;
         width: 100%;
         transform: rotate(20deg);
       }
 
       .ai-flow-path[data-ai-path="good-comm"] {
-        grid-column: 6;
+        grid-column: 10;
         grid-row: 2;
         width: 100%;
         transform: rotate(-20deg);
@@ -2357,7 +2491,35 @@
               </p>
             </div>
             <div class="ai-flow" data-animate aria-label="AI 使用偏差到沟通的互动流程">
-              <button type="button" class="ai-flow-node is-active" data-ai-step="0" data-ai-node="tools" aria-label="AI 工具">
+              <button type="button" class="ai-flow-node is-on is-active" data-ai-step="0" data-ai-node="carrier" aria-label="信息载体" aria-expanded="false">
+                <b>载体</b>
+                <span>承载信息的形态</span>
+                <div class="carrier-clouds" aria-hidden="true">
+                  <div class="carrier-cloud">文档</div>
+                  <div class="carrier-cloud">文字</div>
+                  <div class="carrier-cloud">图像</div>
+                  <div class="carrier-cloud">视频</div>
+                  <div class="carrier-cloud">动作</div>
+                </div>
+              </button>
+              <div class="ai-flow-path" data-ai-path="carrier-human"></div>
+              <button type="button" class="ai-flow-node" data-ai-step="1" data-ai-node="human" aria-label="人">
+                <b>人</b>
+                <span>表达 / 理解 / 判断</span>
+              </button>
+              <div class="ai-flow-path" data-ai-path="human-prompt-a"></div>
+              <button type="button" class="ai-flow-node" data-ai-step="2" data-ai-node="prompt-a">
+                <b>Prompt A</b>
+                <span>说法 A</span>
+              </button>
+              <div class="ai-flow-path" data-ai-path="human-prompt-b"></div>
+              <button type="button" class="ai-flow-node" data-ai-step="2" data-ai-node="prompt-b">
+                <b>Prompt B</b>
+                <span>说法 B</span>
+              </button>
+              <div class="ai-flow-path" data-ai-path="prompt-a-tools"></div>
+              <div class="ai-flow-path" data-ai-path="prompt-b-tools"></div>
+              <button type="button" class="ai-flow-node" data-ai-step="3" data-ai-node="tools" aria-label="AI 工具">
                 <svg class="ai-tool-icon" viewBox="0 0 64 64" role="img" aria-hidden="true">
                   <path d="M32 6v8" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" />
                   <circle cx="32" cy="5" r="3" fill="currentColor" />
@@ -2369,29 +2531,19 @@
                 </svg>
                 <span>Skill / Agent / Harness / OpenClaw</span>
               </button>
-              <div class="ai-flow-path" data-ai-path="tools-prompt-a"></div>
-              <button type="button" class="ai-flow-node" data-ai-step="1" data-ai-node="prompt-a">
-                <b>Prompt A</b>
-                <span>说法 A</span>
-              </button>
-              <div class="ai-flow-path" data-ai-path="tools-prompt-b"></div>
-              <button type="button" class="ai-flow-node" data-ai-step="2" data-ai-node="prompt-b">
-                <b>Prompt B</b>
-                <span>说法 B</span>
-              </button>
-              <div class="ai-flow-path" data-ai-path="prompt-a-bad"></div>
-              <button type="button" class="ai-flow-node" data-ai-step="3" data-ai-node="bad">
+              <div class="ai-flow-path" data-ai-path="tools-bad"></div>
+              <button type="button" class="ai-flow-node" data-ai-step="4" data-ai-node="bad">
                 <b>×</b>
                 <span>不是我想要的</span>
               </button>
-              <div class="ai-flow-path" data-ai-path="prompt-b-good"></div>
-              <button type="button" class="ai-flow-node" data-ai-step="4" data-ai-node="good">
+              <div class="ai-flow-path" data-ai-path="tools-good"></div>
+              <button type="button" class="ai-flow-node" data-ai-step="5" data-ai-node="good">
                 <b>✓</b>
                 <span>这次对了</span>
               </button>
               <div class="ai-flow-path" data-ai-path="bad-comm"></div>
               <div class="ai-flow-path" data-ai-path="good-comm"></div>
-              <button type="button" class="ai-flow-node" data-ai-step="5" data-ai-node="comm">
+              <button type="button" class="ai-flow-node" data-ai-step="6" data-ai-node="comm">
                 <b>沟通</b>
                 <span>根本问题</span>
               </button>
@@ -3563,10 +3715,27 @@
         );
       }
 
+      function resetAiFlowState(scope = document) {
+        const root = scope || document;
+        root.querySelectorAll("[data-ai-node]").forEach((node) => {
+          const isCarrier = node.dataset.aiNode === "carrier";
+          node.classList.toggle("is-on", isCarrier);
+          node.classList.toggle("is-active", isCarrier);
+          if (isCarrier) {
+            node.classList.remove("is-cloud-open");
+            node.setAttribute("aria-expanded", "false");
+          }
+        });
+        root.querySelectorAll("[data-ai-path]").forEach((path) => {
+          path.classList.remove("is-on");
+        });
+      }
+
       function resetSlide(slide) {
         if (!window.gsap || !slide) return;
         const items = slide.querySelectorAll("[data-animate]");
-        slide.classList.remove("is-title-only", "is-content-ready");
+        slide.classList.remove("is-title-only", "is-content-ready", "is-cover-copy-only", "is-cover-flow-ready");
+        resetAiFlowState(slide);
         gsap.killTweensOf(items);
         gsap.set(items, { autoAlpha: 0, y: 46, filter: "blur(14px)" });
         gsap.set(slide.querySelectorAll(".prob-bar"), { width: "0%" });
@@ -3603,7 +3772,7 @@
           stagger: { each: 0.018, from: direction > 0 ? "start" : "end" },
           ease: "power2.out",
           onComplete: () => {
-            slide.classList.remove("is-title-only", "is-content-ready");
+            slide.classList.remove("is-title-only", "is-content-ready", "is-cover-copy-only", "is-cover-flow-ready");
           },
         });
       }
@@ -3626,13 +3795,35 @@
         const items = getBaseItems(slide);
         const bars = slide.querySelectorAll(".prob-bar");
         const orbit = slide.querySelector(".orbit-ring");
+        const isCover = slide.dataset.hash === "cover";
 
         gsap.killTweensOf([stage, heading, ...items, ...bars, orbit].filter(Boolean));
         gsap.set([stage, heading].filter(Boolean), { clearProps: "transform,filter" });
         gsap.set(stage, { autoAlpha: 1 });
         gsap.set(heading, { autoAlpha: 1 });
-        gsap.set(items, { autoAlpha: 0, y: 46, filter: "blur(14px)" });
         gsap.set(bars, { width: "0%" });
+
+        if (isCover) {
+          const copyItems = Array.from(slide.querySelectorAll(".cover-copy [data-animate]")).filter(
+            (item) => !item.classList.contains("chapter-heading")
+          );
+          const flow = slide.querySelector(".ai-flow");
+
+          slide.classList.add("is-cover-copy-only");
+          gsap.set(copyItems, { autoAlpha: 0, y: 74, filter: "blur(14px)" });
+          gsap.set(flow, { autoAlpha: 0, y: 48, filter: "blur(14px)" });
+          gsap.to(copyItems, {
+            autoAlpha: 1,
+            y: 54,
+            filter: "blur(0px)",
+            duration: 0.58,
+            stagger: 0.045,
+            ease: "power3.out",
+          });
+          return;
+        }
+
+        gsap.set(items, { autoAlpha: 0, y: 46, filter: "blur(14px)" });
 
         const tl = gsap.timeline();
         tl.to(
@@ -3669,6 +3860,34 @@
             "-=0.48"
           );
         }
+      }
+
+      function revealCoverFlow(slide) {
+        if (!window.gsap || !slide || slide.dataset.hash !== "cover" || !slide.classList.contains("is-cover-copy-only")) return;
+
+        const copyItems = Array.from(slide.querySelectorAll(".cover-copy [data-animate]")).filter(
+          (item) => !item.classList.contains("chapter-heading")
+        );
+        const flow = slide.querySelector(".ai-flow");
+        if (!flow) return;
+
+        slide.classList.remove("is-cover-copy-only");
+        slide.classList.add("is-cover-flow-ready");
+        resetAiFlowState(slide);
+
+        gsap.killTweensOf([flow, ...copyItems]);
+        gsap.to(copyItems, {
+          y: 0,
+          filter: "blur(0px)",
+          duration: 0.62,
+          stagger: 0.035,
+          ease: "power3.inOut",
+        });
+        gsap.fromTo(
+          flow,
+          { autoAlpha: 0, y: 56, filter: "blur(14px)" },
+          { autoAlpha: 1, y: 0, filter: "blur(0px)", duration: 0.7, ease: "power3.out" },
+        );
       }
 
       function animateNumber(el, value) {
@@ -3751,21 +3970,22 @@
 
       function setAiFlowStep(step) {
         const index = Number(step);
-        if (!Number.isInteger(index) || index < 0 || index > 5) return;
+        if (!Number.isInteger(index) || index < 0 || index > 6) return;
 
         document.querySelectorAll("[data-ai-node]").forEach((node) => {
           const nodeIndex = Number(node.dataset.aiStep);
           node.classList.toggle("is-on", nodeIndex <= index);
-          node.classList.toggle("is-active", nodeIndex === index);
+          node.classList.toggle("is-active", nodeIndex === index || (index === 1 && nodeIndex === 0));
         });
 
         const activePaths = {
           0: [],
-          1: ["tools-prompt-a"],
-          2: ["tools-prompt-a", "tools-prompt-b"],
-          3: ["tools-prompt-a", "tools-prompt-b", "prompt-a-bad"],
-          4: ["tools-prompt-a", "tools-prompt-b", "prompt-a-bad", "prompt-b-good"],
-          5: ["tools-prompt-a", "tools-prompt-b", "prompt-a-bad", "prompt-b-good", "bad-comm", "good-comm"],
+          1: ["carrier-human"],
+          2: ["carrier-human", "human-prompt-a", "human-prompt-b"],
+          3: ["carrier-human", "human-prompt-a", "human-prompt-b", "prompt-a-tools", "prompt-b-tools"],
+          4: ["carrier-human", "human-prompt-a", "human-prompt-b", "prompt-a-tools", "prompt-b-tools", "tools-bad"],
+          5: ["carrier-human", "human-prompt-a", "human-prompt-b", "prompt-a-tools", "prompt-b-tools", "tools-bad", "tools-good"],
+          6: ["carrier-human", "human-prompt-a", "human-prompt-b", "prompt-a-tools", "prompt-b-tools", "tools-bad", "tools-good", "bad-comm", "good-comm"],
         }[index] || [];
 
         document.querySelectorAll("[data-ai-path]").forEach((path) => {
@@ -3773,15 +3993,25 @@
         });
 
         if (window.gsap) {
-          const activeNode = document.querySelector(`[data-ai-step="${index}"]`);
-          gsap.fromTo(activeNode, { scale: 0.94 }, { scale: 1, duration: 0.3, ease: "back.out(2)" });
+          const activeNodes = Array.from(document.querySelectorAll(`[data-ai-step="${index}"]`));
+          gsap.fromTo(activeNodes, { scale: 0.94 }, { scale: 1, duration: 0.3, ease: "back.out(2)" });
         }
       }
 
       document.querySelectorAll("[data-ai-step]").forEach((button) => {
         button.addEventListener("click", (event) => {
           event.stopPropagation();
-          setAiFlowStep(button.dataset.aiStep);
+          if (button.dataset.aiNode === "carrier") {
+            if (!button.classList.contains("is-cloud-open")) {
+              button.classList.add("is-cloud-open");
+              button.setAttribute("aria-expanded", "true");
+              setAiFlowStep(1);
+            }
+            return;
+          }
+          const step = Number(button.dataset.aiStep);
+          if (!Number.isInteger(step)) return;
+          setAiFlowStep(step < 6 ? step + 1 : step);
         });
       });
 
@@ -4042,6 +4272,14 @@
 
       slides.forEach((slide) => {
         slide.addEventListener("click", (event) => {
+          if (slide.dataset.hash === "cover" && slide.classList.contains("is-cover-copy-only")) {
+            const interactive = event.target.closest("button, a, [data-ai-step], [data-prompt-open], [data-translate-open]");
+            if (interactive) return;
+            event.preventDefault();
+            revealCoverFlow(slide);
+            return;
+          }
+
           if (!slide.classList.contains("is-title-only")) return;
           event.preventDefault();
           revealSlideContent(slide);

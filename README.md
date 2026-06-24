@@ -18,7 +18,7 @@ python3 -m http.server 5173
 http://localhost:5173/info-logic-ai-scroll.html
 ```
 
-## 目录说明
+## 目录说明ou
 
 - `assets/`：logo 等静态资源
 - `vendor/`：本地化的前端依赖
