@@ -2258,6 +2258,27 @@
         margin-top: 30px;
       }
 
+      .sequel-stage {
+        align-content: start;
+        padding-top: 82px;
+      }
+
+      .sequel-stage .lead {
+        max-width: 1160px;
+        margin-top: 22px;
+      }
+
+      .sequel-image {
+        display: block;
+        width: min(1240px, 86vw);
+        max-height: 55vh;
+        margin-top: 24px;
+        object-fit: contain;
+        border: 0;
+        border-radius: 0;
+        filter: drop-shadow(0 24px 70px rgba(0, 0, 0, 0.24));
+      }
+
       .llm-switch {
         display: flex;
         align-items: center;
@@ -3206,7 +3227,7 @@
         </section>
 
         <section class="swiper-slide" data-hash="sequel" data-title="续章">
-          <div class="stage llm-stage">
+          <div class="stage llm-stage sequel-stage">
             <div>
               <div class="chapter-heading" data-animate>
                 <span class="chapter-line" aria-hidden="true"></span>
@@ -3215,7 +3236,45 @@
               <p class="lead" data-animate>
                 我们不是因为要使用 AI，才需要提高信息传递效率；而是当信息能够被更准确地表达、更稳定地理解、更快速地校准时，人就能更快处理生活、工作和各行各业里的复杂问题。AI 只是工具，真正推动事情往前走的，始终是人的判断、选择和主观能动性。
               </p>
+              <img class="sequel-image" src="./assets/img.png" alt="信息压缩、AI 推演、偏差放大与结构化校准示意图" data-animate />
             </div>
+          </div>
+        </section>
+
+        <section class="swiper-slide" data-hash="sequel-2" data-title="续贰">
+          <div class="stage sequel-stage sequel2-stage">
+            <div>
+              <div class="chapter-heading" data-animate>
+                <span class="chapter-line" aria-hidden="true"></span>
+                <h2 class="chapter-title">续贰</h2>
+              </div>
+              <p class="lead" data-animate>
+                当你意识到话题已经走远，最重要的不是继续堆解释，而是先把话题收回来，再用反问把对方没说清楚的信息勾出来：你想表达什么，你需要达成什么目的，现在是否达到了预期。
+              </p>
+            </div>
+            <div class="grid-2 sequel2-grid" data-animate>
+              <div class="mini-card">
+                <span class="num">01</span>
+                <h3>收敛话题</h3>
+                <p>先承认现在的讨论已经偏离原点，把对话从枝节拉回当前问题，不让情绪继续扩散。</p>
+              </div>
+              <div class="mini-card">
+                <span class="num">02</span>
+                <h3>你想表达什么</h3>
+                <p>把对方的话从态度、感受和暗示里拆出来，逼出真正想说明的信息。</p>
+              </div>
+              <div class="mini-card">
+                <span class="num">03</span>
+                <h3>你需要达成什么目的</h3>
+                <p>弄清楚这段话是想求助、确认、解释，还是推动某个具体动作。</p>
+              </div>
+              <div class="mini-card">
+                <span class="num">04</span>
+                <h3>现在是否达到预期</h3>
+                <p>用结果反推这次沟通是否有效；如果没有，就继续收敛和追问，直到信息能被执行。</p>
+              </div>
+            </div>
+            <div class="intent-note">反问不是抬杠，而是把已经说歪的信息重新拉回可理解、可验证、可行动的状态。</div>
           </div>
         </section>
 
