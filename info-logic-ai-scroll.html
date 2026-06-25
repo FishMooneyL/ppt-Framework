@@ -173,12 +173,26 @@
         }
       }
 
+      @keyframes typingDot {
+        0%,
+        100% {
+          opacity: 0.28;
+          transform: translateY(0) scale(0.92);
+        }
+
+        42% {
+          opacity: 1;
+          transform: translateY(-3px) scale(1.08);
+        }
+      }
+
       @media (prefers-reduced-motion: reduce) {
         .hero-watermark,
         .face-smoke-canvas,
         .face-fluid-canvas,
         .carrier-cloud,
-        .chain-cloud {
+        .chain-cloud,
+        .typing-ellipsis i {
           animation: none;
         }
       }
@@ -1612,6 +1626,42 @@
         display: block;
       }
 
+      .chat-window.is-typing {
+        cursor: pointer;
+      }
+
+      .chat-bubble.is-typing-placeholder {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 58px;
+        min-height: 48px;
+        padding-inline: 18px;
+      }
+
+      .typing-ellipsis {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+      }
+
+      .typing-ellipsis i {
+        width: 6px;
+        height: 6px;
+        border-radius: 999px;
+        background: currentColor;
+        animation: typingDot 1.05s ease-in-out infinite;
+        animation-delay: calc(var(--typing-delay, 0s) + var(--dot-delay, 0s));
+      }
+
+      .typing-ellipsis i:nth-child(2) {
+        --dot-delay: 0.14s;
+      }
+
+      .typing-ellipsis i:nth-child(3) {
+        --dot-delay: 0.28s;
+      }
+
       .chat-bubble.left {
         justify-self: start;
         border-bottom-left-radius: 7px;
@@ -2901,7 +2951,7 @@
               <p class="lead" data-animate>信息损耗通常不是“没有说”，而是“说了但没被正确还原”。工作里的返工、误会、低效，很多都发生在这些微小断点上。</p>
             </div>
             <div class="chat-pair">
-              <div class="chat-window" data-animate data-chat-window aria-label="脑补导致的信息损耗对话窗口">
+              <div class="chat-window" data-animate data-chat-window data-loss-chat-window aria-label="脑补导致的信息损耗对话窗口">
                 <div class="chat-body">
                   <div class="chat-bubble left is-visible" data-chat-bubble>
                     A：我今晚可能来不了，家里临时有点事。
@@ -2923,7 +2973,7 @@
                   </div>
                 </div>
               </div>
-              <div class="chat-window" data-animate data-chat-window aria-label="添油加醋导致的信息损耗对话窗口">
+              <div class="chat-window" data-animate data-chat-window data-loss-chat-window aria-label="添油加醋导致的信息损耗对话窗口">
                 <div class="chat-body">
                   <div class="chat-bubble left is-visible" data-chat-bubble>
                     A：这个方案我还想再看看，有几个点没想清楚。
@@ -3951,6 +4001,93 @@
         });
       }
 
+      function createTypingEllipsis(delay) {
+        const wrapper = document.createElement("span");
+        wrapper.className = "typing-ellipsis";
+        wrapper.style.setProperty("--typing-delay", `${delay}s`);
+        wrapper.setAttribute("aria-hidden", "true");
+
+        for (let index = 0; index < 3; index += 1) {
+          wrapper.appendChild(document.createElement("i"));
+        }
+
+        return wrapper;
+      }
+
+      function getLossChatWindows(scope = document) {
+        const root = scope || document;
+        const windows = [];
+        if (root.matches?.("[data-loss-chat-window]")) {
+          windows.push(root);
+        }
+        root.querySelectorAll?.("[data-loss-chat-window]").forEach((windowEl) => windows.push(windowEl));
+        return windows;
+      }
+
+      function showLossTypingBubble(bubble, index) {
+        bubble.replaceChildren(createTypingEllipsis(index * 0.11));
+        bubble.classList.add("is-visible", "is-typing-placeholder");
+        bubble.setAttribute("aria-label", "正在输入");
+      }
+
+      function showLossTextBubble(bubble) {
+        bubble.textContent = bubble.dataset.chatText || "";
+        bubble.classList.add("is-visible");
+        bubble.classList.remove("is-typing-placeholder");
+        bubble.removeAttribute("aria-label");
+      }
+
+      function resetLossChatState(scope = document) {
+        getLossChatWindows(scope).forEach((windowEl) => {
+          windowEl.classList.add("is-typing");
+          windowEl.removeAttribute("data-loss-revealed");
+          windowEl.dataset.lossIndex = "0";
+
+          windowEl.querySelectorAll("[data-chat-bubble]").forEach((bubble, index) => {
+            if (!bubble.dataset.chatText) {
+              bubble.dataset.chatText = bubble.textContent.replace(/\s+/g, " ").trim();
+            }
+
+            bubble.replaceChildren();
+            bubble.classList.remove("is-visible", "is-typing-placeholder");
+            bubble.removeAttribute("aria-label");
+            if (index === 0) {
+              showLossTypingBubble(bubble, index);
+            }
+          });
+        });
+      }
+
+      function revealLossChatStep(windowEl) {
+        const bubbles = Array.from(windowEl.querySelectorAll("[data-chat-bubble]"));
+        let index = Number(windowEl.dataset.lossIndex || "0");
+        if (!bubbles.length) return;
+
+        if (index >= bubbles.length) {
+          resetLossChatState(windowEl);
+          return;
+        }
+
+        const bubble = bubbles[index];
+        showLossTextBubble(bubble);
+        index += 1;
+        windowEl.dataset.lossIndex = String(index);
+        windowEl.classList.toggle("is-typing", index < bubbles.length);
+        windowEl.toggleAttribute("data-loss-revealed", index >= bubbles.length);
+
+        if (index < bubbles.length) {
+          showLossTypingBubble(bubbles[index], index);
+        }
+
+        if (window.gsap) {
+          gsap.fromTo(
+            bubble,
+            { autoAlpha: 0.18, y: 12, filter: "blur(8px)" },
+            { autoAlpha: 1, y: 0, filter: "blur(0px)", duration: 0.34, ease: "power2.out" }
+          );
+        }
+      }
+
       function resetSlide(slide) {
         if (!window.gsap || !slide) return;
         const items = slide.querySelectorAll("[data-animate]");
@@ -3964,6 +4101,7 @@
         );
         resetAiFlowState(slide);
         resetChainState(slide);
+        resetLossChatState(slide);
         gsap.killTweensOf(items);
         gsap.set(items, { autoAlpha: 0, y: 46, filter: "blur(14px)" });
         gsap.set(slide.querySelectorAll(".prob-bar"), { width: "0%" });
@@ -4530,6 +4668,14 @@
       });
 
       document.querySelectorAll("[data-chat-window]").forEach((windowEl) => {
+        if (windowEl.hasAttribute("data-loss-chat-window")) {
+          windowEl.addEventListener("click", (event) => {
+            event.stopPropagation();
+            revealLossChatStep(windowEl);
+          });
+          return;
+        }
+
         const bubbles = Array.from(windowEl.querySelectorAll("[data-chat-bubble]"));
         let visibleCount = bubbles.filter((bubble) => bubble.classList.contains("is-visible")).length || 1;
 
@@ -4567,6 +4713,11 @@
             event.preventDefault();
             revealConfuseChain(slide);
             return;
+          }
+
+          if (slide.dataset.hash === "loss" && slide.classList.contains("is-content-ready")) {
+            const interactive = event.target.closest("button, a, [data-prompt-open], [data-translate-open]");
+            if (interactive) return;
           }
 
           if (!slide.classList.contains("is-title-only")) return;
